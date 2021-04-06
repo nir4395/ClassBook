@@ -1,0 +1,9 @@
+Build a Backend REST API with Python & Django - Advanced
+https://www.udemy.com/course/django-python-advanced/?utm_source=adwords&utm_medium=udemyads&utm_campaign=Python_v.PROF_la.EN_cc.ROW_ti.7380&utm_content=deal4584&utm_term=_._ag_85724077624_._ad_437497333662_._kw__._de_c_._dm__._pl__._ti_dsa-774930046209_._li_1008002_._pd__._&matchtype=b&gclid=CjwKCAjwjbCDBhAwEiwAiudBy3-sGHclTvZQXW8Zcadmy_9dsKBFwEXJ1W6SG43cb_6NVGUV9NUx2BoCzKwQAvD_BwE
+
+Vue integration with Django
+https://levelup.gitconnected.com/vue-django-getting-started-88d3f4c2ba62
+
+Nir's account for Udemy courses:
+username: bcain1109@gmail.com
+pass: sadna4395
