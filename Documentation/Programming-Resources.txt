@@ -7,3 +7,7 @@ https://levelup.gitconnected.com/vue-django-getting-started-88d3f4c2ba62
 Nir's account for Udemy courses:
 username: bcain1109@gmail.com
 pass: sadna4395
+
+Additonal guide for integrating Vue js cli +router+ dependneices in a Djago web server
+
+https://github.com/michaelbukachi/django-vuejs-tutorial/wiki/Django-Vue.js-Integration-Tutorial
