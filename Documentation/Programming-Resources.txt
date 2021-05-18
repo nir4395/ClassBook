@@ -8,6 +8,7 @@ Nir's account for Udemy courses:
 username: bcain1109@gmail.com
 pass: sadna4395
 
-Additonal guide for integrating Vue js cli +router+ dependneices in a Djago web server
+Additonal guides for integrating Vue js cli +router+ dependneices in a Djago web server
 
+https://www.youtube.com/watch?v=toO2Clnbjhw 
 https://github.com/michaelbukachi/django-vuejs-tutorial/wiki/Django-Vue.js-Integration-Tutorial
