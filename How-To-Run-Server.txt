@@ -1,0 +1,23 @@
+Instructions for the ClassBook server (Django+Vue) locally on windows:
+
+The following must be installed prior:
+- NodeJS
+- Python 3.2.3 and above
+- Django
+
+NOTE: Django webpack-loader version must be 0.7.0 and below (Only tested with 0.7.0)
+Newer versions will not work!
+
+See the following StackOverflow question for more info on how to downgrade:
+https://stackoverflow.com/questions/67915361/keyerror-at-assets-and-modulenotfounderror-no-module-named-webpack-loader
+
+
+1. Open 1st terminal (PowerShell\BASH\MinGW) and type
+    python manage.py runserver 0.0.0.0:8000
+
+2. Open 2nd terminal (PowerShell\BASH\MinGW) and from ClassBook\frontend type 'npm install' 
+
+3. from ClassBook\frontend type 'npm run serve'
+    (If errors arise, type 'npm run serve' again)
+
+4. Open localhost:8000 in browser.
