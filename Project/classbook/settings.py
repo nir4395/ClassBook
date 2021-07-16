@@ -121,7 +121,7 @@ USE_TZ = True
 
 STATIC_URL = '/frontend/'
 MEDIA_URL = 'C:/Users/Nir/ClassBook/classbook/frontend/'
-# MEDIA_URL = 'C:/Users/Nir/Desktop/school/ThirdYear/ServerClassbook/class_book/classbook/frontend/'
+
 MEDIA_ROOT = MEDIA_URL
 STATICFILES_DIRS = (MEDIA_ROOT,)
 
