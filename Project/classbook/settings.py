@@ -15,8 +15,6 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-#BASE_DIR =  'Users/Nir/Desktop/לימודים/שנה ג/ServerClassbook/class_book/classbook'
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -39,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'webpack_loader'
+    'webpack_loader',
+    'classbook_core'
 ]
 
 MIDDLEWARE = [
@@ -125,7 +124,6 @@ MEDIA_URL = 'C:/Users/Nir/ClassBook/classbook/frontend/'
 # MEDIA_URL = 'C:/Users/Nir/Desktop/school/ThirdYear/ServerClassbook/class_book/classbook/frontend/'
 MEDIA_ROOT = MEDIA_URL
 STATICFILES_DIRS = (MEDIA_ROOT,)
-print (MEDIA_URL) 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
