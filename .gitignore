@@ -133,3 +133,7 @@ dmypy.json
 
 # Vue Models
 Project/frontend/node_modules/
+
+# Autmatic Vue file created after npm serve install
+/webpack-stats.json
+

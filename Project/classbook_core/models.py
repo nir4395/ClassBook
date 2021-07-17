@@ -1,48 +1,30 @@
 from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Institution(models.Model):
     institution_id = models.IntegerField(primary_key=True, validators=[MinValueValidator(0)])
     name = models.CharField(max_length=300)
     student_count = models.IntegerField(validators=[MinValueValidator(0)])
 
-class AppUser(models.Model):
-    # This field is the built-in django user model
-    # We currently use the following attributes from the django user model: username, password, email, is_active
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
-    institution = models.ForeignKey(Institution, on_delete=models.CASCADE, default=1)
-    is_admin = models.BooleanField(default=False)
-    registration_date = models.DateField(auto_now_add=True)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    institution = models.OneToOneField(Institution,null=True, on_delete=models.SET_NULL)
+    birth_date = models.DateField(null=True, blank=True)
 
-    def __str__(self):
-        return self.user.username
+    # both methods will be triggered automatically after user.save is called
+    # meaning - each time a user is created and saved - his profile object will also be created
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
 
-    @staticmethod
-    # Creates a new app_user (without superuser permissions) and saves it in the DB
-    # The is_active attribute of AppUser.user is automatically set to 'True' when creating a new AppUser
-    def create_app_user(username, email, password, admin_status):
-        app_user = AppUser()
-        user = User.objects.create_user(username, email, password)
-        app_user.user = user
-        app_user.is_admin = False
-        app_user.institution_id = 1
-
-        app_user.save()
-        return app_user
-
-    @staticmethod
-    def get_all_app_users():
-        return list(AppUser.objects.all())
-
-    @staticmethod
-    def get_app_user(username_to_find):
-        try:
-            user = User.objects.get(username=username_to_find)
-            return AppUser.objects.get(user=user)
-
-        except User.DoesNotExist:
-            return None
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
 
 class Year_Code(models.IntegerChoices):
     NONE = -2
@@ -66,7 +48,7 @@ class Document(models.Model):
     doc_id = models.IntegerField(primary_key=True, validators=[MinValueValidator(0)])
     name = models.CharField(max_length=300)
     doc_type = models.CharField(max_length=10) # PDF, jpg, txt, cpp, c, etc
-    author = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     category = models.CharField(max_length=300) # Exam, Notes, Homework Solutions etc

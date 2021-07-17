@@ -1,5 +1,4 @@
 from django.db import migrations, transaction
-from classbook_core.models import AppUser
 from django.contrib.auth.models import User
 
 
@@ -19,7 +18,6 @@ class Migration(migrations.Migration):
         with transaction.atomic():
             for user_name, user_email, user_password in users_test_data:
                 user = User.objects.create_user(username=user_name, email=user_email, password=user_password)
-                AppUser(user=user).save()
 
     operations = [
         migrations.RunPython(generate_user_test_data),
