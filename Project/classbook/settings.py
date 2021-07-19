@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'webpack_loader',
-    'classbook_core'
+    'classbook_core',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
