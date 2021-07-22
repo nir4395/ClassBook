@@ -6,11 +6,16 @@ import '../src/styles/app.css'
 import 'bootstrap'
 import 'jquery/src/jquery.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
+// import '@fortawesome/fontawesome-free/css/all.css'
+// import '@fortawesome/fontawesome-free/js/all.js'
+import vuetify from './plugins/vuetify'
+// import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')

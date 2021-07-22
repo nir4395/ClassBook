@@ -1,6 +1,6 @@
 <template>
     <div class="docsDiv">
-    <div style="border:2px solid black;height:10%;width:100%;background-color:#e9ecef"> My Recent docuemnts</div>
+    <div style="border:2px solid black;height:10%;width:98%;background-color:#e9ecef"> My Recent docuemnts</div>
        <RecDocument thumbNailsrc="doc2.png"></RecDocument>
           <RecDocument thumbNailsrc="doc3.png"></RecDocument>
              <RecDocument thumbNailsrc="doc4.png"></RecDocument>
@@ -8,7 +8,7 @@
                  <RecDocument thumbNailsrc="doc1.png"></RecDocument>
                     <RecDocument thumbNailsrc="doc1.png"></RecDocument>
                        <RecDocument thumbNailsrc="doc1.png"></RecDocument>
-                          <RecDocument thumbNailsrc="doc1.png"></RecDocument>
+                          <!-- <RecDocument thumbNailsrc="doc1.png"></RecDocument> -->
                 
        
 

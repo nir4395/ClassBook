@@ -5,30 +5,24 @@
 
         <div class="container">
     <div  style="margin-top:50px;" class="row">
+       
         <div class="col-md-3 col-sm-6">
-            <SchoolBox  name="Computer Science" img="coding.png"></SchoolBox>
-             
-        </div>
-        <div class="col-md-3 col-sm-6">
-           <SchoolBox  name="Nursing" img="nurse.png"></SchoolBox>
+           <SchoolBox  name="First Year Courses" img="math.png"></SchoolBox>
               <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div>
           <div class="col-md-3 col-sm-6">
-           <SchoolBox  name="Economics And Managment" img="gdp.png"></SchoolBox>
+           <SchoolBox  name="Second Year Courses" img="memory.png"></SchoolBox>
               <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div>
     </div>
     <div  style="margin-top:50px;" class="row">
+     
         <div class="col-md-3 col-sm-6">
-            <SchoolBox  name="Informatics" img="analysis.png"></SchoolBox>
-             
-        </div>
-        <div class="col-md-3 col-sm-6">
-           <SchoolBox  name="Physcology" img="think.png"></SchoolBox>
+           <SchoolBox  name="Third Year Courses" img="stor.png"></SchoolBox>
               <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div>
           <div class="col-md-3 col-sm-6">
-           <SchoolBox  name="Political Science" img="politics.png"></SchoolBox>
+           <SchoolBox  name="Selection Courses" img="mobile.png"></SchoolBox>
               <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div>
     </div>
