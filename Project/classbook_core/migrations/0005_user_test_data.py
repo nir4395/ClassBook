@@ -5,14 +5,15 @@ from django.contrib.auth.models import User
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('classbook_core', '0002_ins_test_data'),
+        ('classbook_core', '0004_builtin_superuser')
     ]
 
     def generate_user_test_data(apps, schema_editor):
         users_test_data = [
-            ('testUser1', 'user1@gmail.com', 'password123'),
-            ('testUser2', 'David@gmail.com', 'Password456'),
-            ('testUser3', 'User3@gmail.com', 'User3Password')
+            ('Guy Ronen', 'guy_r@mta.ac.il', 'password123'),
+            ('Boaz Cohen', 'boaz@mta.ac.il', 'Password456'),
+            ('Daniel Levi', 'daniell2@gmail.com', 'User3Password'),
+            ('Elinor Lutzki ', 'ellanor@gmail.com', 'User2Password'),
         ]
 
         with transaction.atomic():
