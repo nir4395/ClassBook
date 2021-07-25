@@ -135,7 +135,7 @@ dmypy.json
 Project/frontend/node_modules/
 
 # Autmatic Vue file created after npm serve install
-/webpack-stats.json
+webpack-stats.json
 
 # vs code
 .vscode

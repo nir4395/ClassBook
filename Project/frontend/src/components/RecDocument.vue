@@ -22,7 +22,7 @@ export default {
     background-color: gray;
 }
 .sep{
-    height: 100%;
+    height: 120%;
     width:14%;
     border: 2px black solid;
     

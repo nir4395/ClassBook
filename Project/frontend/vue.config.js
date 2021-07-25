@@ -23,5 +23,9 @@ module.exports = {
             .watchOptions({poll: 1000})
             .https(false)
             .headers({'Access-Control-Allow-Origin': ['\*']})
-    }
+    },
+
+    transpileDependencies: [
+      'vuetify'
+    ]
 };
