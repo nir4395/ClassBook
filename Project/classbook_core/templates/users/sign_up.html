@@ -4,6 +4,9 @@
 
 <head>
     <link rel="stylesheet" href="{% static 'css/sign_up.css' %}">
+
+     <!-- use bootstrap to style the page -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
 
@@ -23,7 +26,8 @@
             {{ sign_up_form|crispy }}
             <button class="btn btn-primary post-btn" type="submit">Sign Up</button>
         </form>
-        <p class="text-center">If you already have an account, <a href="/users/sign_in">Sign in</a> instead.</p>
+        <div>Already have an account?</div>
+        <a href="/users/sign_in">Login</a>
     </div>
 </div>
 {% endblock %}
