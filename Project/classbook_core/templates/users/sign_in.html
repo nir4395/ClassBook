@@ -4,6 +4,10 @@
 
 <head>
     <link rel="stylesheet" href="{% static 'css/sign_in.css' %}">
+
+    <!-- use bootstrap to style the page -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 </head>
 <body>
 
@@ -17,7 +21,8 @@
 
 <div class="page-container">
     <div class="container py-5">
-        <h4>Hey Stranger!</h4>
+        <h4>Hey!</h4>
+
         <div class="details-container">
         </div>
         <form method="POST">
@@ -25,9 +30,9 @@
             {{ sign_in_form|crispy }}
             <button class="btn btn-primary post-btn" type="submit">Sign in</button>
         </form>
-        <div class="text-center">Not a member yet?</div>
-        <a href="/users/sign_up">Create an account!</a>
-    </div>
+        <div>Not a member yet?</div>
+        <a href="/users/sign_up">Create an acconut</a>
+        </div>
 </div>
 </body>
 {% endblock %}
