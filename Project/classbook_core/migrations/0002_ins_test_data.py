@@ -14,6 +14,7 @@ class Migration(migrations.Migration):
         test_data_institution = [
             (1, 'Academic College of Tel-Aviv Yafo', 0),
             (2, 'Ben-Gurion University', 0),
+            (3, 'Technion - Israel Institute of Technology', 0),
         ]
 
         institutions = [Institution(*tdc) for tdc in test_data_institution]
