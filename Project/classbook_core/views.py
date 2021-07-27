@@ -37,7 +37,7 @@ def sign_in(request):
                 login(request, user)
                 sign_in_successful = True
                 messages.info(request, f'You are now logged in as {username}.')
-                return redirect('sign_in')
+                return redirect('index')
 
         if not sign_in_successful:
             messages.error(request, 'Invalid username or password.')
