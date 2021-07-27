@@ -139,17 +139,17 @@ def courses_by_year(request, ins_id, year_code_param):
         return HttpResponseRedirect('courses')
 
 
-def doc_by_id(request, doc_id):
+def document_by_id(request, doc_id):
     try:
 
         # Retrieve doc and update view count
-        doc = Document.objects.get(pk=doc_id)
+        document = Document.objects.get(pk=doc_id)
 
         file_path = construct_file_path(doc)
         file = open(file_path, 'rb')
 
-        doc.view_count += 1
-        doc.save()
+        document.view_count += 1
+        document.save()
         return FileResponse(file)
 
     # TODO - add exception for file opening failure
@@ -164,8 +164,8 @@ def rate_by_doc_id(request, doc_id, rating):
     try:
         
         # Retrieve doc and update view count
-        cur_document = Document.objects.get(pk=doc_id)
-        document_ratings = cur_document.student_rated.all()
+        current_document = Document.objects.get(pk=doc_id)
+        document_ratings = current_document.student_rated.all()
         user_profile = Profile.objects.get(pk=request.user.id) 
 
         print('User id: ' + str(user_profile.user_id))
@@ -173,16 +173,16 @@ def rate_by_doc_id(request, doc_id, rating):
             
             # Calculate weighted mean and update document rating
             rating_count = document_ratings.filter(user_id=user_profile.user_id).count() + 1
-            new_rating = (cur_document.rating / rating_count) + (int(rating) / rating_count)
-            cur_document.rating = new_rating
+            new_rating = (current_document.rating / rating_count) + (int(rating) / rating_count)
+            current_document.rating = new_rating
 
-            cur_document.full_clean()
-            cur_document.save()
+            current_document.full_clean() # Verify data
+            current_document.save()
             return HttpResponse("Rating for this user and document already exists.")
 
         else:
             print('Rating does not exist yet')
-            cur_document.student_rated.add(user_profile)
+            current_document.student_rated.add(user_profile)
             
     except ValidationError:
         print('Rating is incorrect')

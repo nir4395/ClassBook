@@ -10,15 +10,15 @@ class Migration(migrations.Migration):
 
     def generate_user_test_data(apps, schema_editor):
         users_test_data = [
-            ('Guy Ronen', 'guy_r@mta.ac.il', 'password123'),
-            ('Boaz Cohen', 'boaz@mta.ac.il', 'Password456'),
-            ('Daniel Levi', 'daniell2@gmail.com', 'User3Password'),
-            ('Elinor Lutzki ', 'ellanor@gmail.com', 'User2Password'),
+            ('Guy', 'Ronen', 'guyno1', 'guy_r@mta.ac.il', 'password123'),
+            ('Boaz', 'Cohen', 'boaz77', 'boaz@mta.ac.il', 'Password456'),
+            ('Daniel', 'Levi', 'dl1' 'daniell2@mta.ac.il', 'User3Password'),
+            ('Elinor', 'Lutzki ', 'EL4', 'ellanor@mta.ac.il', 'User2Password'),
         ]
 
         with transaction.atomic():
-            for user_name, user_email, user_password in users_test_data:
-                user = User.objects.create_user(username=user_name, email=user_email, password=user_password)
+            for fname, lname, user_name, user_email, user_password in users_test_data:
+                user = User.objects.create_user(first_name=fname, last_name=lname, username=user_name, email=user_email, password=user_password)
 
     operations = [
         migrations.RunPython(generate_user_test_data),

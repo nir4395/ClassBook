@@ -18,8 +18,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
-print(STATIC_DIR)
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -126,7 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/frontend/'
-MEDIA_URL = 'C:/Users/Nir/ClassBook/classbook/frontend/'
+MEDIA_URL = ''
 
 MEDIA_ROOT = MEDIA_URL
 
