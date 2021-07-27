@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 // import '@fortawesome/fontawesome-free/js/all.js'
 import vuetify from './plugins/vuetify'
 // import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 Vue.config.productionTip = false
 
