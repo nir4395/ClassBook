@@ -1,18 +1,22 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from classbook_core.models import Institution
 
-# TODO: get Institution choices from the DB instead and add more choices
-ACADEMIC_INSTITUTION_CHOICES = (
-    ("1", "Tel Aviv University"),
-    ("2", "Technion"),
-    ("3", "Academic College of Tel Aviv Yafo"),
-)
+
+def get_accademic_instituion_choices():
+
+    ACADEMIC_INSTITUTION_CHOICES = []
+    for institution in Institution.objects.all():
+        ACADEMIC_INSTITUTION_CHOICES.append((institution.institution_id, institution.name))
+
+    return ACADEMIC_INSTITUTION_CHOICES
+
 
 # This class uses the built in django UserCreationForm and adds an email field
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(initial='@accademic_email_suffix', help_text='Required. must use an academic email.', required=True)
-    Institution = forms.MultipleChoiceField(choices = ACADEMIC_INSTITUTION_CHOICES)
+    Institution = forms.MultipleChoiceField(choices = get_accademic_instituion_choices())
 
     class Meta:
         model = User
