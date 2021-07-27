@@ -87,4 +87,10 @@ class Document(models.Model):
         self.category = self.category.lower()
         return super(Document, self).save(*args, **kwargs)
 
-
+class Comment(models.Model):
+    associated_document = models.ForeignKey(Document, on_delete=CASCADE)
+    auther = models.ForeignKey(Profile, on_delete=CASCADE)
+    content = models.TextField(max_length=500, validators=[MinValueValidator(1)])
+    publish_date = models.DateField(auto_now_add=True)
+    replied_to_comment = models.OneToOneField('Comment', on_delete=CASCADE)
+    likes_count = models.IntegerField(default = 0)
