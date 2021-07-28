@@ -16,9 +16,8 @@ class Institution(models.Model):
         return self.name
 
     @staticmethod
-    def print_test():
-        print(Institution.objects.all())
-        print(Institution.objects.all().values('institution_id', 'name'))
+    def get_accademic_instituion_choices():
+        return Institution.objects.all().values('institution_id', 'name')
 
 
 class AcademicDegree(models.Model):
