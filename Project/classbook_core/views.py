@@ -24,7 +24,7 @@ def sign_up(request):
             return redirect("sign_in") # TODO: change the redirect to the profile page / homepage
 
         else:
-            messages.error(request, "Unsuccessful registration. Invalid information.")
+            messages.error(request, form.errors)
 
     form = SignUpForm
     return render(request=request, template_name="users/sign_up.html", context={"sign_up_form": form})
@@ -48,7 +48,7 @@ def sign_in(request):
                 return redirect('index')
 
         if not sign_in_successful:
-            messages.error(request, 'Invalid username or password.')
+            messages.error(request, form.errors)
             return redirect('sign_in')
 
     form = AuthenticationForm()
