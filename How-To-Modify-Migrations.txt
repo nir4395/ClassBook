@@ -1,0 +1,24 @@
+Open the command line terminal in 'ClassBook/Project/'
+
+1. Type 'python manage.py migrate --fake classbook_core zero 
+[This will fake all the migrations. more info here: https://stackoverflow.com/questions/46772762/django-migrate-fake-and-fake-initial-explained]
+
+2. Delete the db.sqlite3 file
+[delete the DB file]
+
+3. Type 'python manage.py migrate'
+
+
+** If you need to make changes to the initial auto generated migration file (0001_initial) - the process is a little bit more complex.
+Adding methods to models.py is not an issue, however if you add new models (classes) - this will cause issues with the 0001 initial migration file.
+
+In such a case - after deleting the DB file:
+
+    1. Backup the manually created migration files
+    2. Delete the 0001_initial.py file (auto generated file after running makemigrations)
+    3. Type 'python manage.py makemigrations'
+        [this will make a new initial migration file - containing all the new classes you added to models.py]
+    4. Restore the manual migration files from step 1
+    5. Type 'python manage.py migrate'
+
+
