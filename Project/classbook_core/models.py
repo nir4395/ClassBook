@@ -15,6 +15,11 @@ class Institution(models.Model):
     def __str__(self):
         return self.name
 
+    @staticmethod
+    def get_accademic_instituion_choices():
+        return Institution.objects.all().values('institution_id', 'name')
+
+
 class AcademicDegree(models.Model):
     degree_id = models.IntegerField(primary_key=True, validators=[MinValueValidator(0)])
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
