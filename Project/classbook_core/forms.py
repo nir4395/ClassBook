@@ -7,8 +7,8 @@ from classbook_core.models import Institution
 def get_accademic_instituion_choices():
 
     ACADEMIC_INSTITUTION_CHOICES = []
-    for institution in Institution.objects.all():
-        ACADEMIC_INSTITUTION_CHOICES.append((institution.institution_id, institution.name))
+    # for institution in Institution.objects.all():
+    #     ACADEMIC_INSTITUTION_CHOICES.append((institution.institution_id, institution.name))
 
     return ACADEMIC_INSTITUTION_CHOICES
 

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('classbook_core', '0002_ins_test_data'),
+        ('classbook_core', '0002_supported_accademic_institutions'),
     ]
 
     def generate_user_test_data(apps, schema_editor):
