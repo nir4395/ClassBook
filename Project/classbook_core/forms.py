@@ -1,28 +1,35 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from classbook_core.models import Institution
+# from classbook_core.models import Institution
 
-
-def get_accademic_instituion_choices():
-
-    ACADEMIC_INSTITUTION_CHOICES = []
-    for institution in Institution.objects.all():
-        ACADEMIC_INSTITUTION_CHOICES.append((institution.institution_id, institution.name))
-
-    return ACADEMIC_INSTITUTION_CHOICES
-
+# TODO:
+# we currently have a bug which does not allow us to use Institution.get_accademic_instituion_choices() in the form below
+supported_institutions = [
+    (0, 'Academic College of TLV'),
+    (1, 'TLV University'),
+    (2, 'Technion'),
+    (3, 'University Of Haifa'),
+    (4, 'Bar Ilan University'),
+    (5, 'Ariel University'),
+    (6, 'Hebrew University of Jersulam'),
+    (7, 'IDC Harezlia'),
+    (8, 'Afeka College '),
+    (9, 'HIT'),
+    (10, 'Shenkar College'),
+    (11, 'Sami Shamoon College'),
+]
 
 # This class uses the built in django UserCreationForm and adds an email field
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(initial='@accademic_email_suffix', help_text='Required. must use an academic email.', required=True)
-    Institution = forms.MultipleChoiceField(choices = get_accademic_instituion_choices())
+    institution = forms.MultipleChoiceField(choices = supported_institutions)
 
     class Meta:
         model = User
 
         # There are 2 password fields to confirm the password (pw1 and pw2 are built-in function names)
-        fields = ("username", "password1", "password2", "Institution", "email")
+        fields = ("username", "password1", "password2", "institution", "email")
 
     def clean_email(self):
         # TODO: changes this to check the correct instituation email
@@ -42,4 +49,3 @@ class SignUpForm(UserCreationForm):
             user.save()
 
         return user
-
