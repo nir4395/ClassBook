@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('classbook_core', '0001_initial'),
+        ('classbook_core', '0002_supported_accademic_institutions'),
         ('classbook_core', '0003_degree_test_data'),
      ]
 

@@ -10,6 +10,7 @@ class Institution(models.Model):
     institution_id = models.IntegerField(primary_key=True, validators=[MinValueValidator(0)])
     name = models.CharField(max_length=300)
     student_count = models.IntegerField(validators=[MinValueValidator(0)])
+    accademic_email_suffix = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name

@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('classbook_core', '0001_initial'),
-        ('classbook_core', '0002_ins_test_data'),
+        ('classbook_core', '0002_supported_accademic_institutions'),
     ]
 
     def generate_mta_test_data(apps, schema_editor):
