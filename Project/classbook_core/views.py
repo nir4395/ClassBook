@@ -23,7 +23,8 @@ def sign_up(request):
             return redirect("sign_in") # TODO: change the redirect to the profile page / homepage
 
         else:
-            messages.error(request, form.errors)
+            error_string = ' '.join([' '.join(x for x in l) for l in list(form.errors.values())])
+            messages.error(request, error_string)
 
     form = SignUpForm
     return render(request=request, template_name="users/sign_up.html", context={"sign_up_form": form})
@@ -47,7 +48,8 @@ def sign_in(request):
                 return redirect('index')
 
         if not sign_in_successful:
-            messages.error(request, form.errors)
+            error_string = ' '.join([' '.join(x for x in l) for l in list(form.errors.values())])
+            messages.error(request, error_string)
             return redirect('sign_in')
 
     form = SignInForm()
