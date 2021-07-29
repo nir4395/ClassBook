@@ -7,7 +7,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 class Institution(models.Model):
-    institution_id = models.IntegerField(primary_key=True, validators=[MinValueValidator(0)])
     name = models.CharField(max_length=300)
     student_count = models.IntegerField(validators=[MinValueValidator(0)])
     accademic_email_suffix = models.CharField(max_length=100)
@@ -21,7 +20,6 @@ class Institution(models.Model):
 
 
 class AcademicDegree(models.Model):
-    degree_id = models.IntegerField(primary_key=True, validators=[MinValueValidator(0)])
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     name = models.CharField(max_length=300)
 
@@ -58,7 +56,6 @@ class Year_Code(models.IntegerChoices):
     OPTIONAL = 10
 
 class Course(models.Model):
-    course_id = models.IntegerField(primary_key=True, validators=[MinValueValidator(0)])
     name = models.CharField(max_length=300)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     degree = models.ForeignKey(AcademicDegree, on_delete=CASCADE)
@@ -72,15 +69,14 @@ class Course(models.Model):
         return self.name
 
 class Document(models.Model):
-    doc_id = models.IntegerField(primary_key=True, validators=[MinValueValidator(0)])
     name = models.CharField(max_length=300)
     doc_type = models.CharField(max_length=10) # pdf, jpg, txt, cpp, cs, etc
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey('Profile', on_delete=models.CASCADE, related_name='%(class)s_authers')
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     category = models.CharField(max_length=300) # Exam, Notes, Homework Solutions etc
     view_count = models.IntegerField(validators=[MinValueValidator(0)], default=0)
     rating = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=0.0)
-    student_rated = models.ManyToManyField('Profile') # Table for keeping track of which students rated the course
+    student_rated = models.ManyToManyField('Profile', related_name='%(class)s_students_rated') # Table for keeping track of which students rated the course
     upload_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -98,5 +94,5 @@ class Comment(models.Model):
     auther = models.ForeignKey(Profile, on_delete=CASCADE)
     content = models.TextField(max_length=500, validators=[MinValueValidator(1)])
     publish_date = models.DateField(auto_now_add=True)
-    replied_to_comment = models.OneToOneField('Comment', on_delete=CASCADE)
+    replied_to_comment = models.OneToOneField('Comment', null=True, on_delete=CASCADE)
     likes_count = models.IntegerField(default = 0)

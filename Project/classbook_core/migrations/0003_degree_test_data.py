@@ -1,5 +1,5 @@
 from django.db import migrations, transaction
-from classbook_core.models import AcademicDegree
+from classbook_core.models import AcademicDegree, Institution
 from django.contrib.auth.models import User
 
 
@@ -12,19 +12,18 @@ class Migration(migrations.Migration):
 
     def generate_mta_test_data(apps, schema_editor):
         
-        MTA_id = 1
+        MTA_INSTITUTION = Institution.objects.get(name='Academic College of TLV')
 
         test_data_academic_degree = [
-            (1, MTA_id, 'Computer Science'),
-            (2, MTA_id, 'Behavioral Science'),
-            (3, MTA_id, 'Psychology'),
+            (MTA_INSTITUTION, 'Computer Science'),
+            (MTA_INSTITUTION, 'Behavioral Science'),
+            (MTA_INSTITUTION, 'Psychology'),
         ]
 
-        academic_degrees = [AcademicDegree(*tdc) for tdc in test_data_academic_degree]
-
+        
         with transaction.atomic():
-            for degree in academic_degrees:
-                degree.save()
+            for institution_id, degree_name in test_data_academic_degree:
+                AcademicDegree(institution=institution_id, name=degree_name).save()
 
     operations = [
         migrations.RunPython(generate_mta_test_data),
