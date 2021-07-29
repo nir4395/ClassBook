@@ -1,5 +1,6 @@
 from django.db import migrations, transaction
-from classbook_core.models import Document
+from classbook_core.models import Document, Profile, Course
+from django.contrib.auth.models import User
 
 
 class Migration(migrations.Migration):
@@ -10,20 +11,27 @@ class Migration(migrations.Migration):
 
     def generate_course_test_data(apps, schema_editor):
 
+        user_of_profile = User.objects.get(username='leon123')
+        document_auther = Profile.objects.get(user=user_of_profile)
+        
+        course_into_to_cs = Course.objects.get(name='Introduction to CS')
+        course_calculus1 = Course.objects.get(name='Calculus 1')
+        course_linear_algebra2 = Course.objects.get(name='Linear Algebra 2')
+        course_algorithms = Course.objects.get(name='Algorithms')
+        course_csharp_dotnet = Course.objects.get(name='C# and .NET Programming')
+
         document_test_data = [
-            (1, "2018_AA", "PDF", 3, 1, 'Exam Solutions'), # Intro to CS
-            (2, "Homework_3", "PDF", 2, 2, 'Homework'), # Calculus 1
-            (3, "Homework_5", "PDF", 1, 2, 'Homework'), # Calculus 1
-            (4, "Sikum_2011", "PDF", 4, 3, 'Summary'), # Linear Algebra One
-            (5, "2021_BA", "PDF", 4, 4, 'Exams'), # Algorithms
-            (6, "Class_example_1", "cs", 1, 6, 'MISC'), # C# and .NET Framework
+            ("2018_AA",         "PDF",    document_auther, course_into_to_cs,       'Exam Solutions'),
+            ("Homework_3",      "PDF",    document_auther, course_calculus1,        'Homework'),
+            ("Homework_5",      "PDF",    document_auther, course_calculus1,        'Homework'),
+            ("Sikum_2011",      "PDF",    document_auther, course_linear_algebra2,  'Summary'),
+            ("2021_BA",         "PDF",    document_auther, course_algorithms,       'Exams'),
+            ("Class_example_1", "PDF",    document_auther, course_csharp_dotnet,    'MISC'),
         ]
 
-        documents = [Document(*tdc) for tdc in document_test_data]
-
         with transaction.atomic():
-            for doc in documents:
-                doc.save()
+            for name, doc_type, author, course, category, in document_test_data:
+                Document(name=name, doc_type=doc_type, author=author, course=course, category=category).save()
 
     operations = [
         migrations.RunPython(generate_course_test_data),

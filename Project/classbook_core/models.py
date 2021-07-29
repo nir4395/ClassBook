@@ -71,12 +71,12 @@ class Course(models.Model):
 class Document(models.Model):
     name = models.CharField(max_length=300)
     doc_type = models.CharField(max_length=10) # pdf, jpg, txt, cpp, cs, etc
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey('Profile', on_delete=models.CASCADE, related_name='%(class)s_authers')
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     category = models.CharField(max_length=300) # Exam, Notes, Homework Solutions etc
     view_count = models.IntegerField(validators=[MinValueValidator(0)], default=0)
     rating = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=0.0)
-    student_rated = models.ManyToManyField('Profile') # Table for keeping track of which students rated the course
+    student_rated = models.ManyToManyField('Profile', related_name='%(class)s_students_rated') # Table for keeping track of which students rated the course
     upload_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
