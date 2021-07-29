@@ -1,15 +1,23 @@
 .page-container {
     padding-bottom: 50px;
     height: 100%;
-    text-align:left;
 }
-/* 
-.details-container {
-    display: flex;
-    justify-content: center;
-} */
+
+.control-group {
+    padding-top: 20px;
+    margin: 10px 0 10px 0;
+}
 
 input {
-    width: 250;
+    width: 250px;
     height: 28px;
+}
+
+div {
+    text-align: center;
+}
+
+li {
+    justify-content: center; 
+    display:flex;
 }
