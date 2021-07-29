@@ -10,10 +10,11 @@ class Migration(migrations.Migration):
 
     def generate_user_test_data(apps, schema_editor):
         users_test_data = [
-            ("Leon", "Rabinovich", "Leon123", "Leon@mta.ac.il", "Password1"),
+            # save all usersnames in lower case - important (we ovveride django behaviour that is case sensitive by using only lower case usernames)
+            ("Leon", "Rabinovich", "leon123", "Leon@mta.ac.il", "Password1"),
             ("Guy", "Ronen", "guyno1", "guy_r@mta.ac.il", "password123"),
             ("Boaz", "Cohen", "boaz77", "boaz@mta.ac.il", "password123"),
-            ("Elinor", "Lutzski", "EL4hjhj", "ellanor@mta.ac.il", "User4Password"),
+            ("Elinor", "Lutzski", "el4hjsda", "ellanor@mta.ac.il", "User4Password"),
         ]
 
         with transaction.atomic():

@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
-from classbook_core.forms import SignUpForm
+from classbook_core.forms import SignUpForm, SignInForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm
 from django.http.response import FileResponse, JsonResponse, HttpResponse
 from django.shortcuts import render
 from classbook_core.models import Course, Document, Institution, Profile
@@ -34,7 +33,7 @@ def sign_in(request):
     sign_in_successful = False
 
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = SignInForm(request, data=request.POST)
 
         if form.is_valid():
             username = form.cleaned_data.get('username')
@@ -51,7 +50,7 @@ def sign_in(request):
             messages.error(request, form.errors)
             return redirect('sign_in')
 
-    form = AuthenticationForm()
+    form = SignInForm()
     return render(request=request, template_name='users/sign_in.html', context={'sign_in_form': form})
 
 

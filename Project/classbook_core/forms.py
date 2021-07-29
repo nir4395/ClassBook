@@ -1,6 +1,6 @@
 from classbook_core.models import Institution
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.forms import widgets
 # from classbook_core.models import Institution
@@ -25,6 +25,7 @@ supported_institutions = [
 
 # This class uses the built in django UserCreationForm and adds an email field
 class SignUpForm(UserCreationForm):
+    
     email = forms.EmailField(help_text='Required. must use an academic email.', required=True)
     institution = forms.ChoiceField(
         # TODO: dynamicly change the email field of the form based on the JS function updateAccademicEmail()
@@ -39,7 +40,7 @@ class SignUpForm(UserCreationForm):
         fields = ("username", "password1", "password2", "institution", "email")
 
 
-    # django username field is not case sensitive, we override it here in the signupform
+    # django username field is case sensitive, we override it here in the signupform (save all usersnames in lowercase)
     def clean_username(self):
         username = self.cleaned_data['username'].lower
 
@@ -59,7 +60,6 @@ class SignUpForm(UserCreationForm):
                 institution_name = id_instution_pair[1]
 
         accademic_email_suffix = Institution.objects.get(name=institution_name).accademic_email_suffix
-
         if not email.endswith(accademic_email_suffix):
             raise forms.ValidationError(f'{institution_name} email must end with {accademic_email_suffix}')
 
@@ -74,3 +74,9 @@ class SignUpForm(UserCreationForm):
 
         return user
 
+
+class SignInForm(AuthenticationForm):
+
+    # django username field is case sensitive, we override it here in the signInForm (login all usersnames with lowercase)
+    def clean_username(self):
+        return self.cleaned_data['username'].lower
