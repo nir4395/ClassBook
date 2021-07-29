@@ -12,6 +12,8 @@
         <br>
         <h1 ALIGN='center'>Sign Up</h1>
         <br>
+        <h6 class="text-center">Already have an account? <a href="/users/sign_in">Login</a></h6>
+     
 
         <form method="POST" ALIGN='center'>
             {% csrf_token %}
@@ -19,9 +21,8 @@
             <button class="btn btn-primary post-btn" type="submit">Sign Up</button>
         </form>
 
-        <div>Already have an account?</div>
-        <a href="/users/sign_in">Login</a>
-
+       
+        <br>
         <div>Made a mistake?</div>
         <a href="/">Return Home</a>
      
