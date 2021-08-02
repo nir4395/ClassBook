@@ -39,7 +39,7 @@
 
         </div>
         <div class="embedZone">
-            <embed style="height:105%;width:100%" src="http://www.africau.edu/images/default/sample.pdf">
+            <embed style="height:105%;width:100%" src="localhost:8000\C:\Users\Nir\Desktop\SadnaGit\ClassBook\Project\classbook_core\stat_temp\comp1.pdf">
         </div>
         <div></div>
       </div>
@@ -83,17 +83,18 @@
        </div>
        
        <div style="height:20%;width:100%;">
-            <DocsViewer></DocsViewer>
+            <!-- <DocsViewer></DocsViewer> -->
        </div>
-      
+      <CommentsSection></CommentsSection>
   </div>
   
 </template>
 <script>
- import Issue from '../components/Issue.vue'
-import RankModal from '../components/RankModal.vue'
-import DocsViewer from '../components/DocsViewer.vue'
+ import Issue from '../components/Comments/Issue.vue'
+import RankModal from '../components/Documents/RankModal.vue'
+// import DocsViewer from '../components/Documents/DocsViewer.vue'
 import Modal from '../components/Modal.vue'
+import CommentsSection from '../components/Comments/CommentsSection.vue'
 // import { createApp,defineComponent } from 'vue'
  import Vue from 'vue'
 
@@ -101,7 +102,9 @@ import Modal from '../components/Modal.vue'
 
 export default {
  components:{
-   DocsViewer,
+  //  DocsViewer,
+   CommentsSection,
+
     // Issue,
     RankModal,
     Modal
