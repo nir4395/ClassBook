@@ -39,7 +39,7 @@
     </div>
 </template>
 <script>
- import LinkModal from '../components/LinkModal.vue'
+ import LinkModal from '../Comments/LinkModal.vue'
 export default {
     components:{
 LinkModal

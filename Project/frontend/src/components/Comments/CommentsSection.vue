@@ -46,8 +46,8 @@
   </div>
 </template>
 <script>
- import DocumentIssue from '../components/DocumentIssue.vue'
-  import AddIssueBox from '../components/AddIsueBox.vue'
+ import DocumentIssue from '../Comments/DocumentIssue.vue'
+  import AddIssueBox from '../Comments/AddIsueBox.vue'
     import Vue from 'vue'
 //  import IssuesReplies from '../components/IssuesReplies.vue'
 export default {
