@@ -1,6 +1,9 @@
 <template>
   <v-app class="gray">
     <Navbar></Navbar>
+    <!-- <pdf src="..\assets\comp1.pdf"></pdf> -->
+    
+  <v-btn blue>GO TO SIGN UP</v-btn>
     <v-content>
       <router-view></router-view>
     </v-content>
