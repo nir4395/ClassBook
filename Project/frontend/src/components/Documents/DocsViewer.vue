@@ -15,7 +15,7 @@
     </div>
 </template>
 <script>
-import RecDocument from '../components/RecDocument.vue'
+import RecDocument from '../Documents/RecDocument.vue'
 export default {
     components:{
         RecDocument

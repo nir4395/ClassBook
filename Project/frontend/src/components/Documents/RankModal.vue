@@ -20,11 +20,11 @@
             <div style="    margin-left: 15%;
     float: left;
     width: 77%;">
+    <!-- <img style="height:40px;width:40px" src='../assets/stars.png'/>
     <img style="height:40px;width:40px" src='../assets/stars.png'/>
     <img style="height:40px;width:40px" src='../assets/stars.png'/>
     <img style="height:40px;width:40px" src='../assets/stars.png'/>
-    <img style="height:40px;width:40px" src='../assets/stars.png'/>
-    <img style="height:40px;width:40px" src='../assets/stars.png'/>
+    <img style="height:40px;width:40px" src='../assets/stars.png'/> -->
          <select style="margin-top:3%" class="form-control" id="sel1">
 
           <option>1</option>

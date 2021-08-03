@@ -39,7 +39,6 @@
 </template>
 
 <script>
-
 export default {
   data() {
     
@@ -53,10 +52,8 @@ export default {
           { icon: 'find_in_page', text: 'Document Selection', route: '/selection' },
           { icon: 'login', text: 'Sign Up', route: '/signup' },
           { icon: 'school', text: 'Categories', route: '/nav' },
-
           
           
-
         
       ]
     }

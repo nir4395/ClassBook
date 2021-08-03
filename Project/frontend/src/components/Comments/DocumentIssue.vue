@@ -49,7 +49,7 @@
       </div >
 </template>
 <script>
- import Reply from '../components/Reply.vue'
+ import Reply from '../Comments/Reply.vue'
    import Vue from 'vue'
 export default {
      props:['id','title','author','date','content','img','rate','coms'],
