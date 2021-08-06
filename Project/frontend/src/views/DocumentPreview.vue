@@ -85,7 +85,24 @@
        <div style="height:20%;width:100%;">
            <DocsViewer></DocsViewer> -->
        <!-- </div> --> 
-      <CommentsSection></CommentsSection>
+       <div>
+            <v-rating
+  empty-icon="$mdiStarOutline"
+  full-icon="$mdiStar"
+  half-icon="$mdiStarHalfFull"
+  half-increments
+  hover
+  length="4"
+  size="57"
+  value="4.5"
+></v-rating>
+            <CommentsSection></CommentsSection>
+             <v-btn>
+        <v-icon>chat</v-icon>
+    </v-btn>
+    ...
+       </div>
+   
   <!-- </div> -->
   
 </template>
