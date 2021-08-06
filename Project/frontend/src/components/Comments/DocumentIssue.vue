@@ -2,8 +2,10 @@
      <div class="outerIssuesContainer">
       <!--  inner container for issues -->
             <div class="innerIssuesContainer">
+                
+       
                 <div class="issueDiv">
-                    <div><img class="issueIcon" height="36"  width="36" :src="require(`@/assets/${img}`)"></div>
+                    <div><img class="issueIcon" height="36"  width="36" :src="require(`@/assets/${img}`)">  {{author}}</div>
                     <div  :id="issueID" class="innerIssueDiv">
                       <div class="innerIssueDivData">
                         <div class="contentissueDiv"><h4 class="issueDivText">
@@ -18,12 +20,17 @@
                             <div class="ratings">
                                 <div class="ratingValue">{{rating}}</div>
                                 <span class="gapSpan"></span>
-                                <button class="btn starUnMarked"><i class="fas fa-star"></i></button>
+                                <button class="btn starUnMarked"><img  height="20px" width="20px" src="https://img.icons8.com/fluency/48/000000/star.png"/></button>
                             </div>
                              <div class="ratings">
                                 <div  style="margin-right: 4px; padding: 2px;" class="ratingValue">{{comments}}</div>
                                 <!-- <span class="gapSpan"></span> -->
-                                <button  style="background-color:white;border:none;margin-right:3px;" :id="commentsID" class="commentsOnIt"  @click="openReplies()"><i class="fas fa-comment"></i></button>
+                               
+                                <button  style="background-color:white;border:none;margin-right:3px;" :id="commentsID" class="commentsOnIt"  @click="openReplies()">
+                                 
+                                       <img  src="https://img.icons8.com/office/16/000000/speech-bubble-with-dots.png"/>
+                                     <!-- <v-icon>chat</v-icon> -->
+                                </button>
                             </div>
                         </div>
                      </div>
@@ -35,8 +42,8 @@
                 </div>
                  <div class="issueDiv">
                    <div>
-                      <div style="float:left"><img class="issueIcon" height="36"  width="36" :src="require(`@/assets/${img}`)"></div>
-                      <div style="margin-left:50px;float:left" ><input :id="replyInputID" @keypress="createNewReply($event)"  maxlength="255" placeholder="Reply Here" class="replyInput form-control"></div>
+                      <div style="margin-top:-45px;float:left"><img class="issueIcon" height="36"  width="36" :src="require(`@/assets/${imgReply}`)"></div>
+                      <div style="margin-left:50px;float:left" ><input style="margin-top:-34px;width:1000px" :id="replyInputID" @keypress="createNewReply($event)"  maxlength="255" placeholder="Reply Here" class="replyInput form-control"></div>
 
                      </div>
                    
@@ -50,17 +57,23 @@
 </template>
 <script>
  import Reply from '../Comments/Reply.vue'
+     import Vuetify from 'vuetify'
+
    import Vue from 'vue'
+   Vue.use(Vuetify)
 export default {
      props:['id','title','author','date','content','img','rate','coms'],
     // components:{Reply},
      data(){  
    return{
+       //to be changed later
+       replyAuthor:"Yossi Levy",
+       imgReply:'pic6.jpg',
        issueID:"mainIssue"+this.id.toString(),
        commentsID:"comButton"+this.id.toString(),
        replyInputID:"inputReply"+this.id.toString(),
-       comments:this.coms,
-       rating : this.rate,
+       comments:0,
+       rating : 0,
        isCommentsShown:false,
     //    header: "This Docuement is shit",
     //    author:"Dan Segev",
@@ -89,7 +102,7 @@ export default {
                 //means Enter was pressed
                 var contentInput=document.getElementById(this.replyInputID).value
                 var newReplyObject={
-                  title:"sdf",author:this.author,date:this.getDate().toString(),content:  contentInput,rating:0,profile:this.img}
+                  title:"sdf",author:this.replyAuthor,date:this.getDate().toString(),content:  contentInput,rating:0,profile:this.imgReply}
                 this.replies.push(newReplyObject)
               
                 document.getElementById(this.replyInputID).value=""
