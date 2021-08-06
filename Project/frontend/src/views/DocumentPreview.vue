@@ -1,6 +1,6 @@
 
 <template>
-  <div class="mainDocumentDiv">
+  <!-- <div class="mainDocumentDiv">
        <img class="previewImg" src="../assets/doc.png" >
         <div style="font-size:55px" class="jumbotron jumbotron-fluid">Document Preview
                
@@ -39,7 +39,7 @@
 
         </div>
         <div class="embedZone">
-            <embed style="height:105%;width:100%" src="http://www.africau.edu/images/default/sample.pdf">
+            <embed style="height:105%;width:100%" src="localhost:8000\C:\Users\Nir\Desktop\SadnaGit\ClassBook\Project\classbook_core\stat_temp\comp1.pdf">
         </div>
         <div></div>
       </div>
@@ -83,144 +83,147 @@
        </div>
        
        <div style="height:20%;width:100%;">
-            <DocsViewer></DocsViewer>
-       </div>
-      
-  </div>
+           <DocsViewer></DocsViewer> -->
+       <!-- </div> --> 
+      <CommentsSection></CommentsSection>
+  <!-- </div> -->
   
 </template>
 <script>
- import Issue from '../components/Issue.vue'
-import RankModal from '../components/RankModal.vue'
-import DocsViewer from '../components/DocsViewer.vue'
-import Modal from '../components/Modal.vue'
+//  import Issue from '../components/Comments/Issue.vue'
+// import RankModal from '../components/Documents/RankModal.vue'
+// // import DocsViewer from '../components/Documents/DocsViewer.vue'
+// import Modal from '../components/Modal.vue'
+import CommentsSection from '../components/Comments/CommentsSection.vue'
 // import { createApp,defineComponent } from 'vue'
- import Vue from 'vue'
+//  import Vue from 'vue'
 
 
 
 export default {
  components:{
-   DocsViewer,
-    // Issue,
-    RankModal,
-    Modal
+  //  DocsViewer,
+   CommentsSection,
+
+    // // Issue,
+    // RankModal,
+    // Modal
  },
  
 
- data(){
-   return{
-        urlImg:'book.jpg',
-        issues:[],
-         VIEWS_FILTER:10,
-        lastIssueNumber:1,
-       isModalVisible: false,
-       isRateDocVisable:false
-   }
- },
- methods:{
+//  data(){
+//    return{
+//         urlImg:'book.jpg',
+//         issues:[],
+//          VIEWS_FILTER:10,
+//         lastIssueNumber:1,
+//        isModalVisible: false,
+//        isRateDocVisable:false
+//    }
+//  },
+//  methods:{
 
-   showOAllIssues(){
-      this.issues.forEach(x=>{
+//    showOAllIssues(){
+//       this.issues.forEach(x=>{
       
-         var element=document.getElementsByClassName("issueDiv")[x.$props["issueNumber"]-1]
-         element.style.display="block"
-      })
-   },
-    ShowIssue(issue) {
-        console.log(issue)
-   },
-   showOnlyNewIssues(){
-     //cancel last filter first
-     this.showOAllIssues()
-     this.issues.forEach(x=>{
-       console.log(x)
-       if(x.$props["status"]!=="New"){
-         var removeElement=document.getElementsByClassName("issueDiv")[x.$props["issueNumber"]-1]
-         removeElement.style.display="none"
-        // var elem=document.getElementById("issuesDiv")
-         //elem.removeChild(removeElement)
+//          var element=document.getElementsByClassName("issueDiv")[x.$props["issueNumber"]-1]
+//          element.style.display="block"
+//       })
+//    },
+//     ShowIssue(issue) {
+//         console.log(issue)
+//    },
+//    showOnlyNewIssues(){
+//      //cancel last filter first
+//      this.showOAllIssues()
+//      this.issues.forEach(x=>{
+//        console.log(x)
+//        if(x.$props["status"]!=="New"){
+//          var removeElement=document.getElementsByClassName("issueDiv")[x.$props["issueNumber"]-1]
+//          removeElement.style.display="none"
+//         // var elem=document.getElementById("issuesDiv")
+//          //elem.removeChild(removeElement)
 
-       //  document.getElementById("issuesDiv").removeChild(x.$parent)
-       }
-       console.log(x.$props["status"])
-     })
-   },
-   showOnlyOldIssues(){
-       //cancel last filter first
-     this.showOAllIssues()
-     this.issues.forEach(x=>{
-       console.log(x)
-       if(x.$props["status"]=="New"){
-         var removeElement=document.getElementsByClassName("issueDiv")[x.$props["issueNumber"]-1]
-         removeElement.style.display="none"
-        // var elem=document.getElementById("issuesDiv")
-         //elem.removeChild(removeElement)
+//        //  document.getElementById("issuesDiv").removeChild(x.$parent)
+//        }
+//        console.log(x.$props["status"])
+//      })
+//    },
+//    showOnlyOldIssues(){
+//        //cancel last filter first
+//      this.showOAllIssues()
+//      this.issues.forEach(x=>{
+//        console.log(x)
+//        if(x.$props["status"]=="New"){
+//          var removeElement=document.getElementsByClassName("issueDiv")[x.$props["issueNumber"]-1]
+//          removeElement.style.display="none"
+//         // var elem=document.getElementById("issuesDiv")
+//          //elem.removeChild(removeElement)
 
-       //  document.getElementById("issuesDiv").removeChild(x.$parent)
-       }
+//        //  document.getElementById("issuesDiv").removeChild(x.$parent)
+//        }
       
-     })
-   },
-   showPopIssues(){
-      //cancel last filter first
-     this.showOAllIssues()
-     this.issues.forEach(x=>{
-       console.log(x)
-       var views=x.$props["currentviews"]
-       views=parseInt(views,10)
-       if(views<this.VIEWS_FILTER){
-         var removeElement=document.getElementsByClassName("issueDiv")[x.$props["issueNumber"]-1]
-         removeElement.style.display="none"
-        // var elem=document.getElementById("issuesDiv")
-         //elem.removeChild(removeElement)
+//      })
+//    },
+//    showPopIssues(){
+//       //cancel last filter first
+//      this.showOAllIssues()
+//      this.issues.forEach(x=>{
+//        console.log(x)
+//        var views=x.$props["currentviews"]
+//        views=parseInt(views,10)
+//        if(views<this.VIEWS_FILTER){
+//          var removeElement=document.getElementsByClassName("issueDiv")[x.$props["issueNumber"]-1]
+//          removeElement.style.display="none"
+//         // var elem=document.getElementById("issuesDiv")
+//          //elem.removeChild(removeElement)
 
-       //  document.getElementById("issuesDiv").removeChild(x.$parent)
-       }
-       console.log(x.$props["status"])
-     })
-   },
+//        //  document.getElementById("issuesDiv").removeChild(x.$parent)
+//        }
+//        console.log(x.$props["status"])
+//      })
+//    },
 
-   closeModal() {
-        this.isModalVisible = false;
-      },
-    closeRateDocModal(){
-        this.isRateDocVisable=false
-    },
-   OpenRatingDetails(){
-              this.isModalVisible = true;
+//    closeModal() {
+//         this.isModalVisible = false;
+//       },
+//     closeRateDocModal(){
+//         this.isRateDocVisable=false
+//     },
+//    OpenRatingDetails(){
+//               this.isModalVisible = true;
 
-   },
-    OpenDocRateModal(){
-              this.isRateDocVisable = true;
+//    },
+//     OpenDocRateModal(){
+//               this.isRateDocVisable = true;
 
-   },
-   AddComment(){
-
-
+//    },
+//    AddComment(){
 
 
 
-var issueTitle=document.getElementById("title").value
-var issueContent=document.getElementById("commentText").value
-const div = document.createElement('div');
-div.className="issueDiv"
-var status="New"
-var views="1"
-var date=new Date()
-//debug purpose for comment filter
-if((this.lastIssueNumber+1)%2==0){
-    status="Old"
+
+
+// var issueTitle=document.getElementById("title").value
+// var issueContent=document.getElementById("commentText").value
+// const div = document.createElement('div');
+// div.className="issueDiv"
+// var status="New"
+// var views="1"
+// var date=new Date()
+// //debug purpose for comment filter
+// if((this.lastIssueNumber+1)%2==0){
+//     status="Old"
   
-}
-if((this.lastIssueNumber+1)%3==0){
-    views="134"
+// }
+// if((this.lastIssueNumber+1)%3==0){
+//     views="134"
   
-}
-if((this.lastIssueNumber+1)%5==0){
-     date=new Date(2015, 4, 2, 13, 45, 0, 0)
+// }
+// if((this.lastIssueNumber+1)%5==0){
+//      date=new Date(2015, 4, 2, 13, 45, 0, 0)
    
-}
+// }
 /*
 this.$refs.issues.appendChild(div);
  var comp= createApp(Issue,{title:issueTitle,
@@ -234,23 +237,23 @@ this.$refs.issues.appendChild(div);
 
   */
 
-     var ComponentClass = Vue.extend(Issue)
-      var newIssue = new ComponentClass({
-    propsData: {title:issueTitle,
-                    content:issueContent,
-                    Publishdate:date.getHours().toString()+":"+date.getMinutes().toString(),
-                    issueNumber:this.lastIssueNumber,
-                    currentviews:views,
-                    status:status
+//      var ComponentClass = Vue.extend(Issue)
+//       var newIssue = new ComponentClass({
+//     propsData: {title:issueTitle,
+//                     content:issueContent,
+//                     Publishdate:date.getHours().toString()+":"+date.getMinutes().toString(),
+//                     issueNumber:this.lastIssueNumber,
+//                     currentviews:views,
+//                     status:status
 
-    }})
-        newIssue.$mount() // pass nothing
-        this.$refs.issues.appendChild(newIssue.$el)
+//     }})
+//         newIssue.$mount() // pass nothing
+//         this.$refs.issues.appendChild(newIssue.$el)
               
- }
+//  }
 
+//  }
  }
-}
 </script>
 <style>
  

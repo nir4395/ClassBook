@@ -3,11 +3,11 @@
         <div style="padding:2%;height:30%;width:100%">
 
             <div style="width:30%;float:left;height:100%">
-                <img src="../assets/user2.png" style="float: left;
+                <!-- <img src="../assets/user2.png" style="float: left;
     height: 40px;
     width: 40px;
     background: white;
-    border-radius: 54%;"/>
+    border-radius: 54%;"/> -->
        <span style="height:100%;width: 40%;float: left" >Ben Cohen</span> 
        <span style="width:40%;float:left">{{ Publishdate}}</span>    
              <span style="width:40%;float:left">{{ currentviews}}</span> 
