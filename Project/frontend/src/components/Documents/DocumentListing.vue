@@ -1,4 +1,5 @@
 <template>
+
   <v-container>
    <v-toolbar
       color="blue"
@@ -84,7 +85,9 @@
     >
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
+
       <v-toolbar-title>{{name}} - Exams  </v-toolbar-title>
+
 
       <v-spacer></v-spacer>
 
@@ -103,6 +106,7 @@
         active-class="pink--text"
         multiple
       >
+
         <template v-for="(doc, index) in docs">
           <v-list-item width="1000px" :key="doc.id">
             <template >
@@ -141,7 +145,6 @@
                <v-icon  @click="goToDocument()" cursor="pointer">open_in_new</v-icon>
            
 
-          
               </v-list-item-action>
             </template>
           </v-list-item>
@@ -153,6 +156,7 @@
         </template>
       </v-list-item-group>
     </v-list>
+
   </v-card> -->
 
 </template>
@@ -161,8 +165,10 @@ import axios from 'axios'
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
 axios.defaults.xsrfCookieName = "csrftoken";
 
+
   export default {
     props:['docs','name','cat'],
+
       methods:{
         
         goToDocument(){
@@ -192,6 +198,7 @@ axios.defaults.xsrfCookieName = "csrftoken";
       },
       created() {
         this.showDocumentsSelectionData()
+
     console.log('Component has been created!')
       },
   
@@ -212,6 +219,6 @@ axios.defaults.xsrfCookieName = "csrftoken";
         z:4444
       }
     }
-  
+
   }
 </script>

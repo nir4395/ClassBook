@@ -1,7 +1,8 @@
 
 <template>
-  <!-- <div class="mainDocumentDiv">
-       <img class="previewImg" src="../assets/doc.png" >
+  <div class="mainDocumentDiv">
+       <!-- <img class="previewImg" src="../assets/doc.png" >
+
         <div style="font-size:55px" class="jumbotron jumbotron-fluid">Document Preview
                
 
@@ -83,37 +84,26 @@
        </div>
        
        <div style="height:20%;width:100%;">
-           <DocsViewer></DocsViewer> -->
-       <!-- </div> --> 
-       <div>
-            <v-rating
-  empty-icon="$mdiStarOutline"
-  full-icon="$mdiStar"
-  half-icon="$mdiStarHalfFull"
-  half-increments
-  hover
-  length="4"
-  size="57"
-  value="4.5"
-></v-rating>
-            <CommentsSection></CommentsSection>
-             <v-btn>
-        <v-icon>chat</v-icon>
-    </v-btn>
-    ...
-       </div>
-   
-  <!-- </div> -->
+            <DocsViewer></DocsViewer>
+        </div> -->
+       
+      <PDFJSViewer :path="`${path}`" :fileName="`${name}`"/>
+      <CommentsSection></CommentsSection>
+  </div>
+
   
 </template>
 <script>
 //  import Issue from '../components/Comments/Issue.vue'
 // import RankModal from '../components/Documents/RankModal.vue'
-// // import DocsViewer from '../components/Documents/DocsViewer.vue'
+// import DocsViewer from '../components/Documents/DocsViewer.vue'
+
 // import Modal from '../components/Modal.vue'
 import CommentsSection from '../components/Comments/CommentsSection.vue'
 // import { createApp,defineComponent } from 'vue'
 //  import Vue from 'vue'
+import PDFJSViewer from '../components/PDFJSViewer.vue'
+
 
 
 
@@ -122,23 +112,29 @@ export default {
   //  DocsViewer,
    CommentsSection,
 
-    // // Issue,
+    // Issue,
     // RankModal,
     // Modal
+    PDFJSViewer
+
  },
  
 
-//  data(){
-//    return{
-//         urlImg:'book.jpg',
-//         issues:[],
-//          VIEWS_FILTER:10,
-//         lastIssueNumber:1,
-//        isModalVisible: false,
-//        isRateDocVisable:false
-//    }
-//  },
-//  methods:{
+ data(){
+   return{
+        urlImg:'book.jpg',
+        issues:[],
+         VIEWS_FILTER:10,
+        lastIssueNumber:1,
+       isModalVisible: false,
+       isRateDocVisable:false,
+        name: 'compressed.tracemonkey-pldi-09.pdf', //change which pdf file loads
+      path: '../public/lib/pdfjs-2.9.359-dist/web/viewer.html' //path of the PDF.js viewer.html
+   }
+
+ },
+ 
+
 
 //    showOAllIssues(){
 //       this.issues.forEach(x=>{
@@ -221,13 +217,14 @@ export default {
 
 
 
-// var issueTitle=document.getElementById("title").value
-// var issueContent=document.getElementById("commentText").value
+// // var issueTitle=document.getElementById("title").value
+// // var issueContent=document.getElementById("commentText").value
 // const div = document.createElement('div');
 // div.className="issueDiv"
-// var status="New"
-// var views="1"
-// var date=new Date()
+// // var status="New"
+// // var views="1"
+// // var date=new Date()
+
 // //debug purpose for comment filter
 // if((this.lastIssueNumber+1)%2==0){
 //     status="Old"
@@ -241,31 +238,32 @@ export default {
 //      date=new Date(2015, 4, 2, 13, 45, 0, 0)
    
 // }
-/*
-this.$refs.issues.appendChild(div);
- var comp= createApp(Issue,{title:issueTitle,
-                    content:issueContent,
-                    Publishdate:date,
-                    issueNumber:this.lastIssueNumber,
-                    currentviews:views,
-                    status:status}).mount(div)
-  this.lastIssueNumber=this.lastIssueNumber+1
-  this.issues.push(comp)
-
-  */
-
-//      var ComponentClass = Vue.extend(Issue)
-//       var newIssue = new ComponentClass({
-//     propsData: {title:issueTitle,
+// /*
+// this.$refs.issues.appendChild(div);
+//  var comp= createApp(Issue,{title:issueTitle,
 //                     content:issueContent,
-//                     Publishdate:date.getHours().toString()+":"+date.getMinutes().toString(),
+//                     Publishdate:date,
 //                     issueNumber:this.lastIssueNumber,
 //                     currentviews:views,
-//                     status:status
+//                     status:status}).mount(div)
+//   this.lastIssueNumber=this.lastIssueNumber+1
+//   this.issues.push(comp)
 
-//     }})
-//         newIssue.$mount() // pass nothing
-//         this.$refs.issues.appendChild(newIssue.$el)
+//   */
+
+//     //  var ComponentClass = Vue.extend(Issue)
+//     //   var newIssue = new ComponentClass({
+//     // propsData: {title:issueTitle,
+//     //                 content:issueContent,
+//     //                 Publishdate:date.getHours().toString()+":"+date.getMinutes().toString(),
+//     //                 issueNumber:this.lastIssueNumber,
+//     //                 currentviews:views,
+//     //                 status:status
+
+//     // }})
+//     //     newIssue.$mount() // pass nothing
+//     //     this.$refs.issues.appendChild(newIssue.$el)
+
               
 //  }
 
@@ -285,8 +283,13 @@ this.$refs.issues.appendChild(div);
    
 }
   .mainDocumentDiv{
-    width:2000px;
-    height:1000px;
+    display: flex;
+   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  /* height: 79vh; */
+  min-width: 250px;
   }
   .documentArea{
   

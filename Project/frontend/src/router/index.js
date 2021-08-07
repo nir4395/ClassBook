@@ -7,8 +7,10 @@ import Catergories from '../views/Catergories.vue'
 import Login from '../views/Login.vue'
 import SignUp from '../views/SignUp.vue'
 import CoursesSelection from '../views/CoursesSelection.vue'
+
 import CourseCategorySelection from '../views/CourseCategorySelection.vue'
 import MyCourses from '../views/MyCourses.vue'
+
 // import SchoolSelection from '../views/SchoolSelection.vue'
 Vue.use(VueRouter)
 
@@ -57,6 +59,7 @@ const routes = [
     component: DocumentSelection
   },
   {
+
     path: '/mycourses',
     name: 'MyCourses',
     component: MyCourses

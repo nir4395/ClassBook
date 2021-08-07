@@ -1,6 +1,8 @@
 <template>
    <v-container class="my-5">
+
       {{courses}}
+
       <v-card v-for="course in courses" :key="course.name">
         <v-layout row wrap class="pa-6">
           <!-- <v-flex xs4 sm4 md2 d-flex>
@@ -27,6 +29,7 @@
             <div>{{ course.school }}</div>
           </v-flex>
             <v-flex xs3 sm2 md2>
+
                 <v-icon @click="navToCourseCategorySelection(course.name,course.id)" style="margin-top:4px;font-size:40px">find_in_page</v-icon>
           </v-flex>
            <v-flex xs2 sm2 md2>
@@ -43,6 +46,7 @@
 // courses should be an array of { name: , lecturer: , rank: , courseStage: , school:}
 <script>
 export default {
+
     props: ['courses'],
     methods:{
          navToCourseCategorySelection(nameOfCourse,id){
@@ -51,6 +55,7 @@ export default {
     },
      
     }
+
    
 }
 </script>

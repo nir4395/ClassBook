@@ -1,11 +1,13 @@
 <template>
     <div>
         <div style="width:100%;height:40%">
+
               <!-- {{name}} -->
                    <FiltersBar></FiltersBar>
         </div>
     
         <div  style="width:100%;height:500px ">
+
             <DocumentListing :cat="cat" :name="name"  :docs="docsInfo"></DocumentListing>
         </div>
        
@@ -23,6 +25,7 @@
 import FiltersBar from '../components/Documents/FiltersBar.vue'
 import UploadModal from '../components/Documents/UploadModal.vue'
 export default {
+
     data(){
         return{
             id:this.$route.params.courseID,
@@ -41,6 +44,7 @@ export default {
          DocumentListing,
         UploadModal,FiltersBar
     },
+
     created(){
         var url='http://localhost:8000/course/get/course_id='+this.id+'/cat='+this.cat
         

@@ -1,4 +1,5 @@
 <template>
+
  <v-container fluid>
     <v-row align="center">
       <v-col cols="3">
@@ -68,6 +69,7 @@
     </v-row>
   </v-container>
 <!-- <div>
+
   <v-row justify="space-around">
     <v-col
       cols="12"
@@ -118,12 +120,15 @@
 
     </v-toolbar>
  
+
 </div> -->
+
   
   
   
 </template>
 <script>
+
   // export default {
   //   data: () => ({
   //     tags: [
