@@ -2,6 +2,7 @@
 <template>
   <div class="mainDocumentDiv">
        <!-- <img class="previewImg" src="../assets/doc.png" >
+
         <div style="font-size:55px" class="jumbotron jumbotron-fluid">Document Preview
                
 
@@ -89,17 +90,20 @@
       <PDFJSViewer :path="`${path}`" :fileName="`${name}`"/>
       <CommentsSection></CommentsSection>
   </div>
+
   
 </template>
 <script>
 //  import Issue from '../components/Comments/Issue.vue'
 // import RankModal from '../components/Documents/RankModal.vue'
 // import DocsViewer from '../components/Documents/DocsViewer.vue'
+
 // import Modal from '../components/Modal.vue'
 import CommentsSection from '../components/Comments/CommentsSection.vue'
 // import { createApp,defineComponent } from 'vue'
 //  import Vue from 'vue'
 import PDFJSViewer from '../components/PDFJSViewer.vue'
+
 
 
 
@@ -127,8 +131,10 @@ export default {
         name: 'compressed.tracemonkey-pldi-09.pdf', //change which pdf file loads
       path: '../public/lib/pdfjs-2.9.359-dist/web/viewer.html' //path of the PDF.js viewer.html
    }
+
  },
- methods:{
+ 
+
 
 //    showOAllIssues(){
 //       this.issues.forEach(x=>{
@@ -218,6 +224,7 @@ export default {
 // // var status="New"
 // // var views="1"
 // // var date=new Date()
+
 // //debug purpose for comment filter
 // if((this.lastIssueNumber+1)%2==0){
 //     status="Old"
@@ -256,11 +263,12 @@ export default {
 //     // }})
 //     //     newIssue.$mount() // pass nothing
 //     //     this.$refs.issues.appendChild(newIssue.$el)
+
               
 //  }
 
+//  }
  }
-}
 </script>
 <style>
  

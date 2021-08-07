@@ -1,5 +1,7 @@
 <template>
+
   <div class="mx-auto mainCommentSection">
+
     
     <div  class="outerissuesDiv">
       <div>
@@ -38,7 +40,9 @@
        <DocumentIssue :title="comment.title" :content="comment.content" :id="comment.id" :author="comment.author" :img="comment.profile"></DocumentIssue>
     </div>
 
+
             <div  ref="avc" style="margin-top:5px;padding:5px" class="mx-auto" ><p style="border:none;background-color:white;font-size:16px;font-weight:bold">Add a new issue</p></div>
+
 
         <AddIssueBox ref="issueBox"></AddIssueBox>
         <div  class="issuecontainerMenu"><button @click="addNewIssue()" style="width:200px;" class="submit button">Submit new Issue</button></div>
@@ -109,7 +113,9 @@ export default {
                    
     }}
             )
-            // newDocumentIssue.$el["id"]="issue"+this.LastissueID.toString()
+
+            //newDocumentIssue.$el["id"]="issue"+this.LastissueID.toString()
+
         newDocumentIssue.$mount() // pass nothing
         this.$refs['issues'].appendChild(newDocumentIssue.$el)
    }
@@ -118,10 +124,12 @@ export default {
 </script>
 <style scoped>
 
+
 .mainCommentSection{
   display: block;
  margin-top:10%;
 }
+
 .fildiv{
  float:left;border: 1px solid black;margin-left:20px;margin-top:20px;
 }
@@ -143,7 +151,9 @@ export default {
     border: 1px solid #1c1d1f;
 }
 .outerissuesDiv{
+
   /* width: 1500px; */
+
     padding: 0 159px;
 }
 .sectionissues{
