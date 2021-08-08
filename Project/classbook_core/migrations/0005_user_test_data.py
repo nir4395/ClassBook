@@ -14,7 +14,10 @@ class Migration(migrations.Migration):
             ("Leon", "Rabinovich", "leon123", "Leon@mta.ac.il", "Password1"),
             ("Guy", "Ronen", "guyno1", "guy_r@mta.ac.il", "password123"),
             ("Boaz", "Cohen", "boaz77", "boaz@mta.ac.il", "password123"),
-            ("Elinor", "Lutzski", "el4hjsda", "ellanor@mta.ac.il", "User4Password"),
+            ("Maya", "Shabtay", "maya", "maya@mta.ac.il", "password3"),
+            ("Ziv", "Kramer", "zivkr", "zvk@mta.ac.il", "password567"),
+            ("Elinor", "Lutzski", "el4hjsda", "ellanor@mta.ac.il", "password054"),
+            ("Israel", "Katz", "israelkatz", "isrkatz@mta.ac.il", "pass1234"),
         ]
 
         with transaction.atomic():
