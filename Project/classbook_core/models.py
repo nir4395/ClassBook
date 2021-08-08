@@ -9,13 +9,13 @@ from django.dispatch import receiver
 class Institution(models.Model):
     name = models.CharField(max_length=300)
     student_count = models.IntegerField(validators=[MinValueValidator(0)])
-    accademic_email_suffix = models.CharField(max_length=100)
+    academic_email_suffix = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
     @staticmethod
-    def get_accademic_instituion_choices():
+    def get_academic_instituion_choices():
         return Institution.objects.all().values('institution_id', 'name')
 
 
@@ -71,7 +71,7 @@ class Course(models.Model):
 class Document(models.Model):
     name = models.CharField(max_length=300)
     doc_type = models.CharField(max_length=10) # pdf, jpg, txt, cpp, cs, etc
-    author = models.ForeignKey('Profile', on_delete=models.CASCADE, related_name='%(class)s_authers')
+    author = models.ForeignKey('Profile', on_delete=models.CASCADE, related_name='%(class)s_authors')
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     category = models.CharField(max_length=300) # Exam, Notes, Homework Solutions etc
     view_count = models.IntegerField(validators=[MinValueValidator(0)], default=0)
@@ -91,7 +91,7 @@ class Document(models.Model):
 
 class Comment(models.Model):
     associated_document = models.ForeignKey(Document, on_delete=CASCADE)
-    auther = models.ForeignKey(Profile, on_delete=CASCADE)
+    author = models.ForeignKey(Profile, on_delete=CASCADE)
     content = models.TextField(max_length=500, validators=[MinValueValidator(1)])
     publish_date = models.DateField(auto_now_add=True)
     replied_to_comment = models.OneToOneField('Comment', null=True, on_delete=CASCADE)

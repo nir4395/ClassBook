@@ -12,17 +12,18 @@ class Migration(migrations.Migration):
     def generate_course_test_data(apps, schema_editor):
 
         MTA_INSTITUTION = Institution.objects.get(name='Academic College of TLV')
-        COMPUTERSIENCE_DEGREE = AcademicDegree.objects.get(name='Computer Science')
+        COMPUTERSCIENCE_DEGREE = AcademicDegree.objects.get(name='Computer Science')
 
         course_test_data = [
-            ("Introduction to CS", MTA_INSTITUTION, COMPUTERSIENCE_DEGREE, Year_Code.FIRST),
-            ("Calculus 1", MTA_INSTITUTION, COMPUTERSIENCE_DEGREE, Year_Code.FIRST),
-            ("Linear Algebra 2", MTA_INSTITUTION, COMPUTERSIENCE_DEGREE, Year_Code.SECOND),
-            ("Algorithms", MTA_INSTITUTION, COMPUTERSIENCE_DEGREE, Year_Code.SECOND),
-            ("Operating Systems", MTA_INSTITUTION, COMPUTERSIENCE_DEGREE, Year_Code.THIRD),
-            ("C# and .NET Programming", MTA_INSTITUTION, COMPUTERSIENCE_DEGREE, Year_Code.OPTIONAL),
-            ("Ethics, Technology and Law", MTA_INSTITUTION, COMPUTERSIENCE_DEGREE, Year_Code.OPTIONAL),
-
+            ("Introduction to CS", MTA_INSTITUTION, COMPUTERSCIENCE_DEGREE, Year_Code.FIRST),
+            ("Calculus 1", MTA_INSTITUTION, COMPUTERSCIENCE_DEGREE, Year_Code.FIRST),
+            ("Linear Algebra 2", MTA_INSTITUTION, COMPUTERSCIENCE_DEGREE, Year_Code.SECOND),
+            ("Algorithms", MTA_INSTITUTION, COMPUTERSCIENCE_DEGREE, Year_Code.SECOND),
+            ("Operating Systems", MTA_INSTITUTION, COMPUTERSCIENCE_DEGREE, Year_Code.THIRD),
+            ("Complexity", MTA_INSTITUTION, COMPUTERSCIENCE_DEGREE, Year_Code.THIRD),
+            ("C# and .NET Programming", MTA_INSTITUTION, COMPUTERSCIENCE_DEGREE, Year_Code.OPTIONAL),
+            ("Ethics, Technology and Law", MTA_INSTITUTION, COMPUTERSCIENCE_DEGREE, Year_Code.OPTIONAL),
+            ("Functional Programming", MTA_INSTITUTION, COMPUTERSCIENCE_DEGREE, Year_Code.OPTIONAL),
         ]
 
         with transaction.atomic():

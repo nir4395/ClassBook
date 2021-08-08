@@ -11,15 +11,15 @@ class Migration(migrations.Migration):
     def generate_supported_institutions_data(apps, schema_editor):
         supported_institutions = [
           
-          # institution_name, student_count, accademic_email_suffix
-            ('Academic College of TLV', 0, '@mail.tau.ac.il'),
+          # institution_name, student_count, academic_email_suffix
+            ('Academic College of TLV', 0, '@mta.ac.il'),
             ('TLV University', 0, '@mail.tau.ac.il'),
             ('Technion', 0, '@mail.tau.ac.il'),
             ('University Of Haifa', 0, '@mail.tau.ac.il'),
             ('Bar Ilan University', 0, '@mail.tau.ac.il'),
             ('Ariel University', 0, '@mail.tau.ac.il'),
-            ('Hebrew University of Jersulam', 0, '@mail.tau.ac.il'),
-            ('IDC Harezlia', 0, '@mail.tau.ac.il'),
+            ('Hebrew University of Jerusalem', 0, '@mail.tau.ac.il'),
+            ('IDC Herzelia', 0, '@mail.tau.ac.il'),
             ('Afeka College ', 0, '@mail.tau.ac.il'),
             ('HIT', 0, '@mail.tau.ac.il'),
             ('Shenkar College', 0, '@mail.tau.ac.il'),
@@ -27,8 +27,8 @@ class Migration(migrations.Migration):
         ]
 
         with transaction.atomic():
-            for institution_name, student_count, accademic_email_suffix in supported_institutions:
-                Institution(name=institution_name, student_count=student_count, accademic_email_suffix=accademic_email_suffix).save()
+            for institution_name, student_count, academic_email_suffix in supported_institutions:
+                Institution(name=institution_name, student_count=student_count, academic_email_suffix=academic_email_suffix).save()
 
                 
     operations = [
