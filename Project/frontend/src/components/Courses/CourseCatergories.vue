@@ -1,0 +1,28 @@
+<template>
+    <v-container>
+     
+<v-card width="500px" v-for="category in courseCategories.categories" :key="category"
+  elevation="24"
+  outlined
+  shaped
+  tile
+>
+<v-card-title>{{ category }}</v-card-title>
+<v-card-subtitle> Browse Documents<v-icon  @click="gotoDocuments(category)" color="blue">description</v-icon></v-card-subtitle>
+</v-card>
+</v-container>
+
+
+
+</template>
+<script>
+
+export default {
+    props:['courseCategories','name','id'],
+    methods:{
+            gotoDocuments(categroy){
+                    return this.$router.push({ name: 'DocumentSelection', params: { cat:categroy,courseName:this.name, courseID: this.id } })
+            }
+    }
+}
+</script>

@@ -9,7 +9,7 @@
                     <h3 class="title">{{name}}</h3>
                 </div>
                  <div class="routeDiv"><router-link class="route"  to="/"></router-link> </div>
-                <img  style="cursor:pointer" height="200" width="200"  @click="NavToPage()" :src="require(`@/assets/${img}`)">
+                <img  style="cursor:pointer" height="200" width="200"   :src="require(`@/assets/${img}`)">
 
 
                  
@@ -23,7 +23,7 @@ export default {
     props:['name','img','href'],
     methods:{
             NavToPage(){
-                  return this.$router.push('/schoolCourseNav');
+                  return this.$router.push('/nav');
             }
     }
 }

@@ -39,7 +39,6 @@
 </template>
 
 <script>
-
 export default {
   data() {
     
@@ -48,15 +47,17 @@ export default {
       links: [
         { icon: 'home', text: 'Home', route: '/' },
         { icon: 'school', text: 'Schools', route: '/schools' },
-        { icon: 'picture_as_pdf', text: 'Documents', route: '/doc' },
+        // { icon: 'picture_as_pdf', text: 'Documents', route: '/doc' },
         { icon: 'login', text: 'Login', route: '/login' },
-          { icon: 'find_in_page', text: 'Document Selection', route: '/selection' },
+           { icon: 'school', text: 'My Courses', route: '/mycourses' },
+          // { icon: 'find_in_page', text: 'Document Selection', route: '/selection' },
           { icon: 'login', text: 'Sign Up', route: '/signup' },
-          { icon: 'school', text: 'Categories', route: '/nav' },
+
+           { icon: 'person', text: 'Profile', route: '/signup' },
+          // { icon: 'school', text: 'Categories', route: '/nav' },
 
           
           
-
         
       ]
     }
