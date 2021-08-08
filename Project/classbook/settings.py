@@ -18,6 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STORAGE_DIR = os.path.join(BASE_DIR, 'storage')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
