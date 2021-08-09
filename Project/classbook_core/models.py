@@ -16,7 +16,7 @@ class Institution(models.Model):
 
     @staticmethod
     def get_academic_instituion_choices():
-        return Institution.objects.all().values('institution_id', 'name')
+        return list(Institution.objects.all().values_list('id','name'))
 
 
 class AcademicDegree(models.Model):
