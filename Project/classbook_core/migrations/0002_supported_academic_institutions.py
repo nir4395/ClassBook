@@ -12,18 +12,18 @@ class Migration(migrations.Migration):
         supported_institutions = [
           
           # institution_name, student_count, academic_email_suffix
-            ('Academic College of TLV', 0, '@mta.ac.il'),
-            ('TLV University', 0, '@mail.tau.ac.il'),
-            ('Technion', 0, '@mail.tau.ac.il'),
-            ('University Of Haifa', 0, '@mail.tau.ac.il'),
-            ('Bar Ilan University', 0, '@mail.tau.ac.il'),
-            ('Ariel University', 0, '@mail.tau.ac.il'),
-            ('Hebrew University of Jerusalem', 0, '@mail.tau.ac.il'),
-            ('IDC Herzelia', 0, '@mail.tau.ac.il'),
-            ('Afeka College ', 0, '@mail.tau.ac.il'),
-            ('HIT', 0, '@mail.tau.ac.il'),
-            ('Shenkar College', 0, '@mail.tau.ac.il'),
-            ('Sami Shamoon College', 0, '@mail.tau.ac.il'),
+            ('Academic College of TLV',         0, '@mta.ac.il'),
+            ('TLV University',                  0, '@mail.tau.ac.il'),
+            ('Technion',                        0, '@cs.technion.ac.il'),
+            ('University Of Haifa',             0, '@haifa.ac.il'),
+            ('Bar Ilan University',             0, '@biu.ac.il'),
+            ('Ariel University',                0, '@ariel.ac.il'),
+            ('Hebrew University of Jerusalem',  0, '@mail.huji.ac.il'),
+            ('IDC Herzelia',                    0, '@idc.ac.il'),
+            ('Afeka College',                   0, '@afeka.ac.il'),
+            ('HIT',                             0, '@hit.ac.il'),
+            ('Shenkar College',                 0, '@shenkar.ac.il'),
+            ('Sami Shamoon College',            0, '@sce.ac.il'),
         ]
 
         with transaction.atomic():
