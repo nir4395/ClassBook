@@ -44,6 +44,18 @@
           single-line
         ></v-select>
       </v-col>
+       <v-col cols="2">
+        <v-select @change="ApplyFilters($event)"
+        
+          :items="filters"
+          item-text="state"
+          item-value="abbr"
+          label="Show Only"
+          persistent-hint
+          return-object
+          single-line
+        ></v-select>
+      </v-col>
      
     </v-row>
     <v-row>
@@ -63,7 +75,6 @@
         label="Search Documents In This course"
         single-line
       ><v-icon>magnify</v-icon></v-text-field>
- <iframe height="100%" width=100% src="http://mozilla.github.io/pdf.js/web/viewer.html" ></iframe>
     </v-toolbar>
       </v-col>
     </v-row>
@@ -155,6 +166,12 @@
           { state: 'Ranking Low to High'},
           
         ],
+        filters: [
+          { state: ' 10 Highest ranked'},
+          { state: ' 10  Most viewed'},
+           { state: '10  Lastest uploaded'},
+          
+        ],
           itemsViews: [
           { state: 'Views High to Low' },
           { state: 'Views Low to High'},
@@ -167,6 +184,18 @@
         ],
       }
     },
+    methods:{
+        ApplyFilters(value){
+          var selected= value.state
+          console.log(selected)
+          if(selected===' 10 Highest ranked'){
+            //fire filter event for top ranked
+            console.log("going to fire event!!!!")
+            this.$emit('showOnlyHighesrRanked');
+          }
+
+        }
+    }
   }
 
 </script>
