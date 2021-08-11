@@ -51,7 +51,7 @@ export default {
         { icon: 'login', text: 'Login', route: '/login' },
            { icon: 'school', text: 'My Courses', route: '/mycourses' },
           // { icon: 'find_in_page', text: 'Document Selection', route: '/selection' },
-          { icon: 'login', text: 'Sign Up', route: '/signup' },
+          { icon: 'doc', text: 'Documents', route: '/doc' },
 
            { icon: 'person', text: 'Profile', route: '/signup' },
           // { icon: 'school', text: 'Categories', route: '/nav' },
