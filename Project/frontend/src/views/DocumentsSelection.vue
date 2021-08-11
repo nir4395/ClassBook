@@ -3,19 +3,19 @@
         <div style="width:100%;height:40%">
 
               <!-- {{name}} -->
-                   <FiltersBar @showOnlyHighesrRanked="FilterData()"></FiltersBar>
+                   <FiltersBar  :enuMSrt="sort"  @showOnlyHighesrRanked="FilterData()"></FiltersBar>
         </div>
     
         <div  style="width:100%;height:500px ">
 
-            <DocumentListing ref="docListing" :cat="cat" :name="name"  :docs="exampleDocs"></DocumentListing>
+            <DocumentListing ref="docListing" :cat="cat" :name="name"  :docs="docsInfo"></DocumentListing>
         </div>
        
        
         <!-- <v-divider></v-divider> -->
          <!-- <DocumentListing></DocumentListing> -->
            <!-- <v-divider></v-divider> -->
-         <UploadModal></UploadModal>
+         <UploadModal :id="id"></UploadModal>
        
     </div>
   
@@ -34,22 +34,19 @@ export default {
              name:this.$route.params.courseName,
              cat:this.$route.params.cat,
              //filteredDocs:'',
-             exampleDocs:[{"id": 2, "name": "Homework_3", "doc_type": "pdf", "author_id": 2, "course_id": 2, "category": "homework", "view_count": 3, "rating": 5.0, "upload_date": "2021-08-08"},
-                          {"id": 3, "name": "Homework_5", "doc_type": "pdf", "author_id": 2, "course_id": 2, "category": "homework", "view_count": 32, "rating": 3.0, "upload_date": "2021-08-08"},
-                          {"id": 3, "name": "Homework_5", "doc_type": "pdf", "author_id": 2, "course_id": 2, "category": "homework", "view_count": 4, "rating": 3.0, "upload_date": "2021-08-08"},
-                          {"id": 2, "name": "Homework_3", "doc_type": "pdf", "author_id": 2, "course_id": 2, "category": "homework", "view_count": 1239, "rating": 5.0, "upload_date": "2021-08-08"},
-                          {"id": 3, "name": "Homework_5", "doc_type": "pdf", "author_id": 2, "course_id": 2, "category": "homework", "view_count": 23423, "rating": 5.0, "upload_date": "2021-08-08"},
-                          {"id": 3, "name": "Homework_5", "doc_type": "pdf", "author_id": 2, "course_id": 2, "category": "homework", "view_count": 55, "rating": 2.0, "upload_date": "2021-08-08"},
-                          {"id": 2, "name": "Homework_3", "doc_type": "pdf", "author_id": 2, "course_id": 2, "category": "homework", "view_count": 12, "rating": 5.0, "upload_date": "2021-08-08"},
-                          {"id": 3, "name": "Homework_5", "doc_type": "pdf", "author_id": 2, "course_id": 2, "category": "homework", "view_count": 2344, "rating": 5.0, "upload_date": "2021-08-08"},
-                          {"id": 3, "name": "Homework_5", "doc_type": "pdf", "author_id": 2, "course_id": 2, "category": "homework", "view_count": 33, "rating": 5.0, "upload_date": "2021-08-08"},
-                          ],
+            //  exampleDocs:[{"id": 6, "name": "Summary", "doc_type": "pdf", "author_id": 4, "course_id": 3, "category": "summary", "view_count": 0, "rating": 5.0, "upload_date": "2021-08-08"}
+            //  ,{"id": 6, "name": "Summary", "doc_type": "pdf", "author_id": 4, "course_id": 3, "category": "summary", "view_count": 0, "rating": 2.0, "upload_date": "2021-08-08"},
+            //  {"id": 6, "name": "Summary", "doc_type": "pdf", "author_id": 4, "course_id": 3, "category": "summary", "view_count": 0, "rating": 3.0, "upload_date": "2021-08-08"},
+            //  {"id": 6, "name": "Summary", "doc_type": "pdf", "author_id": 4, "course_id": 3, "category": "summary", "view_count": 0, "rating": 3.0, "upload_date": "2021-08-08"}],
              docsInfo:'',
-             ddddd:''
+             ddddd:'',
+             sort:{UP:1,DOWN:0}
+
         }
     },
     methods:{
         getDocs(){
+            
             return this.docs
         },
         //numeric sorter for a given array of docuemnt JSON array, iterates the obejct and sorts acording to given key
@@ -67,7 +64,7 @@ export default {
                     }
             }
             //update the proprety with the filtered infomartion
-            this.sortData(filteredDocs,'view_count')
+            this.sortData(filteredDocs,'rating')
             this.exampleDocs=filteredDocs
             //this.$refs['docListing'].$props["docs"]=filteredDocs
         }

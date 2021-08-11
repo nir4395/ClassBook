@@ -1,6 +1,6 @@
 <template>
 <div>
-      <div style="font-weight:bold;font-size:24px;text-align:center;width:1000px">{{name}} - Docuemnts Catergories</div>
+      <div  class="mx-auto" style="font-weight:bold;font-size:24px;text-align:center;width:1000px">{{name}} - Docuemnts Catergories</div>
     <CourseCatergories :name="name"  :id="id" :courseCategories="courseCategoriesInfo"></CourseCatergories>
 </div>
   
