@@ -36,12 +36,12 @@
         no-gutters
         style="height: 150px;"
       >
-        <v-col>
+        <!-- <v-col>
          <v-btn color="yellow">Sign Up</v-btn>
         </v-col>
          <v-col>
-         <v-btn>Login</v-btn>
-        </v-col>
+         <v-btn @click="SendLogin()">Login</v-btn>
+        </v-col> -->
       </v-row>
     </v-container>
                
@@ -62,42 +62,32 @@ axios.defaults.xsrfCookieName = "csrftoken";
     data(){
       return{
         resp:"",
-        image: require("../assets/back3.png")
       }
         
     },
     components: {
     },
     methods:{
-      GoTosignUp(){
-        axios.get('http://localhost:8000/users/sign_up/')
-            .then(function( response ){
-                this.resp = response.data
-            }.bind(this));
-      console.log("1233")
-       console.log(this.resp)
+      SendLogin(){
+           var url='http://localhost:8000/users/sign_in/'
+           let headers={
+             Cookie:" csrftoken=FDGChyFNudqJBm8Rdg5KkNaHdDpZVlUZN8LngUuN3HOUzCsQlZFmrTDJjZfkxlpy; sessionid=cwpu1ygr0wb8fniktiowhn60oo7pepuw"
+
+           }
+           
+            var bodyFormData = new FormData();
+              bodyFormData.append('username', 'guyno1');
+              bodyFormData.append('password', 'password123');
+        
+        this.$http.post(url,bodyFormData,headers).then(response => (console.log(response.data)))
+      
       
       },
-      sendPostToSignIn(){
-        let headers = {
-         "X-CSRFToken": axios.defaults.xsrfCookieName,
-         "Content-Type": "application/x-www-form-urlencoded"
-       }
-        axios
-    .post('http://localhost:8000/users/sign_in/', {
-      email : "test@gmail.com",
-      username : 'test',
-      password:'101duckontheroad',
-      csrfmiddlewaretoken : '{{ csrf_token }}'
-    },headers)
-    .then(response => (this.info = response.data))
-      }
+     
     }
   }
 </script>
 <style scoped>
-.mainDiv{
-   background-image: url("../assets/user2.png") no-repeat center center
-}
+
   
 </style>

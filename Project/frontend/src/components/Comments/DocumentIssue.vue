@@ -3,14 +3,18 @@
       <!--  inner container for issues -->
             <div class="innerIssuesContainer">
                 
-       
+                
                 <div class="issueDiv">
-                    <div><img class="issueIcon" height="36"  width="36" :src="require(`@/assets/${img}`)">  {{author}}</div>
+                     
+                    <div style="margin-left:10px;float:left"><img class="issueIcon" height="36"  width="36" :src="require(`@/assets/${img}`)">  {{author}}
+                 
+                    </div>
+                  
                     <div  :id="issueID" class="innerIssueDiv">
                       <div class="innerIssueDivData">
                         <div class="contentissueDiv"><h4 class="issueDivText">
                            
-                                {{title}}
+                                {{title}} 
                           
                             </h4>
                              <div class="issueContent"> {{content}} </div>
@@ -18,12 +22,13 @@
                            
                         <div class="ratingDivIssue">
                             <div class="ratings">
-                                <div class="ratingValue">{{rating}}</div>
+                                <div class="ratingValue">{{rate}}</div>
                                 <span class="gapSpan"></span>
                                 <button class="btn starUnMarked"><img  height="20px" width="20px" src="https://img.icons8.com/fluency/48/000000/star.png"/></button>
                             </div>
+                            
                              <div class="ratings">
-                                <div  style="margin-right: 4px; padding: 2px;" class="ratingValue">{{comments}}</div>
+                                <div  style="margin-right: 4px; padding: 2px;" class="ratingValue">{{coms}}</div>
                                 <!-- <span class="gapSpan"></span> -->
                                
                                 <button  style="background-color:white;border:none;margin-right:3px;" :id="commentsID" class="commentsOnIt"  @click="openReplies()">
@@ -32,6 +37,7 @@
                                      <!-- <v-icon>chat</v-icon> -->
                                 </button>
                             </div>
+                              <div style="margin-top:4px;float:left" class="mx-auto">{{givenDate}}</div>
                         </div>
                      </div>
                     
@@ -68,13 +74,17 @@ export default {
    return{
        //to be changed later
        replyAuthor:"Yossi Levy",
-       imgReply:'pic6.jpg',
+       imgReply:'userProfiles/pic6.jpg',
        issueID:"mainIssue"+this.id.toString(),
        commentsID:"comButton"+this.id.toString(),
        replyInputID:"inputReply"+this.id.toString(),
        comments:0,
        rating : 0,
        isCommentsShown:false,
+       givenDate:this.date.getDay().toString()+"/"+
+                this.date.getMonth().toString()+"/"+
+                this.date.getFullYear().toString()+"  "+
+                this.date.getHours().toString()+":"+  this.date.getMinutes().toString(),
     //    header: "This Docuement is shit",
     //    author:"Dan Segev",
     //    date:"23.5.2021",
