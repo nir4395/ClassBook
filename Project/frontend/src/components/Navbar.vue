@@ -73,16 +73,11 @@ export default {
         { icon: 'school', text: 'Schools', route: '/schools' },
         // { icon: 'picture_as_pdf', text: 'Documents', route: '/doc' },
         // { icon: 'login', text: 'Login', route: '/login' },
-           { icon: 'school', text: 'My Courses', route: '/mycourses' },
-          // { icon: 'find_in_page', text: 'Document Selection', route: '/selection' },
-          // { icon: 'doc', text: 'Documents', route: '/doc' },
-
-          //  { icon: 'person', text: 'Profile', route: '/signup' },
-          // { icon: 'school', text: 'Categories', route: '/nav' },
-
-          
-          
-        
+         { icon: 'school', text: 'My Courses', route: '/mycourses' },
+        // { icon: 'find_in_page', text: 'Document Selection', route: '/selection' },
+        // { icon: 'doc', text: 'Documents', route: '/doc' },
+         { icon: 'person', text: 'Profile', route: '/profile' },
+        // { icon: 'school', text: 'Categories', route: '/nav' },
       ]
     }
   }

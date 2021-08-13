@@ -11,10 +11,10 @@ from django.contrib import messages
 from django.http.response import FileResponse, JsonResponse, HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from classbook_core.models import Course, Document, Institution, Profile, User
+from classbook_core.models import Course, Document, Institution, Profile, Comment
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.files.storage import FileSystemStorage, default_storage
-from json import loads
+from json import loads, dumps
 from django.conf import settings
 
 import os
@@ -387,4 +387,44 @@ def courses_user_registered(request):
 
     except ValidationError:
         return HttpResponse("Error when trying to validate new DB record.")
-    
+
+
+@require_http_methods(["POST"])
+@csrf_exempt # Remove decorator after testing
+def add_new_comment_for_document(request):
+
+    # get the comment information from this dictionary
+    data_from_client_as_dictionary = loads(request.body) 
+
+    comment_author = request.user
+    comment_content = data_from_client_as_dictionary['comment_content']
+    comment_associated_document = data_from_client_as_dictionary['comment_associated_document']
+
+    # check if this comment is a reply to another comment
+    replied_to_comment_id = data_from_client_as_dictionary['replied_to_comment_id']
+    try:
+        replied_to_comment = Comment.objects.get(pk=replied_to_comment_id)
+    except Comment.DoesNotExist:
+        replied_to_comment = None
+
+    # save comment in the DB
+    Comment(associated_document = comment_associated_document,
+            author = comment_author,
+            content = comment_content,
+            replied_to_comment = replied_to_comment,
+        ).save()
+
+    return HttpResponse("Comment successfully saved in the DB")
+
+
+@require_http_methods(["GET"])
+@csrf_exempt # Remove decorator after testing
+def get_all_document_comments(request, doc_id):
+
+    try:
+        document = Document.objects.get(pk=doc_id)
+    except Document.DoesNotExist:
+        return JsonResponse('Document.DoesNotExist') # TODO: check if this is the correct way to return a django exception in Json format
+
+    # TODO: check that the format of the json comments works as needed with the frontend
+    return dumps(document.get_all_comments_as_list())
