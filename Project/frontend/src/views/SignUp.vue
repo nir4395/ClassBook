@@ -85,7 +85,7 @@
         </form>
         <div class="loginBoxImageBox">
           <!-- <img style="float:left" src='../assets/cover1.jpg'/> -->
-          <img style="height: 100%; width: 100%" src="../assets/cover1.jpg" />
+          <img style="height: 100%; width: 100%" src="../assets/Covers/cover1.jpg" />
         </div>
         <div></div>
       </div>

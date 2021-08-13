@@ -4,6 +4,7 @@
 ref="myVueDropzone"
 :useCustomSlot="true"
 id="dropzone"
+
 @vdropzone-upload-progress="uploadProgress"
 :options="dropzoneOptions"
 @vdropzone-file-added="fileAdded"
@@ -24,6 +25,7 @@ id="dropzone"
 import vue2Dropzone from 'vue2-dropzone';
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 export default {
+  props:['id'],
   name: 'App',
   components: {
     vueDropzone: vue2Dropzone
@@ -33,15 +35,25 @@ export default {
       dropzoneOptions: {
           url: 'https://httpbin.org/post',
           thumbnailWidth: 150,
-          maxFilesize: 0.5,
+          maxFiles: 1,
+          maxFilesize: 1,
           headers: { "My-Awesome-Header": "header value" }
       }
     }
   },
   methods:{
       accFiles(){
-        var x=this.$refs.myVueDropzone.getAcceptedFiles()
-        console.log(x)
+        var fileData=this.$refs.myVueDropzone.getAcceptedFiles()
+        console.log(fileData[0])
+        var idOfCourse=this.$props['id']
+        var bodyFormData = new FormData();
+        bodyFormData.append('file', fileData[0]);
+        bodyFormData.append('course_id', idOfCourse);
+        
+          var url='http://localhost:8000/course/upload_file/'
+        
+        this.$http.post(url,bodyFormData).then(response => (console.log(response.data))
+        )
       }
   }
 }

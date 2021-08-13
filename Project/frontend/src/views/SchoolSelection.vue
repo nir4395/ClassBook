@@ -3,35 +3,35 @@
     <h1></h1>
 
 
-        <div class="container">
-    <div  style="margin-top:50px;" class="row">
+        <div class="mx-auto">
+    <div   class="row mx-auto">
         <div @click="NavToPage(1)" class="col-md-3 col-sm-6">
-          <v-btn @click="showSchoolData()" color="blue">Show School Data</v-btn>
-            <SchoolBox   :name="name" img="coding.png"></SchoolBox>
-             
+           <SchoolBox  name="Computing" img="Instutitons/coding.jpg"></SchoolBox>
+              <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div>
-        <div @click="NavToPage(2)" class="col-md-3 col-sm-6">
-           <SchoolBox  name="Nursing" img="nurse.png"></SchoolBox>
+        <div class="col-md-3 col-sm-6">
+           <SchoolBox  name="Nursing" img="Instutitons/nursing.jpg"></SchoolBox>
               <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div>
           <div class="col-md-3 col-sm-6">
-           <SchoolBox  name="Economics And Managment" img="gdp.png"></SchoolBox>
+           <SchoolBox  name="Economics" img="Instutitons/economy.jpg"></SchoolBox>
               <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div>
     </div>
-    <div  style="margin-top:50px;" class="row">
+    <div  style="margin-top:50px;" class="row mx-auto">
         <div class="col-md-3 col-sm-6">
-            <SchoolBox  name="Informatics" img="analysis.png"></SchoolBox>
+            <SchoolBox  name="Informatics" img="Instutitons/datas.jpg"></SchoolBox>
              
         </div>
         <div class="col-md-3 col-sm-6">
-           <SchoolBox  name="Physcology" img="think.png"></SchoolBox>
+           <SchoolBox  name="Physcology" img="Instutitons/psyc.jpg"></SchoolBox>
               <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div>
           <div class="col-md-3 col-sm-6">
-           <SchoolBox  name="Political Science" img="politics.png"></SchoolBox>
+           <SchoolBox  name="Political Science" img="Instutitons/politics.jpg"></SchoolBox>
               <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div>
+        <!-- <div><v-btn @click="SendLogin()">GO BACK</v-btn></div> -->
     </div>
 </div>
 
@@ -55,6 +55,22 @@ export default {
 },
 methods:{
 
+
+   SendLogin(){
+           var url='http://localhost:8000/users/sign_in/'
+           let headers={
+             Cookie:" csrftoken=FDGChyFNudqJBm8Rdg5KkNaHdDpZVlUZN8LngUuN3HOUzCsQlZFmrTDJjZfkxlpy; sessionid=cwpu1ygr0wb8fniktiowhn60oo7pepuw"
+
+           }
+           
+            var bodyFormData = new FormData();
+              bodyFormData.append('username', 'guyno1');
+              bodyFormData.append('password', 'password123');
+        
+        this.$http.post(url,bodyFormData,headers).then(response => (console.log(response.data)))
+      
+      
+      },
   
   NavToPage(ins){
 

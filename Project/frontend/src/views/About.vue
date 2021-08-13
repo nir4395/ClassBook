@@ -31,6 +31,7 @@
            <SchoolBox  name="Political Science" img="politics.png"></SchoolBox>
               <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div>
+        <div><v-btn @click="SendLogin()">GO TO HOME PAGE</v-btn></div>
     </div>
 </div>
 
@@ -45,7 +46,9 @@ import SchoolBox from '../components/SelectSchools/SchoolBox.vue'
 export default {
   components:{
     SchoolBox
-  }
+  },
+ 
+  
 }
 </script>
 <style scoped>
