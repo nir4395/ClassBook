@@ -7,22 +7,22 @@
     <div  style="margin-top:50px;" class="row">
        
         <div @click="GoToCourses(1)" class="col-md-3 col-sm-6">
-           <SchoolBox  name="First Year Courses" img="math.png"></SchoolBox>
+           <SchoolBox  name="First Year Courses" img="Instutitons/maths.jpg"></SchoolBox>
               <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div >
-          <div @click="GoToCourses(2)"  class="col-md-3 col-sm-6">
-           <SchoolBox  name="Second Year Courses" img="memory.png"></SchoolBox>
+          <div @click="GoToCourses(2)" class="col-md-3 col-sm-6">
+           <SchoolBox    name="Second Year Courses" img="Instutitons/hardwere.jpg"></SchoolBox>
               <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div>
     </div>
     <div  style="margin-top:50px;" class="row">
      
-        <div class="col-md-3 col-sm-6">
-           <SchoolBox @click="GoToCourses(3)"  name="Third Year Courses" img="stor.png"></SchoolBox>
+        <div  @click="GoToCourses(3)"  class="col-md-3 col-sm-6">
+           <SchoolBox   name="Third Year Courses" img="Instutitons/computers2.jpg"></SchoolBox>
               <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div>
-          <div class="col-md-3 col-sm-6">
-           <SchoolBox  @click="GoToCourses(4)"  name="Selection Courses" img="mobile.png"></SchoolBox>
+          <div  @click="GoToCourses(10)"  class="col-md-3 col-sm-6">
+           <SchoolBox  name="Selection Courses" img="Instutitons/mobile.jpg"></SchoolBox>
               <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div>
     </div>
@@ -39,7 +39,8 @@ axios.defaults.xsrfCookieName = "csrftoken";
 export default {
     data(){
         return {
-
+          ins:this.$route.params.ins,
+         
             data:null
         }
         
@@ -49,9 +50,8 @@ export default {
   },
   
   methods:{
-    GoToCourses(category){
-      console.log("sdfsdfsd")
-           return this.$router.push({ name: 'CoursesSelection', params: { category: category } })
+    GoToCourses(year_code_param){
+           return this.$router.push({ name: 'CoursesSelection', params: { ins:this.ins, yearCode: year_code_param }})
     },
         getCatergories(){
                  let headers = {

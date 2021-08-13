@@ -26,21 +26,29 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',TemplateView.as_view(template_name='index.html'),name='index'),
     path('index',TemplateView.as_view(template_name='index.html'),name='index'),
-    # Sign-up \ Sign-in\ Sign-out URLs
+
+    # Users URLs
     path('users/sign_up/', views.sign_up, name='sign_up'),
     path('users/sign_in/', views.sign_in, name='sign_in'),
     # path('users/sign_out/', views.sign_out, name='sign_out'), // TODO: leon add signout 
+    # path('users/user_profile/', views.user_profile, name='user_profile') // TODO: add user profile
+
     # Course data requests
     path('course/get/ins=<ins_id>,year=<year_code_param>', views.courses_by_year),
     path('course/get/course_id=<course_id>/categories', views.course_categories),
     path('course/get/course_id=<course_id>/cat=<doc_category>', views.course_docs),
     path('course/get/doc_id=<doc_id>', views.document_by_id),
     path('sign_up/all_ins', views.all_institutions), # Get all supported institutions for sign-up droplist
+    
     # Course data updates
     path('course/rate/', views.rate_document), 
     path('course/upload_file/', views.upload_file),
     path('course/register/', views.register_to_course),
     path('course/deregister/', views.deregister_from_course),
     path('course/user_registered/', views.courses_user_registered),
+
+    # Document URLs
+    path('doc_id=<doc_id>/post_comment', views.add_new_comment_for_document),
+    path('doc_id=<doc_id>/get_all_document_comments', views.get_all_document_comments),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

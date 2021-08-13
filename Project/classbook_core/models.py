@@ -16,7 +16,7 @@ class Institution(models.Model):
 
     @staticmethod
     def get_academic_instituion_choices():
-        return Institution.objects.all().values('institution_id', 'name')
+        return list(Institution.objects.all().values_list('id','name'))
 
 
 class AcademicDegree(models.Model):
@@ -82,12 +82,17 @@ class Document(models.Model):
     def __str__(self):
         return self.name
 
+    def get_all_comments_as_list(self):
+        return list(Comment.objects.filter(associated_document=self))
+
     def save(self, *args, **kwargs):
         
         # Convert document type and document category to lowercase upon creation
         self.doc_type = self.doc_type.lower()
         self.category = self.category.lower()
         return super(Document, self).save(*args, **kwargs)
+
+    
 
 class Comment(models.Model):
     associated_document = models.ForeignKey(Document, on_delete=CASCADE)

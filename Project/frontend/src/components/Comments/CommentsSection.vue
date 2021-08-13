@@ -10,25 +10,27 @@
           <!-- <label>Search Course Issues</label> -->
           <input placeholder="Search Course Issues" type="text" id="search-issues" class="form-control" value>
         </span>
-        <span class="input-group-btn searchbuttonSpan">
-            <button type="button" class="searchButton btn btn-secondary">
-              <span></span>
-            </button>
-          </span>
+        <!-- <span class="input-group-btn searchbuttonSpan">
+           
+          </span> --> 
+          <v-icon style="color:black;background-color:#f7f9fa;border:1px dashed black">search</v-icon>
       </div>
       <div class="issusFiltersDiv">
-        <section style="margin-left:80px">
-          <div  class="dropdown btn-group fildiv">
-            <button class="dropdown-toggle btn btn-default">All Issues</button>
-          </div>
-          <div class="dropdown btn-group fildiv">
-             <button class="dropdown-toggle btn btn-default">Top Rated Issues</button>
-          </div>
-          <div  class="dropdown btn-group fildiv">
-             <button class="dropdown-toggle btn btn-default">Only From Today</button>
-          </div>
+        <section >
+         
+            <v-select  dense @change="ApplyCommentsFilter($event)"
+          outlined  class="mx-auto" style="width:800px;margin-top:50px" :items="items" label="Choose Filter">
+        
+            
+         
+       
+          </v-select>
+             <!-- <button class="dropdown-toggle btn btn-default">Only From Today</button> -->
+              
            
         </section>
+                  <v-icon class="cancelFiltersxfcv==" @click="clearfilters()">clear</v-icon>
+
       </div>
       <div style="font-weight:bold;font-size:16px;">All Issues About this document (233)</div>
       <!--  outer container for issues -->
@@ -36,8 +38,8 @@
       
   
     </div>
-    <div v-for="comment in commentsData" :key="comment.profile">
-       <DocumentIssue :title="comment.title" :content="comment.content" :id="comment.id" :author="comment.author" :img="comment.profile"></DocumentIssue>
+    <div v-for="comment in fil" :key="comment.profile">
+       <DocumentIssue :title="comment.title" :coms="comment.comments" :rate="comment.rating" :content="comment.content" :id="comment.id" :author="comment.author" :img="comment.profile" :date="comment.date"></DocumentIssue>
     </div>
 
 
@@ -71,12 +73,22 @@ export default {
  },
  data(){
    return{
+     items:['Show Only From Today',
+            'Top Rated Issues',
+            'Most Disscussed Issues'],
+     
      //to be removed static data for intro
-     commentsData:[{id:1,author:"David Cohen",profile:"pic2.jpg",title:"Epic Content",content:"This Paper really helped me study for my last test"},
-                    {id:2,author:"Shir Ben Harush",profile:"pic3.jpg",title:"Good Paper",content:"High Quality Well Done"},
-                    {id:3,author:"Dudi Bar",profile:"pic4.jpg",title:"Not so good , missing info",content:"the important proofs are not inside"},
-                    {id:4,author:"Alon Vered",profile:'sample.jpg',title:"I was hoping to find answers here.. , missing info",content:"Can't read it. too long and not clear ,you shoud rank this low!"}],                                        
+    
+     commentsData:[{id:1,author:"David Cohen", comments: 34,rating:4,profile:"userProfiles/pic2.jpg",title:"Epic Content",content:"This Paper really helped me study for my last test",date:new Date()},
+                    {id:2,author:"Shir Ben Harush",comments:0, rating:5,profile:"userProfiles/pic3.jpg",title:"Good Paper",content:"High Quality Well Done",date:new Date(2018, 11, 24, 10, 33, 30, 0)},
+                    {id:3,author:"Dudi Bar", rating:5, comments:23,profile:"userProfiles/pic4.jpg",title:"Not so good , missing info",content:"the important proofs are not inside",date:new Date(2018, 11, 24, 10, 33, 30, 0)},
+                    {id:4,author:"Alon Vered",rating:2, comments:104,profile:'userProfiles/sample.jpg',title:"I was hoping to find answers here.. , missing info",content:"Can't read it. too long and not clear ,you shoud rank this low!",date:new Date()}],                                        
       //this should be updated with VueX
+      fil:[{id:1,author:"David Cohen", comments: 34,rating:4,profile:"userProfiles/pic2.jpg",title:"Epic Content",content:"This Paper really helped me study for my last test",date:new Date()},
+                    {id:2,author:"Shir Ben Harush",comments:0, rating:5,profile:"userProfiles/pic3.jpg",title:"Good Paper",content:"High Quality Well Done",date:new Date(2018, 11, 24, 10, 33, 30, 0)},
+                    {id:3,author:"Dudi Bar", rating:5, comments:23,profile:"userProfiles/pic4.jpg",title:"Not so good , missing info",content:"the important proofs are not inside",date:new Date(2018, 11, 24, 10, 33, 30, 0)},
+                    {id:4,author:"Alon Vered",rating:2, comments:104,profile:'userProfiles/sample.jpg',title:"I was hoping to find answers here.. , missing info",content:"Can't read it. too long and not clear ,you shoud rank this low!",date:new Date()}],
+      //  filtered:commentsData,
       LastissueID:0,
       author:"Chen Ben Ezra",
       profile:'sample.jpg'
@@ -92,6 +104,39 @@ export default {
       today = mm + '/' + dd + '/' + yyyy;
       return today
   
+   },
+   clearfilters()
+   {
+      this.fil=this.commentsData
+   },
+   ApplyCommentsFilter(value){
+     
+     console.log("filter")
+     //this.fil=[]
+     var today = new Date();
+      if(value==='Show Only From Today'){
+         for(var i=0;i<this.commentsData.length;i++){
+            if(this.fil[i].date.getMonth()===today.getMonth()){
+              this.fil.push(this.fil[i])
+            }
+         }
+         //this.commentsData=this.fil
+      }
+       if(value==='Top Rated Issues'){
+        for(var z=0;z<this.fil.length;z++){
+            if(this.fil[z].rating===5){
+              this.fil.push(this.fil[z])
+            }
+         }
+         //this.commentsData=this.fil
+      }
+       if(value==='Most Disscussed Issues'){
+        for(var j=0;z<this.fil.length;z++){
+            if(this.fil[j].comments>=30){
+              this.fil.push(this.fil[j])
+            }
+         }
+      }
    },
    addNewIssue(){
      this.LastissueID=this.LastissueID+1
@@ -132,6 +177,16 @@ export default {
 
 .fildiv{
  float:left;border: 1px solid black;margin-left:20px;margin-top:20px;
+}
+.cancelFilters{
+ 
+    height: 50px;
+    width:50px;
+    color:red;
+    /* background-color: gray; */
+    margin-top: 40px;
+    /* margin-right: 66px; */
+    margin-left: -49px;
 }
 .buttonIssueFilter{
   position: relative;
