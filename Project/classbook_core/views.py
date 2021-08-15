@@ -436,5 +436,5 @@ def get_all_document_comments(request, doc_id):
 
     # TODO: check that the format of the json comments works as needed with the frontend
     return JsonResponse({
-            'all_comments': str(document.get_all_comments_as_list())
+            'all_comments': str(document.get_all_comments_and_replies_by_date())
         })
