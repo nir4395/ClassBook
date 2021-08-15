@@ -427,4 +427,6 @@ def get_all_document_comments(request, doc_id):
         return JsonResponse('Document.DoesNotExist') # TODO: check if this is the correct way to return a django exception in Json format
 
     # TODO: check that the format of the json comments works as needed with the frontend
-    return dumps(document.get_all_comments_as_list())
+    return JsonResponse({
+            'all_comments': document.get_all_comments_as_list()
+        })
