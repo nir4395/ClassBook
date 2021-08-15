@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
+
+</head>
+<body>
+    <div class="landingRoot">
+        <div style="width:100%;height:5%">
+            <div style="width:100%;height:100%;padding:3%">
+                <div style="margin-left:40%;float:left"><img style="height:40px;width:40px;" src="C:\Users\Nir\Desktop\SadnaGit\Git0308\ClassBook\Project\classbookLogo.png"></i></div>
+                <div style="margin-top: -1%;margin-left:1%;float:left"> <h1 style="font-size:26px;color:lightblue">CLASS</h1></div>
+                <div style="margin-top: -1%;float:left"> <h1  style="font-size:26px;color:black" >BOOK</h1></div>
+
+            </div>
+           
+        </div>
+        <div style="width:100%;height:80%" >
+           <button onclick="navtoSignUp()" >eeeeeeeeeee</button>
+                <div class="loginBox">
+                    <div style="border-right: 1px solid gray; " class="col-xs-6 inline-block-center">
+                        <form id="landingform">
+                          <section class="form validate-form">
+                              <h2 style="font-size:16px;font-weight:bold">Welcome back:</h2>
+                            <section class="form-group validate-form">
+                                <div class="formRow">
+                                    <input style="width:100%" class="formInput"  placeholder="User name">
+                                   
+                                </div>
+                                <div class="formRow">
+                                    <input style="width:100%"    class="formInput"  placeholder="Password">
+                                   
+                                </div>
+                                <div class="formRow">
+                                        <button class="loginButton">Login</button>
+                                </div>
+                                
+                              
+                            </section>
+                            <section>
+                                <h2 style="border-bottom: 1px solid gray;">
+                                    
+                                   
+                                </h2>
+                      
+                            </section>
+                            <section  class="formRow">
+                     
+                                <button type="button" onclick="navtoSignUp()" class="signUpButton">Sign Up</button>
+                      
+                        </section>
+                            <!-- <section class="form-group validate-form">
+                                  <h2 class="textDivider">
+                                    <span class="innerDivider">or:</span>
+                                   
+                                </h2>
+                      
+                                <section  class="formRow">
+                                  
+                                    <button class="signUpButton">Sign Up</button>
+                          
+                            </section>
+                              
+                               
+                                
+                            </section> -->
+                           
+                          </section>
+                        </form>
+                    </div>
+                    <div class="col-xs-6 inline-block-center">
+                        C:\Users\Nir\Desktop\SadnaGit\Git0808\ClassBook\Documentation\Logos\classbookLogo.png
+                        <img class="imgDisplay" src="../templates/classbookLogo.png">
+                    </div>
+                </div>
+           
+
+        </div>
+       
+        <div style="width:100%;height:20%"></div>
+    </div>
+</body>
+<script>
+    function navtoSignUp(){
+        console.log("fffffffs")
+        window.location.href = "/users/sign_up";
+    } 
+</script>
+<style>
+    .vertical{
+        border-left: 6px solid black;
+            height: 200px;
+            position:absolute;
+            left: 50%;
+    }
+
+    .imgDisplay{
+        width: 300px;
+  height: 350px;
+ 
+  -moz-box-shadow: 10px 10px 5px #ccc;
+  -webkit-box-shadow: 10px 10px 5px #ccc;
+  box-shadow: 10px 10px 5px #ccc;
+  -moz-border-radius:25px;
+  -webkit-border-radius:25px;
+  border-radius:25px;
+    }
+    .signUpButton{
+        outline: 0;
+    height:50px;
+    color:black;
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 8px;
+    padding: 0!important;
+    font-size: 14px!important;
+    font-weight: 700!important;
+    width: 100%;
+    text-align: center;
+    }
+.landingRoot{
+    height:2000px;
+    width:1000px;
+    /* display: flex; */
+    margin-left: 19%;
+    margin-right: 17%;
+
+}
+.formRow{
+    height: auto;
+    margin-bottom: 15px;
+}
+.loginBox{
+    width: 95%;
+    height: 25%;
+    position: relative;
+    padding: 16px 32px 32px;
+    border: solid 1px #e0e0e0;
+    border-radius: 8px;
+    margin: auto;
+    -moz-transition: width .25s;
+    transition: width .25s;
+}
+.formInput{
+    position: relative;
+    text-align: left;
+    padding: 6px 12px 6px 10px!important;
+    height: 48px;
+    outline: 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+.loginButton{
+    outline: 0;
+    height:50px;
+    color: #fff;
+    background-color: #006685;
+    border: 1px solid #006685;
+    border-radius: 8px;
+    padding: 0!important;
+    font-size: 14px!important;
+    font-weight: 700!important;
+    width: 100%;
+    text-align: center;
+}
+.textDivider{
+    text-align: center;
+    position: relative;
+    margin: 15px 0;
+    font-size: 12px;
+    box-sizing: border-box;
+    content: '';
+    display: block;
+    border-bottom: 1px solid gray;
+    position: absolute;
+    top: 98%;
+    height: 12px;
+    width: 101%;
+    z-index: 0;
+
+
+}
+.innerDivider{
+    padding: 3%;
+    background-color: #fff;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    color: #121212;
+    font-size: 14px;
+    padding: 0 7px;
+    font-weight: 700;
+}
+
+</style>
+</html>
