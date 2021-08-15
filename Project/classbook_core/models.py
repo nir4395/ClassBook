@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.forms.models import model_to_dict
+
 
 
 class Institution(models.Model):
@@ -83,17 +85,42 @@ class Document(models.Model):
     def __str__(self):
         return self.name
 
-    def get_all_comments_as_list(self):
-        return list(Comment.objects.filter(associated_document=self).values())
+
+    def get_all_comments_and_replies_by_date(self):
+        all_document_comments_by_date = Comment.objects.filter(associated_document=self).order_by('publish_date')
+        comments_to_return = list()
+
+        for current_comment in all_document_comments_by_date:
+            # find the first(by date) non reply comment and add it the list
+            if current_comment.replied_to_comment:
+                continue
+            comments_to_return.append(current_comment)
+
+            # add all the replies to the current comment (by date)
+            current_comment_replies = Comment.objects.filter(replied_to_comment=current_comment).order_by('publish_date')
+            for reply in current_comment_replies:
+                comments_to_return.append(reply)
+    
+        # convert all comment objects in the list to dictionary type to make Json converstion easier later
+        for i in range(len(comments_to_return)): 
+            comments_to_return[i] = model_to_dict(comments_to_return[i])
+
+            # change author to author_name instead of author_id in the dictionary
+            current_comment = comments_to_return[i]
+            author_id = current_comment['author']
+            current_comment['author'] = str(Profile.objects.get(pk=author_id))
+            comments_to_return[i] = current_comment
+           
+
+        return comments_to_return
+
 
     def save(self, *args, **kwargs):
-        
         # Convert document type and document category to lowercase upon creation
         self.doc_type = self.doc_type.lower()
         self.category = self.category.lower()
         return super(Document, self).save(*args, **kwargs)
 
-    
 
 class Comment(models.Model):
     associated_document = models.ForeignKey(Document, on_delete=CASCADE)
