@@ -127,5 +127,5 @@ class Comment(models.Model):
     author = models.ForeignKey(Profile, on_delete=CASCADE)
     content = models.TextField(max_length=500, validators=[MinLengthValidator(1)])
     publish_date = models.DateField(auto_now_add=True)
-    replied_to_comment = models.OneToOneField('Comment', default=None, blank=True, null=True, on_delete=CASCADE)
+    replied_to_comment = models.ForeignKey('Comment', default=None, blank=True, null=True, on_delete=CASCADE)
     likes_count = models.IntegerField(default = 0)
