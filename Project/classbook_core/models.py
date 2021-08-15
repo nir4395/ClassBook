@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 from django.db.models.signals import post_save
@@ -97,7 +97,7 @@ class Document(models.Model):
 class Comment(models.Model):
     associated_document = models.ForeignKey(Document, on_delete=CASCADE)
     author = models.ForeignKey(Profile, on_delete=CASCADE)
-    content = models.TextField(max_length=500, validators=[MinValueValidator(1)])
+    content = models.TextField(max_length=500, validators=[MinLengthValidator(1)])
     publish_date = models.DateField(auto_now_add=True)
-    replied_to_comment = models.OneToOneField('Comment', null=True, on_delete=CASCADE)
+    replied_to_comment = models.OneToOneField('Comment', default=None, blank=True, null=True, on_delete=CASCADE)
     likes_count = models.IntegerField(default = 0)
