@@ -31,12 +31,15 @@
 
                 <v-icon @click="navToCourseCategorySelection(course.name,course.id)" style="margin-top:4px;font-size:24px">find_in_page</v-icon>
           </v-flex>
-           <v-flex xs2 sm2 md2>
+           <v-flex  v-if="!course.isReg" xs2 sm2 md2>
               <v-list-item-subtitle  style="display:flex;margin-top:4px;font-size:16px">Register to course</v-list-item-subtitle>
           </v-flex>
-          <v-flex xs2 sm2 md1>
-               <v-icon @click="RegistertoCourse(course.id)" style="margin-top:4px;font-size:24px">add</v-icon>
+          <v-flex  xs2 sm2 md1>
+               <v-icon   v-if="course.isReg"  @click="RegistertoCourse(course.id)" style="margin-top:4px;font-size:24px">how_to_reg</v-icon>
+
+               <v-icon v-if="!course.isReg" @click="RegistertoCourse(course.id)" style="margin-top:4px;font-size:24px">add</v-icon>
           </v-flex>
+          
 
         </v-layout>
         <v-divider></v-divider>

@@ -7,10 +7,10 @@ import Catergories from '../views/Catergories.vue'
 import Login from '../views/Login.vue'
 import SignUp from '../views/SignUp.vue'
 import CoursesSelection from '../views/CoursesSelection.vue'
-
+import Profile from '../views/Profile.vue'
 import CourseCategorySelection from '../views/CourseCategorySelection.vue'
-import MyCourses from '../views/MyCourses.vue'
-
+// import MyCourses from '../views/MyCourses.vue'
+import SearchResults from '../views/SearchResults.vue'
 // import SchoolSelection from '../views/SchoolSelection.vue'
 Vue.use(VueRouter)
 
@@ -20,6 +20,11 @@ const routes = [
     name: 'Home',
     component: Home
   },
+  {
+    path: '/search',
+    name: 'SearchResults',
+    component: SearchResults
+  },
   
 
  
@@ -28,6 +33,13 @@ const routes = [
     name: 'DocumentPreview',
     component: DocumentPreview
   },
+
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile
+  },
+
   {
     path: '/coursecat',
     name: 'CourseCategorySelection',
@@ -58,12 +70,12 @@ const routes = [
     name: 'DocumentSelection',
     component: DocumentSelection
   },
-  {
+  // {
 
-    path: '/mycourses',
-    name: 'MyCourses',
-    component: MyCourses
-  },
+  //   path: '/mycourses',
+  //   name: 'MyCourses',
+  //   component: MyCourses
+  // },
   {
     path: '/schools',
     name: 'SchoolSelection',

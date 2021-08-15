@@ -1,7 +1,7 @@
 <template>
     <div>
    
-        <CourseViewer :courses="coursesInfo"></CourseViewer>
+        <CourseViewer :courses="courses"></CourseViewer>
     </div>
     
 </template>
@@ -15,10 +15,10 @@ export default {
             ins:this.$route.params.ins,
             year_code:this.$route.params.yearCode,
 
-            // coursesInfo:[{name:'Calculus 1',lecturer:'Romina Zigdon',rank:'2',courseStage:'A',school:'CS',id:1},
-            // {name:'Linear Algebra 1',lecturer:'Dan Levy',rank:'5',courseStage:'A',school:'CS',id:2},
-            // {name:'Introduction to CS 1',lecturer:'Hadar Binsky',rank:'5',courseStage:'A',school:'CS',id:3} ]
-            coursesInfo:''
+            courses:[{name:'Calculus 1',lecturer:'Romina Zigdon',rank:'2',courseStage:'A',school:'CS',id:1,isReg:true},
+            {name:'Linear Algebra 1',lecturer:'Dan Levy',rank:'5',courseStage:'A',school:'CS',id:2,isReg:false},
+            {name:'Introduction to CS 1',lecturer:'Hadar Binsky',rank:'5',courseStage:'A',school:'CS',id:3,isReg:false} ]
+         //   coursesInfo:''
                 
         }
     },

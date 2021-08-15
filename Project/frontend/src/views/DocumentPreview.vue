@@ -33,16 +33,32 @@ export default {
  data(){
    return{
         urlImg:'book.jpg',
+        l:'kkkkkkkkkkkkkkkkk',
+        id:this.$route.params.id,
         issues:[],
          VIEWS_FILTER:10,
         lastIssueNumber:1,
        isModalVisible: false,
        isRateDocVisable:false,
+       docInfo:'',
+       documnetComments:'',
         name: 'compressed.tracemonkey-pldi-09.pdf', //change which pdf file loads
       path: '../public/lib/pdfjs-2.9.359-dist/web/viewer.html' //path of the PDF.js viewer.html
    }
 
  },
+ created(){
+   console.log(this.id)
+    // var urlDocuemntInfo='http://localhost:8000/course/get/doc_id='+this.id
+    var urlDocumentComments='http://localhost:8000/doc_id='+this.id+'/get_all_document_comments'
+        
+        // this.$http.get(urlDocuemntInfo).then(response => (this.docInfo = response.data
+        // ))
+         this.$http.get(urlDocumentComments).then(response => (this.documnetComments = response.data
+        ))
+        console.log("fffffffffffffff")
+
+ }
  
  }
 </script>

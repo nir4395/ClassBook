@@ -11,25 +11,28 @@
             <div>{{ course.name }}</div>
           </v-flex>
           <v-flex xs3 sm2 md2>
-            <div class="caption grey--text">Lecturer</div>
-            <div>{{ course.lecturer }}</div>
+            <div class="caption grey--text">Year</div>
+            <div>{{ course.year_code }}</div>
           </v-flex>
           <v-flex xs3 sm2 md2>
-            <div class="caption grey--text">Participants</div>
-            <div>{{ course.rating }}10</div>
+            <div class="caption grey--text">Student Count</div>
+            <div>{{ course.student_count }}</div>
           </v-flex>
           <v-flex xs3 sm2 md2>
-            <div class="caption grey--text">Stage</div>
-            <div>{{ course.stage }}</div>
+            <div class="caption grey--text">Date Updated</div>
+            <div>{{ course.date_updated }}</div>
           </v-flex>
-          <v-flex xs3 sm2 md2>
+          <!-- <v-flex xs3 sm2 md2>
             <div class="caption grey--text">School</div>
             <div>{{ course.school }}</div>
-          </v-flex>
-            <v-flex xs3 sm2 md2>
+          </v-flex> -->
+            <!-- <v-flex xs3 sm2 md2>
                 <v-icon  color="red"  v-if="course.isfav" style="margin-top:4px;font-size:20px">favorite</v-icon>
+          </v-flex> -->
+            <v-flex xs3 sm2 md2>
+            <div class="caption grey--text">Unregirster Course</div>
+            <v-icon>delete</v-icon>
           </v-flex>
-           
 
         </v-layout>
         <v-divider></v-divider>
