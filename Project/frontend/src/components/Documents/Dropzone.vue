@@ -16,7 +16,7 @@ id="dropzone"
             text
            @click="accFiles()"
           >
-            Accept Files
+            upload file
           </v-btn>
   </div>
 </template>
@@ -36,7 +36,7 @@ export default {
           url: 'https://httpbin.org/post',
           thumbnailWidth: 150,
           maxFiles: 1,
-          maxFilesize: 1,
+          maxFilesize: 6,
           headers: { "My-Awesome-Header": "header value" }
       }
     }

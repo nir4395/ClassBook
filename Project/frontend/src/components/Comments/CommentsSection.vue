@@ -71,6 +71,7 @@ export default {
   // IssuesReplies,
   AddIssueBox,DocumentIssue
  },
+ props:['id'],
  data(){
    return{
      items:['Show Only From Today',
@@ -139,7 +140,11 @@ export default {
       }
    },
    addNewIssue(){
+
+
+
      this.LastissueID=this.LastissueID+1
+
      console.log(this.$refs)
      var issueData=this.$refs["issueBox"]
      issueData=issueData.submitnewIssue()
@@ -158,6 +163,17 @@ export default {
                    
     }}
             )
+      var commentForm=new FormData()
+      commentForm.append('comment_associated_document', this.id);
+      commentForm.append('comment_content', issueData.content);
+      //send request as comment not reply
+      commentForm.append('replied_to_comment_id', 0);
+       var url='http://localhost:8000/course/upload_file/'
+        //send the request to the server 
+        this.$http.post(url,commentForm).then(response => (console.log(response.data))
+        )
+      
+      
 
             //newDocumentIssue.$el["id"]="issue"+this.LastissueID.toString()
 

@@ -10,12 +10,25 @@
          <span><img height="36" width="36" src="../assets/Covers/classbookLogo.png" ></span>
         <span style="margin-left:8px;font-size:20px" class="color:black;font-weight-light">CLASS</span>
         <span style="font-size:20px;color:#007bff">BOOK</span>
+       
       </v-toolbar-title>
-      <v-spacer></v-spacer>
+     
       <v-btn  text color="grey">
-        <span>Sign Out</span>
-        <v-icon right>exit_to_app</v-icon>
+        
+        <span>
+            <input ref="searchInput" @keypress="DoSearch($event)" type="text" class="form-control inputSearch" placeholder="Search">
+
+          <!-- <input placeholder="Search" style="background-color:white;length:100px"> -->
+          </span>
+          <span class="material-icons-outlined">
+<v-icon  style="margin-left: -46px;margin-top: -12px;" @click="Search()" >search</v-icon>
+</span>
+      
+
+       
       </v-btn>
+       <v-spacer></v-spacer>
+   
     </v-app-bar>
 
     <v-navigation-drawer app v-model="drawer" >
@@ -63,6 +76,7 @@
 </template>
 
 <script>
+const ENTER=13
 export default {
   data() {
     
@@ -73,12 +87,36 @@ export default {
         { icon: 'school', text: 'Schools', route: '/schools' },
         // { icon: 'picture_as_pdf', text: 'Documents', route: '/doc' },
         // { icon: 'login', text: 'Login', route: '/login' },
-         { icon: 'school', text: 'My Courses', route: '/mycourses' },
+        //  { icon: 'school', text: 'My Courses', route: '/mycourses' },
         // { icon: 'find_in_page', text: 'Document Selection', route: '/selection' },
         // { icon: 'doc', text: 'Documents', route: '/doc' },
          { icon: 'person', text: 'Profile', route: '/profile' },
         // { icon: 'school', text: 'Categories', route: '/nav' },
       ]
+    }
+  },
+  methods:{
+      DoSearch(e){
+        
+      if(e.keyCode==ENTER){
+          this.Search()
+      }
+  },
+    Search(){
+      
+         var query= this.$refs['searchInput'].value
+         this.$refs['searchInput'].value=''
+         if (this.$route.path !== '/search'){
+             return this.$router.push({ name: 'SearchResults', params: {  query:query } })
+         }
+        else{
+          this.$route.params.query=query
+          this.$router.go(this.$router.currentRoute)
+
+        }
+
+
+       
     }
   }
 }
@@ -101,3 +139,10 @@ export default {
         <v-icon right>exit_to_app</v-icon>
       </v-btn>
     </v-toolbar> -->
+    <style scoped>
+        .inputSearch{
+          margin-top: -7px;
+    width: 1000px;
+    margin-left: 50px;
+        }
+    </style>
