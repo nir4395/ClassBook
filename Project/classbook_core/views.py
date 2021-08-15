@@ -391,14 +391,18 @@ def courses_user_registered(request):
 
 @require_http_methods(["POST"])
 @csrf_exempt # Remove decorator after testing
-def add_new_comment_for_document(request):
+def post_comment(request, doc_id):
 
     # get the comment information from this dictionary
     data_from_client_as_dictionary = loads(request.body) 
-
-    comment_author = request.user
+    comment_author = request.user.profile
     comment_content = data_from_client_as_dictionary['comment_content']
-    comment_associated_document = data_from_client_as_dictionary['comment_associated_document']
+
+    # make sure the given document exists in the DB
+    try:
+        comment_associated_document = Document.objects.get(pk=doc_id)
+    except:
+        return HttpResponse("Error - document does not exist.Comment was not saved in the DB")
 
     # check if this comment is a reply to another comment
     replied_to_comment_id = data_from_client_as_dictionary['replied_to_comment_id']
@@ -414,7 +418,11 @@ def add_new_comment_for_document(request):
             replied_to_comment = replied_to_comment,
         ).save()
 
-    return HttpResponse("Comment successfully saved in the DB")
+    if (replied_to_comment):
+        return HttpResponse("Comment successfully saved in the DB (as a reply to another comment)")
+    else:
+        return HttpResponse("Comment successfully saved in the DB (not a reply)")
+
 
 
 @require_http_methods(["GET"])

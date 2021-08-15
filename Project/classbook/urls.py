@@ -48,7 +48,7 @@ urlpatterns = [
     path('course/user_registered/', views.courses_user_registered),
 
     # Document URLs
-    path('doc_id=<doc_id>/post_comment', views.add_new_comment_for_document),
+    path('doc_id=<doc_id>/post_comment', views.post_comment),
     path('doc_id=<doc_id>/get_all_document_comments', views.get_all_document_comments),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

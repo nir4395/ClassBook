@@ -8,6 +8,7 @@ from django.dispatch import receiver
 from django.forms.models import model_to_dict
 
 
+
 class Institution(models.Model):
     name = models.CharField(max_length=300)
     student_count = models.IntegerField(validators=[MinValueValidator(0)])
@@ -84,6 +85,7 @@ class Document(models.Model):
     def __str__(self):
         return self.name
 
+
     def get_all_comments_and_replies_by_date(self):
         all_document_comments_by_date = Comment.objects.filter(associated_document=self).order_by('publish_date')
         comments_to_return = list()
@@ -109,17 +111,16 @@ class Document(models.Model):
             current_comment['author'] = str(Profile.objects.get(pk=author_id))
             comments_to_return[i] = current_comment
            
+
         return comments_to_return
 
 
     def save(self, *args, **kwargs):
-        
         # Convert document type and document category to lowercase upon creation
         self.doc_type = self.doc_type.lower()
         self.category = self.category.lower()
         return super(Document, self).save(*args, **kwargs)
 
-    
 
 class Comment(models.Model):
     associated_document = models.ForeignKey(Document, on_delete=CASCADE)
