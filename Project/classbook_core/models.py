@@ -6,6 +6,7 @@ from django.db.models.deletion import CASCADE
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+
 class Institution(models.Model):
     name = models.CharField(max_length=300)
     student_count = models.IntegerField(validators=[MinValueValidator(0)])
@@ -83,7 +84,7 @@ class Document(models.Model):
         return self.name
 
     def get_all_comments_as_list(self):
-        return list(Comment.objects.filter(associated_document=self))
+        return list(Comment.objects.filter(associated_document=self).values())
 
     def save(self, *args, **kwargs):
         
