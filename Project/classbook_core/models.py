@@ -32,7 +32,7 @@ class AcademicDegree(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     institution = models.OneToOneField(Institution,null=True, on_delete=models.SET_NULL)
-    birth_date = models.DateTimeField(null=True, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
 
     # both methods will be triggered automatically after user.save is called
     # meaning - each time a user is created and saved - his profile object will also be created
