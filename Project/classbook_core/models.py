@@ -6,7 +6,7 @@ from django.db.models.deletion import CASCADE
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.forms.models import model_to_dict
-
+from django.utils import timezone
 
 
 class Institution(models.Model):
@@ -65,8 +65,8 @@ class Course(models.Model):
     year_code = models.SmallIntegerField(Year_Code, default=Year_Code.NONE)
     student_enrolled = models.ManyToManyField('Profile')
     student_count = models.IntegerField(validators=[MinValueValidator(0)], default=0)
-    date_created = models.DateField(auto_now_add=True)
-    date_updated = models.DateField(auto_now=True)
+    date_created = models.DateField(default=timezone.now, editable=True) # DO NOT USE auto_now\add = True. it causes issues with djangos's model_to_dict method
+    date_updated = models.DateField(default=timezone.now, editable=True) # DO NOT USE auto_now\add = True. it causes issues with djangos's model_to_dict method
 
     def __str__(self):
         return self.name
@@ -80,7 +80,7 @@ class Document(models.Model):
     view_count = models.IntegerField(validators=[MinValueValidator(0)], default=0)
     rating = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=0.0)
     student_rated = models.ManyToManyField('Profile', related_name='%(class)s_students_rated') # Table for keeping track of which students rated the course
-    upload_date = models.DateField(auto_now_add=True)
+    upload_date = models.DateField(default=timezone.now, editable=True) # DO NOT USE auto_now\add = True. it causes issues with djangos's model_to_dict method
 
     def __str__(self):
         return self.name
@@ -126,6 +126,6 @@ class Comment(models.Model):
     associated_document = models.ForeignKey(Document, on_delete=CASCADE)
     author = models.ForeignKey(Profile, on_delete=CASCADE)
     content = models.TextField(max_length=500, validators=[MinLengthValidator(1)])
-    publish_date = models.DateField(auto_now_add=True)
+    publish_date = models.DateField(default=timezone.now, editable=True) # DO NOT USE auto_now\add = True. it causes issues with djangos's model_to_dict method
     replied_to_comment = models.ForeignKey('Comment', default=None, blank=True, null=True, on_delete=CASCADE)
     likes_count = models.IntegerField(default = 0)
