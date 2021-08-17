@@ -391,14 +391,18 @@ def courses_user_registered(request):
 
 @require_http_methods(["POST"])
 @csrf_exempt # Remove decorator after testing
-def add_new_comment_for_document(request):
+def post_comment(request, doc_id):
 
     # get the comment information from this dictionary
     data_from_client_as_dictionary = loads(request.body) 
-
-    comment_author = request.user
+    comment_author = request.user.profile
     comment_content = data_from_client_as_dictionary['comment_content']
-    comment_associated_document = data_from_client_as_dictionary['comment_associated_document']
+
+    # make sure the given document exists in the DB
+    try:
+        comment_associated_document = Document.objects.get(pk=doc_id)
+    except:
+        return HttpResponse("Error - document does not exist.Comment was not saved in the DB")
 
     # check if this comment is a reply to another comment
     replied_to_comment_id = data_from_client_as_dictionary['replied_to_comment_id']
@@ -414,7 +418,11 @@ def add_new_comment_for_document(request):
             replied_to_comment = replied_to_comment,
         ).save()
 
-    return HttpResponse("Comment successfully saved in the DB")
+    if (replied_to_comment):
+        return HttpResponse("Comment successfully saved in the DB (as a reply to another comment)")
+    else:
+        return HttpResponse("Comment successfully saved in the DB (not a reply)")
+
 
 
 @require_http_methods(["GET"])
@@ -427,4 +435,6 @@ def get_all_document_comments(request, doc_id):
         return JsonResponse('Document.DoesNotExist') # TODO: check if this is the correct way to return a django exception in Json format
 
     # TODO: check that the format of the json comments works as needed with the frontend
-    return dumps(document.get_all_comments_as_list())
+    return JsonResponse({
+            'all_comments': str(document.get_all_comments_and_replies_by_date())
+        })

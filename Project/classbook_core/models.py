@@ -1,10 +1,13 @@
 from django.db import models
 from django.conf import settings
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.forms.models import model_to_dict
+from django.utils import timezone
+
 
 class Institution(models.Model):
     name = models.CharField(max_length=300)
@@ -62,8 +65,8 @@ class Course(models.Model):
     year_code = models.SmallIntegerField(Year_Code, default=Year_Code.NONE)
     student_enrolled = models.ManyToManyField('Profile')
     student_count = models.IntegerField(validators=[MinValueValidator(0)], default=0)
-    date_created = models.DateField(auto_now_add=True)
-    date_updated = models.DateField(auto_now=True)
+    date_created = models.DateTimeField(default=timezone.now, editable=True) # DO NOT USE auto_now\add = True. it causes issues with djangos's model_to_dict method
+    date_updated = models.DateTimeField(default=timezone.now, editable=True) # DO NOT USE auto_now\add = True. it causes issues with djangos's model_to_dict method
 
     def __str__(self):
         return self.name
@@ -77,27 +80,52 @@ class Document(models.Model):
     view_count = models.IntegerField(validators=[MinValueValidator(0)], default=0)
     rating = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=0.0)
     student_rated = models.ManyToManyField('Profile', related_name='%(class)s_students_rated') # Table for keeping track of which students rated the course
-    upload_date = models.DateField(auto_now_add=True)
+    upload_date = models.DateTimeField(default=timezone.now, editable=True) # DO NOT USE auto_now\add = True. it causes issues with djangos's model_to_dict method
 
     def __str__(self):
         return self.name
 
-    def get_all_comments_as_list(self):
-        return list(Comment.objects.filter(associated_document=self))
+
+    def get_all_comments_and_replies_by_date(self):
+        all_document_comments_by_date = Comment.objects.filter(associated_document=self).order_by('publish_date')
+        comments_to_return = list()
+
+        for current_comment in all_document_comments_by_date:
+            # find the first(by date) non reply comment and add it the list
+            if current_comment.replied_to_comment:
+                continue
+            comments_to_return.append(current_comment)
+
+            # add all the replies to the current comment (by date)
+            current_comment_replies = Comment.objects.filter(replied_to_comment=current_comment).order_by('publish_date')
+            for reply in current_comment_replies:
+                comments_to_return.append(reply)
+    
+        # convert all comment objects in the list to dictionary type to make Json converstion easier later
+        for i in range(len(comments_to_return)): 
+            comments_to_return[i] = model_to_dict(comments_to_return[i])
+
+            # change author to author_name instead of author_id in the dictionary
+            current_comment = comments_to_return[i]
+            author_id = current_comment['author']
+            current_comment['author'] = str(Profile.objects.get(pk=author_id))
+            comments_to_return[i] = current_comment
+           
+
+        return comments_to_return
+
 
     def save(self, *args, **kwargs):
-        
         # Convert document type and document category to lowercase upon creation
         self.doc_type = self.doc_type.lower()
         self.category = self.category.lower()
         return super(Document, self).save(*args, **kwargs)
 
-    
 
 class Comment(models.Model):
     associated_document = models.ForeignKey(Document, on_delete=CASCADE)
     author = models.ForeignKey(Profile, on_delete=CASCADE)
-    content = models.TextField(max_length=500, validators=[MinValueValidator(1)])
-    publish_date = models.DateField(auto_now_add=True)
-    replied_to_comment = models.OneToOneField('Comment', null=True, on_delete=CASCADE)
+    content = models.TextField(max_length=500, validators=[MinLengthValidator(1)])
+    publish_date = models.DateTimeField(default=timezone.now, editable=True) # DO NOT USE auto_now\add = True. it causes issues with djangos's model_to_dict method
+    replied_to_comment = models.ForeignKey('Comment', default=None, blank=True, null=True, on_delete=CASCADE)
     likes_count = models.IntegerField(default = 0)
