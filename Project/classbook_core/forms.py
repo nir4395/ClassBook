@@ -68,4 +68,4 @@ class SignInForm(AuthenticationForm):
 
     # django username field is case sensitive, we override it here in the signInForm (login all usersnames with lowercase)
     def clean_username(self):
-        return self.cleaned_data["username"].lower
+        return self.cleaned_data['username'].lower()
