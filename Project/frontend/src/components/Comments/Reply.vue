@@ -3,7 +3,9 @@
       <!--  inner container for issues -->
             <div class="innerIssuesContainer">
                 <div class="issueDiv">
-                    <div><img class="issueIcon" height="36"  width="36" :src="require(`@/assets/${img}`)" ></div>
+                    <!-- <div>
+                        <img class="issueIcon" height="36"  width="36" :src="require(`@/assets/${img}`)" >
+                        </div> -->
                     <div class="innerIssueDiv">
                       <div class="innerIssueDivData">
                           <!-- header of reply -->
@@ -21,7 +23,8 @@
                             <div class="ratings">
                                 <div class="ratingValue">{{rating}}</div>
                                 <span class="gapSpan"></span>
-                                <button class="btn starUnMarked"><i class="fas fa-star"></i></button>
+                                <button class="btn starUnMarked"><img  height="20px" width="20px" src="https://img.icons8.com/fluency/48/000000/star.png"/></button>
+
                             </div>
                            
                             
@@ -38,7 +41,7 @@
 </template>
 <script>
 export default {
-    props:['title','author','date','content','rating','img']
+    props:['author','date','content','rating','img']
 }
 </script>
 <style scoped>
