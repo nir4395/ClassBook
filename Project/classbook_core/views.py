@@ -3,8 +3,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.db.models.expressions import Exists
 from django.http.request import split_domain_port
 from django.shortcuts import render, redirect
-from classbook_core.forms import SignUpForm, SignInForm
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
@@ -13,13 +13,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from classbook_core.models import Course, Document, Institution, Profile, Comment
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.core.files.storage import FileSystemStorage, default_storage
 from json import loads, dumps
-from django.conf import settings
-
-import os
-from pathlib import Path
-# from django.contrib.auth.decorators import login_required // Leon: we should use this decorator in the future.
+from django.core.files.storage import FileSystemStorage
+from classbook_core.file_handling import construct_file_path, construct_file_save_directory
+from classbook_core.forms import SignUpForm, SignInForm
 
 def sign_up(request):
     if request.method == "POST":
@@ -30,7 +27,7 @@ def sign_up(request):
             login(request, user)
             messages.success(request, "Registration successful.")
             return redirect("sign_in") # TODO: change the redirect to the profile page / homepage
-
+        
         else:
             error_string = ' '.join([' '.join(x for x in l) for l in list(form.errors.values())])
             messages.error(request, error_string)
@@ -43,7 +40,7 @@ def sign_in(request):
     sign_in_successful = False
 
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = SignInForm(request, data=request.POST)
         print(form)
 
         if form.is_valid():
@@ -65,26 +62,7 @@ def sign_in(request):
     form = SignInForm()
     return render(request=request, template_name='users/sign_in.html', context={'sign_in_form': form})
 
-
-# Construct the directory path in which the document-related file will be saved
-def construct_file_save_directory(document):
-
-    project_root_dir = settings.STORAGE_DIR
-    directory_save_path = os.path.join(project_root_dir, 'courses', str(document.course.id))
-
-    return directory_save_path
-
-# Construct the full file path to retrieve document-related file from
-def construct_file_path(document):
-
-    project_root_dir = settings.STORAGE_DIR
-    file_name_with_extension = '{0}.{1}'.format(document.name, document.doc_type) # Files are saved as 'name.doc_type'
-
-    file_path = os.path.join(project_root_dir, 'courses', str(document.course.id), file_name_with_extension)
-
-    return file_path
-
-#
+# Find available file name for document-file on server
 def find_available_file_name(original_uploaded_file_name, related_course):
 
     all_document_names_in_course = Document.objects.filter(course=related_course).values_list('name', flat=True)
@@ -107,14 +85,20 @@ def course_docs(request, course_id, doc_category):
 
         # Get course from db by supplied course_id
         cur_course = Course.objects.get(pk=course_id)
+        doc_category_lowercased = doc_category.lower()
 
         # Retrieve all course related documents
-        course_documents = Document.objects.filter(course=cur_course, category=doc_category).values()
+        course_documents = Document.objects.filter(course=cur_course, category=doc_category_lowercased).values()
 
         # Convert ValuesQuerySet to list
         # Note that ValuesQuerySet has distinct elements while list does not
         course_documents_as_list = list(course_documents)
-        
+
+        # Replace author id with author's username
+        for document in course_documents_as_list:
+            author = document['author_id']
+            document['author_id'] = Profile.objects.get(pk=author).user.username
+
         print(course_documents_as_list)
 
         return JsonResponse({
@@ -138,7 +122,7 @@ def course_categories(request, course_id):
         cur_course = Course.objects.get(pk=course_id)
 
         # Retrieve all course related documents
-        course_documents = Document.objects.filter(course=cur_course).values_list('category', flat=True)
+        course_documents = Document.objects.filter(course=cur_course).values_list('category', flat=True).distinct()
         
         # Convert ValuesQuerySet to list
         # Note that ValuesQuerySet has distinct elements while list does not
@@ -154,12 +138,23 @@ def course_categories(request, course_id):
 
 
 @require_http_methods(["GET"])
+@login_required('')
 def courses_by_year(request, ins_id, year_code_param):
     try:
 
         # Get course from db by supplied course_id
-        courses_by_year = Course.objects.filter(pk = ins_id, year_code=year_code_param).values('name', 'id')
-        courses_as_list = list(courses_by_year)
+        courses_by_year = Course.objects.filter(institution=Institution.objects.get(pk=ins_id), year_code=year_code_param)
+        courses_as_list = list(courses_by_year.values('name', 'id'))
+        index = 0
+
+        for course in courses_by_year:
+            if course.student_enrolled.filter(user_id=request.user.id).exists():
+                courses_as_list[index]['is_registered'] = True
+            else:
+                courses_as_list[index]['is_registered'] = False
+            
+            index += 1
+
         print(courses_as_list)
 
         return JsonResponse({
@@ -340,9 +335,6 @@ def deregister_from_course(request):
         current_profile = Profile.objects.get(pk=user_id)
         students_registered_in_course = current_course.student_enrolled.all()
 
-        for record in students_registered_in_course:
-            print(record)
-
         if students_registered_in_course.filter(pk=user_id).exists():
 
             print('User has registered to this course.')
@@ -379,7 +371,7 @@ def courses_user_registered(request):
         profile_courses_as_list = list(courses)
 
         return JsonResponse({
-            'registered_courses: ': profile_courses_as_list,
+            'registered_courses': profile_courses_as_list,
         })
             
     except ObjectDoesNotExist:
