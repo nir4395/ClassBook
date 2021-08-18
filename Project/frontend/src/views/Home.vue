@@ -1,6 +1,6 @@
 <template style="background-color:red">
 <div>
-  <div v-if="newUser">
+  <div v-if="newUser" class="divStyle">
   <Intro></Intro>
 </div>
 
@@ -94,9 +94,10 @@ axios.defaults.xsrfCookieName = "csrftoken";
         translate3d(0px, 0px, -250px)
 
     rotateX(-5deg)
+    
     scale(0.9, 0.9);
-  /* border-radius: 20px;
-  border: 5px solid #e6e6e6; */
+  /* border-radius: 20px; */
+  /* border: 5px solid #e6e6e6; */
   transition: 0.4s ease-in-out transform;
 
 }
