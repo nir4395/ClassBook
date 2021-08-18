@@ -54,7 +54,7 @@ def sign_in(request):
             if user:
                 login(request, user)
                 sign_in_successful = True
-                messages.info(request, f'You are now logged in as {username}.')
+                messages.info(request, 'You are now logged in as {username}.')
                 return redirect('index')
 
         if not sign_in_successful:
@@ -158,7 +158,7 @@ def courses_by_year(request, ins_id, year_code_param):
     try:
 
         # Get course from db by supplied course_id
-        courses_by_year = Course.objects.filter(pk = ins_id, year_code=year_code_param).values('name', 'id')
+        courses_by_year = Course.objects.filter(institution=Institution.objects.get(pk=ins_id),year_code=year_code_param).values('name', 'id')
         courses_as_list = list(courses_by_year)
         print(courses_as_list)
 

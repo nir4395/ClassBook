@@ -2,7 +2,7 @@
    <v-container class="my-5">
 
 
-      <v-card v-for="course in courses" :key="course.name">
+      <v-card v-for="(course, index) in courses" :key="course.name">
         <v-layout row wrap class="pa-8">
           <!-- <v-flex xs4 sm4 md2 d-flex>
             <v-img :src="require('../assets/' + course.name + '.png')"></v-img>
@@ -31,12 +31,15 @@
 
                 <v-icon @click="navToCourseCategorySelection(course.name,course.id)" style="margin-top:4px;font-size:24px">find_in_page</v-icon>
           </v-flex>
-           <v-flex xs2 sm2 md2>
+           <v-flex  v-if="!course.isReg" xs2 sm2 md2>
               <v-list-item-subtitle  style="display:flex;margin-top:4px;font-size:16px">Register to course</v-list-item-subtitle>
           </v-flex>
-          <v-flex xs2 sm2 md1>
-               <v-icon @click="RegistertoCourse(course.id)" style="margin-top:4px;font-size:24px">add</v-icon>
+          <v-flex  xs2 sm2 md1>
+               <v-icon   v-if="course.isReg"  @click="RegistertoCourse(course.id,index)" style="margin-top:4px;font-size:24px">how_to_reg</v-icon>
+
+               <v-icon v-if="!course.isReg" @click="RegistertoCourse(course.id,index)" style="margin-top:4px;font-size:24px">add</v-icon>
           </v-flex>
+          
 
         </v-layout>
         <v-divider></v-divider>
@@ -54,11 +57,13 @@ export default {
     
            return this.$router.push({ name: 'CourseCategorySelection', params: { courseName:nameOfCourse, courseID: id } })
     },
-    RegistertoCourse(courseId){
+    RegistertoCourse(courseId,index){
           var url='http://localhost:8000/course/register/'
           var data={'course_id':courseId}
          this.$http.post(url,data).then(response => (console.log(response.data)
+
         ))
+        this.courses[index].isReg=true
     }
 
      

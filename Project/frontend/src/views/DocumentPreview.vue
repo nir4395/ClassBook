@@ -1,120 +1,152 @@
-
 <template>
   <div class="mainDocumentDiv">
-       
-      <PDFJSViewer :path="`${path}`" :fileName="`${name}`"/>
-      <CommentsSection></CommentsSection>
-  </div>
+    <PDFJSViewer :path="`${path}`" :fileName="`${name}`" />
 
-  
+    <CommentsSection
+      ref="comSection"
+      :comments="doc"
+      :id="id"
+    ></CommentsSection>
+  </div>
 </template>
 <script>
-
-
-import CommentsSection from '../components/Comments/CommentsSection.vue'
-import PDFJSViewer from '../components/PDFJSViewer.vue'
-
-
-
+import CommentsSection from "../components/Comments/CommentsSection.vue";
+import PDFJSViewer from "../components/PDFJSViewer.vue";
+const POLLING_INTERVAL = 10000;
 
 export default {
- components:{
-  //  DocsViewer,
-   CommentsSection,
+  components: {
+    CommentsSection,
+    PDFJSViewer,
+  },
 
-    // Issue,
-    // RankModal,
-    // Modal
-    PDFJSViewer
+  data() {
+    return {
+      id: this.$route.params.id,
+      issues: [],
+      VIEWS_FILTER: 10,
+      lastIssueNumber: 1,
+      isModalVisible: false,
+      isRateDocVisable: false,
+      docInfo: "",
+      date: "",
+      doc: [],
+      documnetComments: "",
+      polling: null,
+      name: "compressed.tracemonkey-pldi-09.pdf", //change which pdf file loads
+      path: "../public/lib/pdfjs-2.9.359-dist/web/viewer.html", //path of the PDF.js viewer.html
+    };
+  },
+  methods: {
+    getComments() {
+      var urlDocumentComments =
+        "http://localhost:8000/doc_id=" +
+        this.id +
+        "/get_all_document_comments";
+      var allComments = "";
+      this.$http
+        .get(urlDocumentComments)
+        .then((response) => (this.documnetComments = response.data));
+      var comments = this.$data.documnetComments.all_comments;
+      allComments = this.buildComments(comments);
+      console.log(allComments);
+      this.doc = allComments;
+    },
+    buildComments(comments) {
+      var newComments = [];
+      for (var index = 0; index < comments.length - 1; index++) {
+        var replyIndex = index + 1;
+        var commentID = comments[index].id;
+        if (comments[index].replied_to_comment === null) {
+          // add the replys
+          var replies = [];
+          console.log(replyIndex);
+          while (comments[replyIndex].replied_to_comment === commentID) {
+            replies.push(comments[replyIndex]);
+            replyIndex++;
+          }
+          comments[index].replies = replies;
+          newComments.push(comments[index]);
 
- },
- 
-
- data(){
-   return{
-        urlImg:'book.jpg',
-        issues:[],
-         VIEWS_FILTER:10,
-        lastIssueNumber:1,
-       isModalVisible: false,
-       isRateDocVisable:false,
-        name: 'compressed.tracemonkey-pldi-09.pdf', //change which pdf file loads
-      path: '../public/lib/pdfjs-2.9.359-dist/web/viewer.html' //path of the PDF.js viewer.html
-   }
-
- },
- 
- }
+          // var newComment= this.createIssue(comments[index],replies)
+          //    newComment.$mount() // pass nothing
+          // this.$refs['issues'].appendChild(newComment.$el)
+          index = replyIndex;
+        }
+      }
+      return newComments;
+    },
+    pollData() {
+      this.polling = setInterval(() => {
+        this.getComments();
+      }, POLLING_INTERVAL);
+    },
+  },
+  beforeDestroy() {
+    clearInterval(this.polling);
+  },
+  created() {
+    console.log("poll!");
+    this.pollData();
+  },
+};
 </script>
 <style>
- 
-
-.previewImg{
+.previewImg {
   margin-left: -15%;
-    height: 100px;
-    float: left;
-    width: 100px;
-    margin-top: 2%;
-    position: absolute;
-   
+  height: 100px;
+  float: left;
+  width: 100px;
+  margin-top: 2%;
+  position: absolute;
 }
-  .mainDocumentDiv{
-    display: flex;
-   flex-direction: column;
+.mainDocumentDiv {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 70%;
   /* height: 79vh; */
   min-width: 250px;
-  }
-  .documentArea{
-  
-    
-    padding: 3%;
-    height: 100%;
-    width: 75%;
-    float:left;
-    
-  
-  }
-  .reviewsBox{
-    width:100%;
-    height:11%;
-    background-color: lightgrey;
-  }
-  .checked {
+}
+.documentArea {
+  padding: 3%;
+  height: 100%;
+  width: 75%;
+  float: left;
+}
+.reviewsBox {
+  width: 100%;
+  height: 11%;
+  background-color: lightgrey;
+}
+.checked {
   color: orange;
 }
-.embedZone{
- margin-top: 14%;
-    height: 75%;
-    width: 100%;
-}
-.commentsArea{
-  padding: 3%;
-    height: 100%;
-    width: 25%;
-    float: left;
-    background-color: #e9ecef;
-    margin-top: 3%;
-
-}
-.addcommentDiv{
-  height:10%;
-  background-color: lightgrey;
-  width:100%;
-  
-}
-body{
-  font-family:Helvetica
-}
-.issuesArea{
+.embedZone {
+  margin-top: 14%;
   height: 75%;
-    width: 100%;
-    overflow: auto;
-
+  width: 100%;
 }
-
-
-
+.commentsArea {
+  padding: 3%;
+  height: 100%;
+  width: 25%;
+  float: left;
+  background-color: #e9ecef;
+  margin-top: 3%;
+}
+.addcommentDiv {
+  height: 10%;
+  background-color: lightgrey;
+  width: 100%;
+}
+body {
+  font-family: Helvetica;
+}
+.issuesArea {
+  height: 75%;
+  width: 100%;
+  overflow: auto;
+}
 </style>
