@@ -1,6 +1,7 @@
 from sys import exc_info
 from django.contrib.auth.forms import AuthenticationForm
 from django.db.models.expressions import Exists
+from django.forms.models import model_to_dict
 from django.http.request import split_domain_port
 from django.shortcuts import render, redirect
 from classbook_core.forms import SignUpForm, SignInForm
@@ -16,10 +17,12 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.files.storage import FileSystemStorage, default_storage
 from json import loads, dumps
 from django.conf import settings
+from datetime import datetime
+
 
 import os
 from pathlib import Path
-# from django.contrib.auth.decorators import login_required // Leon: we should use this decorator in the future.
+# from django.contrib.auth.decorators import login_required // TODO: we should use this decorator in the future.
 
 def sign_up(request):
     if request.method == "POST":
@@ -70,6 +73,37 @@ def sign_out(request):
     messages.info(request, f'{request.user.username} successfully logged out')
     logout(request)
     return redirect('index')
+
+
+@require_http_methods(["GET"])
+def user_profile(request):
+
+    user_profile_as_dict = model_to_dict(request.user.profile)
+    # change user_id in the dictionary to user object
+    user_profile_as_dict['user'] = model_to_dict(request.user)
+    
+    return JsonResponse({
+        'profile_details': user_profile_as_dict
+    })
+
+
+@require_http_methods(["POST"])
+#@csrf_exempt // this is for testing (disables CSRF protection)
+def change_profile_details(request):
+
+    # get the profile details information from this dictionary
+    data_from_client_as_dictionary = loads(request.body) 
+    user_profile = request.user.profile
+    user = request.user
+
+    user.first_name = data_from_client_as_dictionary['first_name']
+    user.last_name = data_from_client_as_dictionary['last_name']
+    # format example of birth date: Jun 1 2005
+    user_profile.birth_date = datetime.strptime(data_from_client_as_dictionary['birth_date'], "%b %d %Y")
+
+    user.save()
+    user_profile.save()
+    return HttpResponse("Profile details changed successfully")
 
 
 # Construct the directory path in which the document-related file will be saved

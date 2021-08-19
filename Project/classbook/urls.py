@@ -31,7 +31,8 @@ urlpatterns = [
     path('users/sign_up/', views.sign_up, name='sign_up'),
     path('users/sign_in/', views.sign_in, name='sign_in'),
     path('users/sign_out/', views.sign_out, name='sign_out'),
-    # path('users/user_profile/', views.user_profile, name='user_profile') // TODO: add user profile
+    path('users/user_profile/', views.user_profile, name='user_profile'),
+    path('users/user_profile/change_profile_details', views.change_profile_details, name='change_profile_details'),
 
     # Course data requests
     path('course/get/ins=<ins_id>,year=<year_code_param>', views.courses_by_year),
