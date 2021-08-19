@@ -66,6 +66,12 @@ def sign_in(request):
     return render(request=request, template_name='users/sign_in.html', context={'sign_in_form': form})
 
 
+def sign_out(request):
+    messages.info(request, f'{request.user.username} successfully logged out')
+    logout(request)
+    return redirect('index')
+
+
 # Construct the directory path in which the document-related file will be saved
 def construct_file_save_directory(document):
 
