@@ -30,7 +30,7 @@ urlpatterns = [
     # Users URLs
     path('users/sign_up/', views.sign_up, name='sign_up'),
     path('users/sign_in/', views.sign_in, name='sign_in'),
-    # path('users/sign_out/', views.sign_out, name='sign_out'), // TODO: leon add signout 
+    path('users/sign_out/', views.sign_out, name='sign_out'),
     # path('users/user_profile/', views.user_profile, name='user_profile') // TODO: add user profile
 
     # Course data requests
