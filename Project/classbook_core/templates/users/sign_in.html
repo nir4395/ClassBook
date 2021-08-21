@@ -10,21 +10,34 @@
     
 
 <div class="page-container">
-    <div class="container pt-5">
-        <h1>Login</h1>
-        <br>
-        <h5 class="text-center">Not a member yet? <a href="/users/sign_up"> Sign Up</a></h5>
-        
-        <form method="POST">
-            {% csrf_token %}
-            {{ sign_in_form|crispy }}
-            <button class="btn btn-primary post-btn" type="submit">Sign in</button>
-        </form>
 
-        <br>
-        <div>Made a mistake?</div>
-        <a href="/">Return Home</a>
+    
+    <div class="container pt-5">
+        <div class="boarder">
+            <img src={% static "classbook_logo.png" %} height="150"> 
+            <h1>Login</h1>
+            <br>
+            <h5 class="text-center">Not a member yet? <a href="/users/sign_up"> Sign Up</a></h5>
+            
+            <form method="POST">
+            {% csrf_token %}
+                {{ sign_in_form|crispy }}
+                <button class="btn btn-primary post-btn" type="submit">Sign in</button>
+            </form>
+
+            <br>
+            <div>Made a mistake?</div>
+            <a href="/">Return Home</a>
+        </div>
     </div>
 </div>
+
+<style>
+    .boarder {
+    border: 1px solid grey;
+    padding: 25px; 
+}
+</style>
+
 </body>
 {% endblock %}
