@@ -1,5 +1,5 @@
 <template>
-<v-container>
+<v-container v-if="courses.length!==0">
     <v-toolbar
       color="blue"
       dark
@@ -18,9 +18,25 @@
         <v-icon>mdi-checkbox-marked-circle</v-icon>
       </v-btn>
     </v-toolbar>
+    <div v-if="courses.length!==0">
        <MyCoursesViewer :info="courses"></MyCoursesViewer>
+    </div>
+   
+      
 
 
+</v-container>
+
+<v-container v-else>
+  <v-card style="height:100px;background-color:white"
+  elevation="3"
+
+>
+  <h2>Not Follwing Courses yet?</h2>
+      
+     <v-btn  color="gray" @click="goToCourses()">Add Courses</v-btn>
+</v-card>
+   
 </v-container>
 </template>
 <script>
@@ -29,6 +45,11 @@ export default {
     props:['courses'],
    components:{
        MyCoursesViewer
+   },
+   methods:{
+      goToCourses(){
+         return this.$router.push({ name: "Catergories", params: { ins: 1 } });
+      }
    },
 
 }
