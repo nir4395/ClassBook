@@ -4,14 +4,14 @@
 
     <div class="container">
       <div style="margin-top:50px;" class="row">
-        <div @click="GoToCourses(1)" class="col-md-3 col-sm-6">
+        <div @click="GoToCourses(1,'First Year Courses')" class="col-md-3 col-sm-6">
           <SchoolBox
             name="First Year Courses"
             img="Instutitons/maths.jpg"
           ></SchoolBox>
           <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div>
-        <div @click="GoToCourses(2)" class="col-md-3 col-sm-6">
+        <div @click="GoToCourses(2,'Second Year Courses')" class="col-md-3 col-sm-6">
           <SchoolBox
             name="Second Year Courses"
             img="Instutitons/hardwere.jpg"
@@ -19,13 +19,13 @@
         </div>
       </div>
       <div style="margin-top:50px;" class="row">
-        <div @click="GoToCourses(3)" class="col-md-3 col-sm-6">
+        <div @click="GoToCourses(3,'Third Year Courses')" class="col-md-3 col-sm-6">
           <SchoolBox
             name="Third Year Courses"
             img="Instutitons/computers2.jpg"
           ></SchoolBox>
         </div>
-        <div @click="GoToCourses(10)" class="col-md-3 col-sm-6">
+        <div @click="GoToCourses(10,'Selection Courses')" class="col-md-3 col-sm-6">
           <SchoolBox
             name="Selection Courses"
             img="Instutitons/mobile.jpg"
@@ -53,10 +53,10 @@ export default {
   },
 
   methods: {
-    GoToCourses(year_code_param) {
+    GoToCourses(year_code_param,categoryName) {
       return this.$router.push({
         name: "CoursesSelection",
-        params: { ins: this.ins, yearCode: year_code_param },
+        params: {catName:categoryName, ins: this.ins, yearCode: year_code_param },
       });
     },
     getCatergories() {
