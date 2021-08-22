@@ -156,3 +156,5 @@ WEBPACK_LOADER = {
         'LOADER_CLASS': 'webpack_loader.loader.WebpackLoader',
     }
 }
+
+LOGIN_URL = 'users/sign_in/'
