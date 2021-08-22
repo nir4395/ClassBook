@@ -22,7 +22,8 @@ from datetime import datetime
 
 import os
 from pathlib import Path
-# from django.contrib.auth.decorators import login_required // TODO: we should use this decorator in the future.
+# from django.contrib.auth.decorators import login_required # TODO: we should use this decorator in most views
+
 
 def sign_up(request):
     if request.method == "POST":
