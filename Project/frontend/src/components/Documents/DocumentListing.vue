@@ -60,7 +60,7 @@
 
 
               <v-list-item-action>
-               <v-icon  @click="goToDocument()" cursor="pointer">open_in_new</v-icon>
+               <v-icon  @click="goToDocument(doc.id)" cursor="pointer">open_in_new</v-icon>
            
 
           
@@ -171,11 +171,13 @@ axios.defaults.xsrfCookieName = "csrftoken";
 
       methods:{
         
-        goToDocument(){
-        
+        goToDocument(id){
+        console.log("this is the id "+id)
               // axios.get('http://localhost:8000/course/get/course_id=3/doc_id=3')
               // .then(response => (this.info = response.data))
-                return this.$router.push('/doc');
+              return this.$router.push({ name: 'DocumentPreview', params: {  id:id } })
+
+                // return this.$router.push({ name: 'DocumentPreview', params: { id:id}});
         
         
       },

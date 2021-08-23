@@ -1,6 +1,7 @@
 from sys import exc_info
 from django.contrib.auth.forms import AuthenticationForm
 from django.db.models.expressions import Exists
+from django.forms.models import model_to_dict
 from django.http.request import split_domain_port
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
@@ -15,8 +16,15 @@ from classbook_core.models import Course, Document, Institution, Profile, Commen
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from json import loads, dumps
 from django.core.files.storage import FileSystemStorage
-from classbook_core.file_handling import construct_file_path, construct_file_save_directory
+from classbook_core.file_handling import constructle_path, construct_file_save_directory
 from classbook_core.forms import SignUpForm, SignInForm
+from django.conf import settings
+from datetime import datetime
+
+
+import os
+from pathlib import Path
+# from django.contrib.auth.decorators import login_required # TODO: we should use this decorator in most views
 
 def sign_up(request):
     if request.method == "POST":
@@ -51,7 +59,7 @@ def sign_in(request):
             if user:
                 login(request, user)
                 sign_in_successful = True
-                messages.info(request, f'You are now logged in as {username}.')
+                messages.info(request, 'You are now logged in as {username}.')
                 return redirect('index')
 
         if not sign_in_successful:
@@ -61,6 +69,42 @@ def sign_in(request):
 
     form = SignInForm()
     return render(request=request, template_name='users/sign_in.html', context={'sign_in_form': form})
+
+def sign_out(request):
+    messages.info(request, f'{request.user.username} successfully logged out')
+    logout(request)
+    return redirect('index')
+
+
+@require_http_methods(["GET"])
+def user_profile(request):
+
+    user_profile_as_dict = model_to_dict(request.user.profile)
+    # change user_id in the dictionary to user object
+    user_profile_as_dict['user'] = model_to_dict(request.user)
+    
+    return JsonResponse({
+        'profile_details': user_profile_as_dict
+    })
+
+
+@require_http_methods(["POST"])
+#@csrf_exempt // this is for testing (disables CSRF protection)
+def change_profile_details(request):
+
+    # get the profile details information from this dictionary
+    data_from_client_as_dictionary = loads(request.body) 
+    user_profile = request.user.profile
+    user = request.user
+
+    user.first_name = data_from_client_as_dictionary['first_name']
+    user.last_name = data_from_client_as_dictionary['last_name']
+    # format example of birth date: Jun 1 2005
+    user_profile.birth_date = datetime.strptime(data_from_client_as_dictionary['birth_date'], "%b %d %Y")
+
+    user.save()
+    user_profile.save()
+    return HttpResponse("Profile details changed successfully")
 
 # Find available file name for document-file on server
 def find_available_file_name(original_uploaded_file_name, related_course):
@@ -141,7 +185,6 @@ def course_categories(request, course_id):
 @login_required('')
 def courses_by_year(request, ins_id, year_code_param):
     try:
-
         # Get course from db by supplied course_id
         courses_by_year = Course.objects.filter(institution=Institution.objects.get(pk=ins_id), year_code=year_code_param)
         courses_as_list = list(courses_by_year.values('name', 'id'))
