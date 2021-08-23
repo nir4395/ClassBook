@@ -36,6 +36,7 @@ class Migration(migrations.Migration):
             ("recorded_lectures_iris",         "docx",    user_example_1, course_algorithms,       'Lectures'),
             ("targ02-published-sol",         "PDF",    user_example_4, course_algorithms,       'Homework Solutions'),
             ("2016.06.21",         "PDF",    user_example_3, course_operating_systems,       'Exam Solutions'),
+            ("BinPacking_misc", "PDF", user_example_1, course_complexity, 'Exam Solutions'),
             ("File System Implementation",         "ppt",    user_example_2, course_operating_systems,       'Slides'),
             ("Targil6",         "PDF",    user_example_3, course_complexity,       'Homework Solutions'),
             ("HelloWorld",         "cs",    user_example_1, course_csharp_dotnet,       'Homework Solutions'),

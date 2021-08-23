@@ -19,6 +19,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STORAGE_DIR = os.path.join(BASE_DIR, 'storage')
+COURSES_STORAGE_DIR = os.path.join(STORAGE_DIR, 'courses')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'webpack_loader',
     'classbook_core',
     'crispy_forms',
+    'corsheaders',
 ]
 
 from django.contrib.messages import constants as messages
@@ -56,6 +58,7 @@ MESSAGE_TAGS = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -85,6 +88,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'classbook.wsgi.application'
 
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
+]
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

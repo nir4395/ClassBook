@@ -1,3 +1,4 @@
+from classbook_core.file_handling import construct_file_save_directory
 from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator
@@ -7,10 +8,11 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.forms.models import model_to_dict
 from django.utils import timezone
-
+from classbook_core.file_handling import construct_file_path
+from django.core.files.storage import FileSystemStorage
 
 class Institution(models.Model):
-    name = models.CharField(max_length=300)
+    name = models.CharField(max_length=300, unique=True)
     student_count = models.IntegerField(validators=[MinValueValidator(0)])
     academic_email_suffix = models.CharField(max_length=100)
 
@@ -20,7 +22,6 @@ class Institution(models.Model):
     @staticmethod
     def get_academic_instituion_choices():
         return list(Institution.objects.all().values_list('id','name'))
-
 
 class AcademicDegree(models.Model):
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
@@ -70,7 +71,7 @@ class Course(models.Model):
 
     def __str__(self):
         return self.name
-
+    
 class Document(models.Model):
     name = models.CharField(max_length=300)
     doc_type = models.CharField(max_length=10) # pdf, jpg, txt, cpp, cs, etc
@@ -84,7 +85,6 @@ class Document(models.Model):
 
     def __str__(self):
         return self.name
-
 
     def get_all_comments_and_replies_by_date(self):
         all_document_comments_by_date = Comment.objects.filter(associated_document=self).order_by('publish_date')
@@ -113,14 +113,24 @@ class Document(models.Model):
            
 
         return comments_to_return
-
+    def get_all_comments_as_list(self):
+        return list(Comment.objects.filter(associated_document=self))
+        
+    def name_with_extension(self):
+        full_name = '{0}.{1}'.format(self.name, self.doc_type)
+        return full_name
 
     def save(self, *args, **kwargs):
-        # Convert document type and document category to lowercase upon creation
+        # Convert document type and document category to lowercase upon creation for uniformity
         self.doc_type = self.doc_type.lower()
         self.category = self.category.lower()
         return super(Document, self).save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        # Delete the related file
+        file_system = FileSystemStorage(construct_file_save_directory(self))
+        file_system.delete(self.name_with_extension())
+        return super(Document, self).delete(*args, **kwargs)
 
 class Comment(models.Model):
     associated_document = models.ForeignKey(Document, on_delete=CASCADE)
