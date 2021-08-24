@@ -16,7 +16,7 @@ from classbook_core.models import Course, Document, Institution, Profile, Commen
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from json import loads, dumps
 from django.core.files.storage import FileSystemStorage
-from classbook_core.file_handling import constructle_path, construct_file_save_directory
+from classbook_core.file_handling import construct_file_save_directory
 from classbook_core.forms import SignUpForm, SignInForm
 from django.conf import settings
 from datetime import datetime
