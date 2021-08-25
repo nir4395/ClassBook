@@ -114,7 +114,7 @@ def change_profile_details(request):
 
     # format example of birth_date: "Jun 1 2005"
     user_profile.birth_date = datetime.strptime(data_from_client_as_dictionary['birth_date'], "%b %d %Y")
-    # format example of picture_URL: "/profile_pictures/default_profile_picture.jpg"
+    # format example of picture_URL: "/frontend/src/assets/userProfiles/default_profile_picture.jpg"
     user_profile.picture = data_from_client_as_dictionary['picture_URL']
 
     user.save()
