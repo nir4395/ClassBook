@@ -32,9 +32,9 @@ class AcademicDegree(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    institution = models.OneToOneField(Institution,null=True, on_delete=models.SET_NULL)
+    institution = models.ForeignKey(Institution,null=True, on_delete=models.SET_NULL)
     birth_date = models.DateField(null=True, blank=True)
-    picture = models.ImageField(upload_to='profile_pictures', null=True, blank=True, default=None)
+    picture = models.ImageField(upload_to='frontend/src/assets/userProfiles', null=True, blank=True, default=None)
 
     # both methods will be triggered automatically after user.save is called
     # meaning - each time a user is created and saved - his profile object will also be created
