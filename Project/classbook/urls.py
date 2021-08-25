@@ -54,5 +54,6 @@ urlpatterns = [
     # Document URLs
     path('doc_id=<doc_id>/post_comment', views.post_comment),
     path('doc_id=<doc_id>/get_all_document_comments', views.get_all_document_comments),
+    path('doc_id=<doc_id>/is_document_rated_by_user', views.is_document_rated_by_user),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
