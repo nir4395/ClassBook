@@ -1,5 +1,6 @@
 <template>
   <div>
+      <CardDisplay></CardDisplay>
     <div
       class="mx-auto"
       style="font-weight:bold;font-size:24px;text-align:center;width:1000px"
@@ -15,7 +16,7 @@
 </template>
 <script>
 import CourseCatergories from "../components/Courses/CourseCatergories.vue";
-
+import CardDisplay from '../components/CardDisplay.vue'
 export default {
   data() {
     return {
@@ -33,6 +34,7 @@ export default {
   },
   components: {
     CourseCatergories,
+    CardDisplay
   },
 };
 </script>

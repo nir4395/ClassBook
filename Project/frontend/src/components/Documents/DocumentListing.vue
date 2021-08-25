@@ -21,9 +21,7 @@
     </v-toolbar>
      <v-card v-for="doc in docs" :key="doc.name">
          <v-list-item-group
-        v-model="selected"
-        active-class="pink--text"
-        multiple
+    
       >
         <template>
           <v-list-item width="1000px" :key="doc.id">
@@ -35,7 +33,7 @@
 
                 <v-list-item-content style="width:500px">
                 <v-list-item-title  width="100px" v-text="doc.name"></v-list-item-title>
-                <v-list-item-subtitle v-text="doc['upload_date']" ></v-list-item-subtitle>
+                <v-list-item-subtitle v-text="showDate(doc['upload_date'])" ></v-list-item-subtitle>
               </v-list-item-content>
                 
                  <v-list-item-content>
@@ -168,9 +166,12 @@ axios.defaults.xsrfCookieName = "csrftoken";
 
   export default {
     props:['docs','name','cat'],
-
+    
+      
       methods:{
-        
+         showDate: function (date){
+            return date.split('T')[0]
+        },
         goToDocument(id){
         console.log("this is the id "+id)
               // axios.get('http://localhost:8000/course/get/course_id=3/doc_id=3')
@@ -209,16 +210,22 @@ axios.defaults.xsrfCookieName = "csrftoken";
     // info:'',
     //  y:this.x,
     //  docsData:[
-    //    {name:'Calculus 1 -Exam 2019 Term A First Exam 2019.2.3',author:'Marina Slovotichx',views:34,rating:4,uploadDate:'6.6.2020',lastComment:'20.6.2021'},
-    //    {name:'Calculus 1 -Exam 2019 Term A  Second Exam  2019.29.3',author:'Gal Braun',views:122,rating:4,uploadDate:'6.6.2020',lastComment:'20.6.2021'},
-    //    {name:'Calculus 1 -Exam 2021 Term B  First Exam  2021.7.6',author:'Tomer Shavit',views:23,rating:5,uploadDate:'6.6.2020',lastComment:'20.7.2021'},
-    //    {name:'Calculus 1 -Exam 2021 Term B  Second Exam  2021.8.6',author:'Tomer Shavit',views:5,rating:5,uploadDate:'19.7.2020',lastComment:'31.7.2021'},
+    //    {name:'Calculus 1 -Exam 2019 Term A First Exam 2019.2.3',author:'Marina Slovotichx',views:34,rating:4,uploadDate:"2019-08-16T08:37:09.098Z",lastComment:'20.6.2021'},
+    //    {name:'Calculus 1 -Exam 2019 Term A  Second Exam  2019.29.3',author:'Gal Braun',views:122,rating:4,uploadDate:'2021-06-16T08:37:09.098Z',lastComment:'20.6.2021'},
+    //    {name:'Calculus 1 -Exam 2021 Term B  First Exam  2021.7.6',author:'Tomer Shavit',views:23,rating:5,uploadDate:'2021-08-16T02:37:09.098Z',lastComment:'20.7.2021'},
+    //    {name:'Calculus 1 -Exam 2021 Term B  Second Exam  2021.8.6',author:'Tomer Shavit',views:5,rating:5,uploadDate:'2021-01-01T08:37:09.098Z',lastComment:'31.7.2021'},
     //  ],
     //  }),
     data(){
       return {
         // name:this.name,
-        z:4444
+        z:4444,
+    //     docsData:[
+    //    {name:'Calculus 1 -Exam 2019 Term A First Exam 2019.2.3',author:'Marina Slovotichx',views:34,rating:4,upload_date:"2019-08-16T08:37:09.098Z",lastComment:'20.6.2021'},
+    //    {name:'Calculus 1 -Exam 2019 Term A  Second Exam  2019.29.3',author:'Gal Braun',views:122,rating:4,upload_date:'2021-06-16T08:37:09.098Z',lastComment:'20.6.2021'},
+    //    {name:'Calculus 1 -Exam 2021 Term B  First Exam  2021.7.6',author:'Tomer Shavit',views:23,rating:5,upload_date:'2021-08-16T02:37:09.098Z',lastComment:'20.7.2021'},
+    //    {name:'Calculus 1 -Exam 2021 Term B  Second Exam  2021.8.6',author:'Tomer Shavit',views:5,rating:5,upload_date:'2021-01-01T08:37:09.098Z',lastComment:'31.7.2021'},
+    //  ],
       }
     }
 

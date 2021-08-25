@@ -5,6 +5,7 @@ import DocumentPreview  from '../views/DocumentPreview.vue'
 import DocumentSelection from '../views/DocumentsSelection.vue'
 import Catergories from '../views/Catergories.vue'
 import Login from '../views/Login.vue'
+import PageNotFound from '../views/PageNotFound.vue'
 import SignUp from '../views/SignUp.vue'
 import CoursesSelection from '../views/CoursesSelection.vue'
 import Profile from '../views/Profile.vue'
@@ -49,6 +50,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/notfound',
+    name: 'NotFound',
+    component: PageNotFound
   },
   {
     path: '/signup',

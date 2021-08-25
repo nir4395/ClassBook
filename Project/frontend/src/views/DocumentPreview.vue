@@ -1,8 +1,9 @@
 <template>
   <div class="mainDocumentDiv">
+
     <PDFJSViewer :path="`${path}`" :fileName="`${name}`" />
 
-    <CommentsSection
+    <CommentsSection @updateData="getData()"
       ref="comSection"
       :comments="doc"
       :id="id"
@@ -38,6 +39,29 @@ export default {
     };
   },
   methods: {
+       async  getData(){
+     try {
+       console.log("fire!")
+      var urlDocumentComments =
+        "http://localhost:8000/doc_id=" +
+        this.id +
+        "/get_all_document_comments";
+       const response = await this.$http
+        .get(urlDocumentComments)
+      this.documnetComments = response.data
+      var comments = this.documnetComments.all_comments;
+     
+      this.doc=this.buildComments(comments)
+       console.log("getting the data!")
+
+     }
+     catch(error){
+       console.log(error)
+     }
+     
+    },
+
+
     getComments() {
       var urlDocumentComments =
         "http://localhost:8000/doc_id=" +
@@ -74,20 +98,24 @@ export default {
           index = replyIndex;
         }
       }
+      console.log("comments return")
       return newComments;
     },
     pollData() {
       this.polling = setInterval(() => {
-        this.getComments();
+        this.getData()
       }, POLLING_INTERVAL);
     },
   },
+ 
   beforeDestroy() {
     clearInterval(this.polling);
   },
   created() {
-    console.log("poll!");
-    this.pollData();
+    // console.log("poll!");
+    this.getData();
+    //this.pollData();
+    
   },
 };
 </script>

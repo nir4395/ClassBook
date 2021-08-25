@@ -1,98 +1,124 @@
 <template>
-  <div class="panel-body bio-graph-info">
-    <h1>Personal Information</h1>
-    <div class="row">
-      <div class="bio-row">
-        <p><span>First Name </span>: Marcus</p>
-      </div>
-      <div class="bio-row">
-        <p><span>Last Name </span>: Obrien</p>
-      </div>
-      <div class="bio-row">
-        <p><span>Country </span>: Israel</p>
-      </div>
-      <div class="bio-row">
-        <p><span>Member Since</span>: 21 July 2020</p>
-      </div>
+ 
+        <v-card class="pa-2" outlined tile>
+          <v-row>
+            <v-col color="gray">Profile details</v-col>
+          </v-row>
+          <v-divider></v-divider>
 
-      <div class="bio-row">
-        <p><span>Email </span>: marcu2196@mta.ac.il</p>
-      </div>
-      <div class="bio-row">
-        <p><span>School </span>: Computer Siecnce</p>
-      </div>
-      <div class="bio-row">
-        <p><span>Year </span>: Third</p>
-      </div>
-    </div>
-  </div>
+          <v-row>
+            <v-col color="gray">
+              <!-- <v-img
+                class="mx-auto"
+                height="100px"
+                width="100px"
+                style="border-radius:100%"
+                :src="require(`@/assets/${user}`)"
+              >
+              </v-img> -->
+                <ProfileImageUpdate :img="user"></ProfileImageUpdate>
+            
+             
+            
+             
+            </v-col>
+            <v-col>
+              <v-subheader class="mx-auto" color="gray">{{userInfo.first_name}}  {{userInfo.last_name}}</v-subheader>
+               <v-subheader class="mx-auto" color="gray">{{userInfo.email}}</v-subheader>
+                 <v-subheader class="mx-auto" color="gray"> Date Joined   {{getJoinDate() }}</v-subheader>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
+              <label>First Name</label>
+              <input  id="firstNameInput" class="form-control" :value="userInfo.first_name"
+            /></v-col>
+
+            <v-col>
+              <label>Last Name </label>
+              <input id="lastNameInput" class="form-control" :value="userInfo.last_name"
+            /></v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <label ref="dudu">Birth date</label>
+            
+            
+              <input type="date"  id="birthdate" :value="birth" class="form-control">
+            </v-col>
+
+            <v-col> </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-btn @click="changeProfileDetails()" style="border-radius:12%;color:white" color="blue"
+                >Save Changes</v-btn
+              >
+            </v-col>
+          </v-row>
+        
+        </v-card>
+     
 </template>
+<script>
+// import BirthDatePicker from '../components/Users/BirthDatePicker.vue'
+import ProfileImageUpdate from '../components/Users/ProfileImageUpdate.vue'
+export default {
+  props:['userInfo','birth'],
+ components: {
+   ProfileImageUpdate
+ //  BirthDatePicker
+
+}, 
+  data() {
+    return {
+      img: "Covers/campus3.jpg",
+      user: "userProfiles/profile2.jpg",
+    }
+    
+
+},
+
+methods:{
+   getJoinDate(){
+       return this.userInfo.date_joined.split('T')[0]
+    
+   },
+ async changeProfileDetails(){
+    
+     try {
+          var firstName=document.getElementById("firstNameInput").value
+          var lastName=document.getElementById("lastNameInput").value
+          var birthDate=document.getElementById("birthdate").value
+          var dateValues= new Date(birthDate)
+          dateValues=dateValues.toDateString().split(" ")
+          dateValues=dateValues[1]+" "+dateValues[2]+" "+dateValues[3]
+          console.log(dateValues)
+          var url = "http://localhost:8000/users/user_profile/change_profile_details"
+          var data={'first_name':firstName,'last_name':lastName,'birth_date':dateValues}
+
+          const response=  await this.$http.post(url,data);
+          console.log(response)
+       
+   
+     }
+     catch(error){
+       console.log(error)
+     }
+  }
+}
+}
+</script>
 <style scoped>
-.bio-graph-heading {
-  background: #fbc02d;
-  color: #fff;
-  text-align: center;
-  font-style: italic;
-  padding: 40px 110px;
-  border-radius: 4px 4px 0 0;
-  -webkit-border-radius: 4px 4px 0 0;
-  font-size: 16px;
-  font-weight: 300;
-}
-
-.bio-graph-info {
-  color: #89817e;
-}
-
-.bio-graph-info h1 {
-  font-size: 22px;
-  font-weight: 300;
-  margin: 0 0 20px;
-}
-
-.bio-row {
-  width: 50%;
-  float: left;
-  margin-bottom: 10px;
-  padding: 0 15px;
-}
-
-.bio-row p span {
-  width: 100px;
-  display: inline-block;
-}
-
-.bio-chart,
-.bio-desk {
-  float: left;
-}
-
-.bio-chart {
-  width: 40%;
-}
-
-.bio-desk {
-  width: 60%;
-}
-
-.bio-desk h4 {
-  font-size: 15px;
-  font-weight: 400;
-}
-
-.bio-desk h4.terques {
-  color: #4cc5cd;
-}
-
-.bio-desk h4.red {
-  color: #e26b7f;
-}
-
-.bio-desk h4.green {
-  color: #97be4b;
-}
-
-.bio-desk h4.purple {
-  color: #caa3da;
+  .editimage {
+  z-index: 39;
+  height: 25px;
+  width: 25px;
+  border-radius: 100%;
+  background-color: lightgreen;
+  position: relative;
+  margin-left: -572px;
+  margin-top: -60px;
 }
 </style>

@@ -19,7 +19,13 @@
         </v-flex>
         <v-flex xs3 sm2 md2>
           <div class="caption grey--text">Date Updated</div>
-          <div>{{ course.date_updated }}</div>
+          <div>{{ showDate(course.date_updated) }}</div>
+        </v-flex>
+          <v-flex xs3 sm2 md2>
+          <div class="caption grey--text">Go to course page</div>
+          <v-icon style="cursor:pointer" @click="navToCourseCategorySelection(course.name,course.id)"
+            >find_in_page</v-icon
+          >
         </v-flex>
         <v-flex xs3 sm2 md2>
           <div class="caption grey--text">Unregirster Course</div>
@@ -38,6 +44,9 @@ school:}
 export default {
   props: ["info"],
   methods: {
+      showDate: function (date){
+            return date.split('T')[0]
+        },
     navToCourseCategorySelection(nameOfCourse, id) {
       return this.$router.push({
         name: "CourseCategorySelection",
@@ -51,7 +60,8 @@ export default {
 
       this.$http.post(url, data).then((response) => console.log(response.data));
       //remove from list
-      this.info.remove(index);
+      this.info.splice(index, 1)
+      // this.info.remove(index);
     },
   },
 };

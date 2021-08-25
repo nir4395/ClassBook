@@ -9,14 +9,9 @@
       >
       <v-toolbar-title style="height:64px" class="text-uppercase grey--text">
         <span
-          ><img height="36" width="36" src="../assets/Covers/classbookLogo.png"
+          ><img class="logo" src="../assets/Covers/logo.png"
         /></span>
-        <span
-          style="margin-left:8px;font-size:20px"
-          class="color:black;font-weight-light"
-          >CLASS</span
-        >
-        <span style="font-size:20px;color:#007bff">BOOK</span>
+      
       </v-toolbar-title>
 
       <v-btn text color="grey">
@@ -38,8 +33,15 @@
             >search</v-icon
           >
         </span>
+
       </v-btn>
+      <span>Logout
+           <v-icon @click="logout()">logout</v-icon>
+      </span>
+     
+       
       <v-spacer></v-spacer>
+     
     </v-app-bar>
 
     <v-navigation-drawer app v-model="drawer">
@@ -115,6 +117,20 @@ export default {
         this.Search();
       }
     },
+
+  async  logout(){
+     try {
+          var url = "http://localhost:8000/users/sign_out/"
+
+       await this.$http.get(url);
+       window.location.href='http://localhost:8000/users/sign_in'
+       
+     }
+     catch(error){
+       console.log(error)
+     }
+     
+    },
     Search() {
       var query = this.$refs["searchInput"].value;
       this.$refs["searchInput"].value = "";
@@ -151,5 +167,13 @@ export default {
   margin-top: -7px;
   width: 1000px;
   margin-left: 50px;
+}
+.logo{
+  height: 92px;
+    margin-top: -9px;
+    padding: 4px;
+    width: 307px;
+   
+    width: 264px;
 }
 </style>
