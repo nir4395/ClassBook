@@ -79,7 +79,13 @@ def sign_out(request):
 @require_http_methods(["GET"])
 def user_profile(request):
 
-    user_profile_as_dict = model_to_dict(request.user.profile)
+    user_profile_as_dict = model_to_dict(request.user.profile, exclude='picture') 
+
+    if request.user.profile.picture:
+        user_profile_as_dict['picture_URL'] = request.user.profile.picture.url
+    else:
+        user_profile_as_dict['picture_URL'] = None 
+
     # change user_id in the dictionary to user object
     user_profile_as_dict['user'] = model_to_dict(request.user)
     
@@ -89,7 +95,7 @@ def user_profile(request):
 
 
 @require_http_methods(["POST"])
-#@csrf_exempt // this is for testing (disables CSRF protection)
+#@csrf_exempt # this is for testing (disables CSRF protection)
 def change_profile_details(request):
 
     # get the profile details information from this dictionary
@@ -97,10 +103,19 @@ def change_profile_details(request):
     user_profile = request.user.profile
     user = request.user
 
+    # //////////////for testing with csrf_exempt////////////////
+    # from django.contrib.auth.models import User
+    # user = User.objects.get(pk=2)
+    # user_profile = Profile.objects.get(user=user)
+    #///////////////////////////////////////////////////////////
+
     user.first_name = data_from_client_as_dictionary['first_name']
     user.last_name = data_from_client_as_dictionary['last_name']
-    # format example of birth date: Jun 1 2005
+
+    # format example of birth_date: "Jun 1 2005"
     user_profile.birth_date = datetime.strptime(data_from_client_as_dictionary['birth_date'], "%b %d %Y")
+    # format example of picture_URL: "/profile_pictures/default_profile_picture.jpg"
+    user_profile.picture = data_from_client_as_dictionary['picture_URL']
 
     user.save()
     user_profile.save()
