@@ -497,7 +497,6 @@ def is_document_rated_by_user(request, doc_id):
     except Document.DoesNotExist:
         return JsonResponse('Document.DoesNotExist') # TODO: check if this is the correct way to return a django exception in Json format
 
-# Check if user already rated this document
     document_ratings = document.student_rated.all()
     user_profile = request.user.profile
 
