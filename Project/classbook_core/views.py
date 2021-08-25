@@ -488,3 +488,18 @@ def get_all_document_comments(request, doc_id):
     return JsonResponse({
             'all_comments': str(document.get_all_comments_and_replies_by_date())
         })
+
+@require_http_methods(["GET"])
+def is_document_rated_by_user(request, doc_id):
+
+    try:
+        document = Document.objects.get(pk=doc_id)
+    except Document.DoesNotExist:
+        return JsonResponse('Document.DoesNotExist') # TODO: check if this is the correct way to return a django exception in Json format
+
+    document_ratings = document.student_rated.all()
+    user_profile = request.user.profile
+
+    is_document_rated = document_ratings.filter(user_id=user_profile.user_id).exists()
+    return JsonResponse({'is_document_rated' : is_document_rated})
+    
