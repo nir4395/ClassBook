@@ -98,28 +98,59 @@ def user_profile(request):
 #@csrf_exempt # this is for testing (disables CSRF protection)
 def change_profile_details(request):
 
-    # get the profile details information from this dictionary
-    data_from_client_as_dictionary = loads(request.body) 
-    user_profile = request.user.profile
-    user = request.user
-
     # //////////////for testing with csrf_exempt////////////////
     # from django.contrib.auth.models import User
     # user = User.objects.get(pk=2)
     # user_profile = Profile.objects.get(user=user)
-    #///////////////////////////////////////////////////////////
+    # ///////////////////////////////////////////////////////////
+
+    # get the profile details information from this dictionary
+    data_from_client_as_dictionary = loads(request.body) 
+    user_profile = request.user.profile
+    user = request.user
 
     user.first_name = data_from_client_as_dictionary['first_name']
     user.last_name = data_from_client_as_dictionary['last_name']
 
     # format example of birth_date: "Jun 1 2005"
     user_profile.birth_date = datetime.strptime(data_from_client_as_dictionary['birth_date'], "%b %d %Y")
-    # format example of picture_URL: "/frontend/src/assets/userProfiles/default_profile_picture.jpg"
-    user_profile.picture = data_from_client_as_dictionary['picture_URL']
-
+    
     user.save()
     user_profile.save()
     return HttpResponse("Profile details changed successfully")
+
+
+@csrf_exempt # this is for testing (disables CSRF protection)
+@require_http_methods(["POST"])
+def upload_profile_picture(request):
+
+    # //////////////for testing with csrf_exempt////////////////
+    # from django.contrib.auth.models import User
+    # user = User.objects.get(pk=2)
+    # user_profile = Profile.objects.get(user=user)
+    # ///////////////////////////////////////////////////////////
+
+    user_profile = request.user.profile
+    user = request.user
+
+    # get the picture from the client and upload it to our folder in the server
+    try:
+        uploaded_profile_picture = request.FILES['profile_picture']
+        unique_picture_name = "user_"+ str(user.id) +"_pic.jpg"
+
+        with open('frontend/src/assets/userProfiles/'+ unique_picture_name, 'wb+') as destination:
+            for chunk in uploaded_profile_picture.chunks():
+                destination.write(chunk)
+        
+        # save picture for the user_profile 
+        user_profile.picture = 'frontend/src/assets/userProfiles/'+ unique_picture_name
+        user_profile.save()
+
+        return HttpResponse("Picture uploaded successfully")
+
+    except:
+        return HttpResponse("Picture upload failed")
+
 
 # Find available file name for document-file on server
 def find_available_file_name(original_uploaded_file_name, related_course):
