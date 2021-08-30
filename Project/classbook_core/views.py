@@ -16,7 +16,7 @@ from classbook_core.models import Course, Document, Institution, Profile, Commen
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from json import loads, dumps
 from django.core.files.storage import FileSystemStorage
-from classbook_core.file_handling import construct_file_save_directory
+from classbook_core.file_handling import construct_file_path, construct_file_save_directory
 from classbook_core.forms import SignUpForm, SignInForm
 from django.conf import settings
 from datetime import datetime
@@ -536,7 +536,7 @@ def get_all_document_comments(request, doc_id):
 
     # TODO: check that the format of the json comments works as needed with the frontend
     return JsonResponse({
-            'all_comments': str(document.get_all_comments_and_replies_by_date())
+            'all_comments': document.get_all_comments_and_replies_by_date()
         })
 
 
