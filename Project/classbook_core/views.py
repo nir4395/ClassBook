@@ -21,10 +21,10 @@ from classbook_core.forms import SignUpForm, SignInForm
 from django.conf import settings
 from datetime import datetime
 
-
 import os
 from pathlib import Path
-# from django.contrib.auth.decorators import login_required # TODO: we should use this decorator in most views
+from django.contrib.auth.decorators import login_required
+
 
 def sign_up(request):
     if request.method == "POST":
@@ -34,7 +34,7 @@ def sign_up(request):
             user = form.save()
             login(request, user)
             messages.success(request, "Registration successful.")
-            return redirect("sign_in") # TODO: change the redirect to the profile page / homepage
+            return redirect("sign_in")
         
         else:
             error_string = ' '.join([' '.join(x for x in l) for l in list(form.errors.values())])
@@ -70,12 +70,15 @@ def sign_in(request):
     form = SignInForm()
     return render(request=request, template_name='users/sign_in.html', context={'sign_in_form': form})
 
+
+@login_required
 def sign_out(request):
     messages.info(request, f'{request.user.username} successfully logged out')
     logout(request)
     return redirect('index')
 
 
+@login_required
 @require_http_methods(["GET"])
 def user_profile(request):
 
@@ -94,6 +97,7 @@ def user_profile(request):
     })
 
 
+@login_required
 @require_http_methods(["POST"])
 #@csrf_exempt # this is for testing (disables CSRF protection)
 def change_profile_details(request):
@@ -120,6 +124,7 @@ def change_profile_details(request):
     return HttpResponse("Profile details changed successfully")
 
 
+@login_required
 @csrf_exempt # this is for testing (disables CSRF protection)
 @require_http_methods(["POST"])
 def upload_profile_picture(request):
@@ -152,6 +157,7 @@ def upload_profile_picture(request):
         return HttpResponse("Picture upload failed")
 
 
+@login_required
 # Find available file name for document-file on server
 def find_available_file_name(original_uploaded_file_name, related_course):
 
@@ -169,6 +175,7 @@ def find_available_file_name(original_uploaded_file_name, related_course):
     return new_name
 
 
+@login_required
 @require_http_methods(["GET"])
 def course_docs(request, course_id, doc_category):
     try:
@@ -203,6 +210,7 @@ def course_docs(request, course_id, doc_category):
         return HttpResponseRedirect('courses')
 
 
+@login_required
 # Returns categories of documents available for course
 @require_http_methods(["GET"])
 def course_categories(request, course_id):
@@ -226,9 +234,8 @@ def course_categories(request, course_id):
         return HttpResponseRedirect('courses')
 
 
-
+@login_required
 @require_http_methods(["GET"])
-@login_required('')
 def courses_by_year(request, ins_id, year_code_param):
     try:
         # Get course from db by supplied course_id
@@ -254,6 +261,7 @@ def courses_by_year(request, ins_id, year_code_param):
         return HttpResponseRedirect('courses')
 
 
+@login_required
 @require_http_methods(["GET"])
 def document_by_id(request, doc_id):
     try:
@@ -275,6 +283,8 @@ def document_by_id(request, doc_id):
     except OSError:
         return HttpResponse('File error, either file is not found or directory is invalid.')
 
+
+@login_required
 @require_http_methods(["POST"])
 @csrf_exempt # Remove decorator after testing
 def rate_document(request):
@@ -322,6 +332,8 @@ def rate_document(request):
     except ObjectDoesNotExist:
         return HttpResponseRedirect('courses')
 
+
+@login_required
 def all_institutions(request):
     
     institutions = Institution.objects.all().values('id', 'name')
@@ -331,6 +343,8 @@ def all_institutions(request):
             'institutions': institutions_as_list
         })
 
+
+@login_required
 @require_http_methods(["POST"])
 @csrf_exempt # Remove decorator after testing
 def upload_file(request):
@@ -374,6 +388,7 @@ def upload_file(request):
         return HttpResponseRedirect('courses')
 
 
+@login_required
 @require_http_methods(["POST"])
 @csrf_exempt # Remove decorator after testing
 def register_to_course(request):
@@ -408,6 +423,7 @@ def register_to_course(request):
         return HttpResponseRedirect('courses')    
 
 
+@login_required
 @require_http_methods(["POST"])
 @csrf_exempt # Remove decorator after testing
 def deregister_from_course(request):
@@ -441,6 +457,8 @@ def deregister_from_course(request):
     except ObjectDoesNotExist:
         return HttpResponseRedirect('courses')   
 
+
+@login_required
 @require_http_methods(["GET"])
 @csrf_exempt # Remove decorator after testing
 def courses_user_registered(request):
@@ -470,6 +488,7 @@ def courses_user_registered(request):
         return HttpResponse("Error when trying to validate new DB record.")
 
 
+@login_required
 @require_http_methods(["POST"])
 @csrf_exempt # Remove decorator after testing
 def post_comment(request, doc_id):
@@ -505,7 +524,7 @@ def post_comment(request, doc_id):
         return HttpResponse("Comment successfully saved in the DB (not a reply)")
 
 
-
+@login_required
 @require_http_methods(["GET"])
 @csrf_exempt # Remove decorator after testing
 def get_all_document_comments(request, doc_id):
@@ -520,6 +539,8 @@ def get_all_document_comments(request, doc_id):
             'all_comments': str(document.get_all_comments_and_replies_by_date())
         })
 
+
+@login_required
 @require_http_methods(["GET"])
 def is_document_rated_by_user(request, doc_id):
 
@@ -533,4 +554,3 @@ def is_document_rated_by_user(request, doc_id):
 
     is_document_rated = document_ratings.filter(user_id=user_profile.user_id).exists()
     return JsonResponse({'is_document_rated' : is_document_rated})
-    

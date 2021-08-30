@@ -38,10 +38,10 @@ urlpatterns = [
     path('users/user_profile/upload_profile_picture', views.upload_profile_picture, name='upload_profile_picture'),
 
     # Course data requests
-    path('course/get/ins=<ins_id>,year=<year_code_param>', views.courses_by_year),
-    path('course/get/course_id=<course_id>/categories', views.course_categories),
-    path('course/get/course_id=<course_id>/cat=<doc_category>', views.course_docs),
-    path('course/get/doc_id=<doc_id>', views.document_by_id),
+    path('course/get/ins/<ins_id>,year/<year_code_param>', views.courses_by_year),
+    path('course/get/course_id/<course_id>/categories', views.course_categories),
+    path('course/get/course_id/<course_id>/cat/<doc_category>', views.course_docs),
+    path('course/get/doc_id/<doc_id>', views.document_by_id),
 
     path('sign_up/all_ins', views.all_institutions), # Get all supported institutions for sign-up droplist
     
@@ -53,8 +53,8 @@ urlpatterns = [
     path('course/user_registered/', views.courses_user_registered),
 
     # Document URLs
-    path('doc_id=<doc_id>/post_comment', views.post_comment),
-    path('doc_id=<doc_id>/get_all_document_comments', views.get_all_document_comments),
-    path('doc_id=<doc_id>/is_document_rated_by_user', views.is_document_rated_by_user),
+    path('doc_id/<doc_id>/post_comment', views.post_comment),
+    path('doc_id/<doc_id>/get_all_document_comments', views.get_all_document_comments),
+    path('doc_id/<doc_id>/is_document_rated_by_user', views.is_document_rated_by_user),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
