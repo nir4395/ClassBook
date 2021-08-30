@@ -35,6 +35,7 @@ urlpatterns = [
     path('users/sign_out/', views.sign_out, name='sign_out'),
     path('users/user_profile/', views.user_profile, name='user_profile'),
     path('users/user_profile/change_profile_details', views.change_profile_details, name='change_profile_details'),
+    path('users/user_profile/upload_profile_picture', views.upload_profile_picture, name='upload_profile_picture'),
 
     # Course data requests
     path('course/get/ins=<ins_id>,year=<year_code_param>', views.courses_by_year),
