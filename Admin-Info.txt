@@ -1,7 +1,0 @@
-The admin interface supplied by Django can now be used to edit and add database records
-at localhost:8000.
-
-Username: admin
-Password: ClassBook0!
-
-- Don't forget to execute 'python manage.py migrate' in order to populate the database with test data before executing 'python manage.py runserver'

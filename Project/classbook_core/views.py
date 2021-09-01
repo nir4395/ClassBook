@@ -12,7 +12,7 @@ from django.contrib import messages
 from django.http.response import FileResponse, JsonResponse, HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from classbook_core.models import Course, Document, Institution, Profile, Comment
+from classbook_core.models import Course, Document, Institution, Profile, Comment, DocumentAccess
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from json import loads, dumps
 from django.core.files.storage import FileSystemStorage
@@ -177,6 +177,7 @@ def find_available_file_name(original_uploaded_file_name, related_course):
 
 @login_required
 @require_http_methods(["GET"])
+@login_required('')
 def course_docs(request, course_id, doc_category):
     try:
 
@@ -213,6 +214,7 @@ def course_docs(request, course_id, doc_category):
 @login_required
 # Returns categories of documents available for course
 @require_http_methods(["GET"])
+@login_required('') # Remove decorator after testing
 def course_categories(request, course_id):
 
     try:
@@ -263,17 +265,33 @@ def courses_by_year(request, ins_id, year_code_param):
 
 @login_required
 @require_http_methods(["GET"])
+@login_required('')
 def document_by_id(request, doc_id):
     try:
 
         # Retrieve doc and update view count
         document = Document.objects.get(pk=doc_id)
+        profile = Profile.objects.get(pk=request.user.id)
 
         file_path = construct_file_path(document)
         file = open(file_path, 'rb')
 
+        # If already accessed current document recently, replace its record 
+        if (DocumentAccess.objects.filter(profile=profile, document=document).exists()):
+            previous_access_to_same_doc = DocumentAccess.objects.get(document=document)
+            previous_access_to_same_doc.delete()
+
+
+        if (DocumentAccess.objects.filter(profile=profile).count() >= DocumentAccess.max_records_per_user):
+            oldest_access = DocumentAccess.objects.filter(profile=profile).earliest('date_accessed')
+            oldest_access.delete()
+
+        DocumentAccess(profile=profile, document=document).save()
+
         document.view_count += 1
         document.save()
+
+
         return FileResponse(file)
 
     # TODO - add exception for file opening failure
@@ -286,7 +304,7 @@ def document_by_id(request, doc_id):
 
 @login_required
 @require_http_methods(["POST"])
-@csrf_exempt # Remove decorator after testing
+@login_required('')
 def rate_document(request):
 
     try:
@@ -346,7 +364,7 @@ def all_institutions(request):
 
 @login_required
 @require_http_methods(["POST"])
-@csrf_exempt # Remove decorator after testing
+@login_required('')
 def upload_file(request):
 
     try:
@@ -390,7 +408,7 @@ def upload_file(request):
 
 @login_required
 @require_http_methods(["POST"])
-@csrf_exempt # Remove decorator after testing
+@login_required('')
 def register_to_course(request):
     
     try:
@@ -425,7 +443,7 @@ def register_to_course(request):
 
 @login_required
 @require_http_methods(["POST"])
-@csrf_exempt # Remove decorator after testing
+@login_required('')
 def deregister_from_course(request):
 
     try:
@@ -460,7 +478,7 @@ def deregister_from_course(request):
 
 @login_required
 @require_http_methods(["GET"])
-@csrf_exempt # Remove decorator after testing
+@login_required('')
 def courses_user_registered(request):
 
     try:
@@ -490,7 +508,7 @@ def courses_user_registered(request):
 
 @login_required
 @require_http_methods(["POST"])
-@csrf_exempt # Remove decorator after testing
+@login_required('')
 def post_comment(request, doc_id):
 
     # get the comment information from this dictionary
@@ -526,7 +544,7 @@ def post_comment(request, doc_id):
 
 @login_required
 @require_http_methods(["GET"])
-@csrf_exempt # Remove decorator after testing
+@login_required('')
 def get_all_document_comments(request, doc_id):
 
     try:
@@ -554,3 +572,43 @@ def is_document_rated_by_user(request, doc_id):
 
     is_document_rated = document_ratings.filter(user_id=user_profile.user_id).exists()
     return JsonResponse({'is_document_rated' : is_document_rated})
+
+
+@require_http_methods(["GET"])
+@login_required('')
+def user_recent_documents(request):
+
+    try:
+        user_id = request.user.id
+
+        current_profile = Profile.objects.get(pk=user_id)
+        recent_documents_accessed = DocumentAccess.objects.filter(profile=current_profile).order_by('-date_accessed')
+
+        recent_documents_accessed_list = []
+        for recent_access in recent_documents_accessed:
+            
+            output_document = {}
+            output_document['id'] = recent_access.document.id
+            output_document['name'] = recent_access.document.name
+            output_document['category'] = recent_access.document.category
+            output_document['doc_type'] = recent_access.document.doc_type
+            output_document['rating'] = recent_access.document.rating
+            output_document['course_name'] = recent_access.document.course.name
+
+            recent_documents_accessed_list.append(output_document)
+
+        for record in recent_documents_accessed_list:
+            print(record)
+
+        # Convert ValuesQuerySet to list of dictionaries
+        # Note that ValuesQuerySet has distinct elements while list does not
+
+        return JsonResponse({
+            'recently_accessed_documents': recent_documents_accessed_list,
+        })
+            
+    except ObjectDoesNotExist:
+        return HttpResponseRedirect('courses')   
+
+    except ValidationError:
+        return HttpResponse("Error when trying to validate new DB record.")

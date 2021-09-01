@@ -83,6 +83,7 @@ class Document(models.Model):
     rating = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=0.0)
     student_rated = models.ManyToManyField('Profile', related_name='%(class)s_students_rated') # Table for keeping track of which students rated the course
     upload_date = models.DateTimeField(default=timezone.now, editable=True) # DO NOT USE auto_now\add = True. it causes issues with djangos's model_to_dict method
+    recent_profile_access = models.ManyToManyField(Profile, through='DocumentAccess')
 
     def __str__(self):
         return self.name
@@ -132,6 +133,13 @@ class Document(models.Model):
         file_system = FileSystemStorage(construct_file_save_directory(self))
         file_system.delete(self.name_with_extension())
         return super(Document, self).delete(*args, **kwargs)
+
+class DocumentAccess(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    document = models.ForeignKey(Document, on_delete=models.CASCADE)
+    date_accessed = models.DateTimeField(default=timezone.now, editable=True) # DO NOT USE auto_now\add = True. it causes issues with djangos's model_to_dict method
+
+    max_records_per_user = 10 # Save at most 10 recent accesses to documents per user
 
 class Comment(models.Model):
     associated_document = models.ForeignKey(Document, on_delete=CASCADE)
