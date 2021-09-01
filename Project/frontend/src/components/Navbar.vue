@@ -8,10 +8,7 @@
         ><v-icon>menu</v-icon></v-app-bar-nav-icon
       >
       <v-toolbar-title style="height:64px" class="text-uppercase grey--text">
-        <span
-          ><img class="logo" src="../assets/Covers/logo.png"
-        /></span>
-      
+        <span><img class="logo" src="../assets/Covers/logo.png"/></span>
       </v-toolbar-title>
 
       <v-btn text color="grey">
@@ -33,19 +30,37 @@
             >search</v-icon
           >
         </span>
-
       </v-btn>
-      <span>Logout
-           <v-icon @click="logout()">logout</v-icon>
+      <span
+        >Logout
+        <v-icon @click="logout()">logout</v-icon>
       </span>
-     
-       
+
       <v-spacer></v-spacer>
-     
     </v-app-bar>
 
     <v-navigation-drawer app v-model="drawer">
       <v-list>
+        <v-list-item>
+          <v-list-item-action>
+            <div style="width:100%">
+              <img
+                :src="require(`@/assets/${img}`)"
+                id="output"
+                style="width:70%;float:left;border-radius:100%;height:50px;width:50px"
+              />
+              <h3
+                style="float: left;
+    width: 30%;
+    padding: 11%;
+    margin-left: 5%;"
+              >
+                {{name}}
+              </h3>
+            </div>
+          </v-list-item-action>
+        </v-list-item>
+
         <v-list-item
           v-for="link in links"
           :key="link.text"
@@ -95,8 +110,10 @@
 <script>
 const ENTER = 13;
 export default {
+  props:['name'],
   data() {
     return {
+      img: "userProfiles/pic2.jpg",
       drawer: false,
       links: [
         { icon: "home", text: "Home", route: "/" },
@@ -118,18 +135,15 @@ export default {
       }
     },
 
-  async  logout(){
-     try {
-          var url = "http://localhost:8000/users/sign_out/"
+    async logout() {
+      try {
+        var url = "http://localhost:8000/users/sign_out/";
 
-       await this.$http.get(url);
-       window.location.href='http://localhost:8000/users/sign_in'
-       
-     }
-     catch(error){
-       console.log(error)
-     }
-     
+        await this.$http.get(url);
+        window.location.href = "http://localhost:8000/users/sign_in";
+      } catch (error) {
+        console.log(error);
+      }
     },
     Search() {
       var query = this.$refs["searchInput"].value;
@@ -168,12 +182,12 @@ export default {
   width: 1000px;
   margin-left: 50px;
 }
-.logo{
+.logo {
   height: 92px;
-    margin-top: -9px;
-    padding: 4px;
-    width: 307px;
-   
-    width: 264px;
+  margin-top: -9px;
+  padding: 4px;
+  width: 307px;
+
+  width: 264px;
 }
 </style>

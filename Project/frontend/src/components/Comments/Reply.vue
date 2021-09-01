@@ -23,7 +23,11 @@
                             <div class="ratings">
                                 <div class="ratingValue">{{rating}}</div>
                                 <span class="gapSpan"></span>
-                                <button class="btn starUnMarked"><img  height="20px" width="20px" src="https://img.icons8.com/fluency/48/000000/star.png"/></button>
+                                <button class="btn starUnMarked">
+                                                      <v-icon color="blue">thumb_up</v-icon>
+
+                                    <!-- <img  height="20px" width="20px" src="https://img.icons8.com/fluency/48/000000/star.png"/> -->
+                                    </button>
 
                             </div>
                            
