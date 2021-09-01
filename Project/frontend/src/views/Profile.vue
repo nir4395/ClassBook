@@ -29,8 +29,8 @@
         </v-card>
       </v-col>
        <v-col style="height:100%"  cols="12" sm="6" md="8">
-         
-          <ProfileDetails :birth="birth" :userInfo="userData" v-if="details===true"></ProfileDetails>
+     
+          <ProfileDetails  @profile="getUsersInfo()" @updateImage="changeImage($event)" :img="img" :birth="birth" :userInfo="userData" v-if="details===true"></ProfileDetails>
           <MyCourses  v-if="courses===true" :courses="coursesData"></MyCourses>
        </v-col>
      
@@ -53,6 +53,7 @@ export default {
     return{
       birth:'',
       uerData:'',
+      img:'',
       details:true,
       coursesData:'',
       courses:false
@@ -69,10 +70,29 @@ export default {
         console.log(response)
         this.birth=response.data.profile_details.birth_date
         this.userData = response.data.profile_details.user;
+        this.img=response.data.profile_details.picture_URL.split('/frontend/src/assets/')[1]
       } catch (error) {
         console.log(error);
       }
     },
+    async updateProfileImage(file){
+        try {
+
+        var url = "http://localhost:8000/users/user_profile/upload_profile_picture";
+        var data=new FormData();
+        data.append("profile_picture",file)
+        const response = await this.$http.post(url,data);
+        console.log(response)
+      } catch (error) {
+        console.log(error);
+      }
+    },
+   async  changeImage(value){
+       console.log(this.img)
+       console.log(value.url)
+     await this. updateProfileImage(value.file)
+    this.img=value.url
+  },
     showDetails(){
        this.details=true
       this.courses=false

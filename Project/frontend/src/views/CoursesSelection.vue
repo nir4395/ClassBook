@@ -26,11 +26,10 @@ export default {
 
   created() {
     //this.getCourses()
+  //  course/get/ins/<ins_id>,year/<year_code_param>
+
     var url =
-      "http://localhost:8000/course/get/ins=" +
-      this.ins +
-      ",year=" +
-      this.year_code;
+     'http://localhost:8000/course/get/ins/'+this.ins+',year/'+this.year_code
 
     this.$http
       .get(url)

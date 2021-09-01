@@ -1,66 +1,105 @@
 <template>
-  <div class="mainDocumentDiv">
+  <div class="mx-auto mainDocumentDiv">
+    
+    <Rating :name="name" :rating="rating" :id="id"
+     
+    ></Rating >
+    <OtherDocsPreivew v-if="type !== 'pdf'"></OtherDocsPreivew>
+    <PDFView :id="id"></PDFView>
+    <!-- <PDFJSViewer v-else :fileURL="getFile()" :fileName="name" :id="id" /> -->
 
-    <PDFJSViewer :path="`${path}`" :fileName="`${name}`" />
-
-    <CommentsSection @updateData="getData()"
+    <CommentsSection
+      @updateData="getData()"
       ref="comSection"
       :comments="doc"
       :id="id"
     ></CommentsSection>
+  
   </div>
 </template>
 <script>
-import CommentsSection from "../components/Comments/CommentsSection.vue";
-import PDFJSViewer from "../components/PDFJSViewer.vue";
 const POLLING_INTERVAL = 10000;
+
+import axios from "axios";
+
+import OtherDocsPreivew from "../components/OtherDocsPreivew.vue";
+import CommentsSection from "../components/Comments/CommentsSection.vue";
+// import PDFJSViewer from "../components/PDFJSViewer.vue";
+import Rating from "../components/Rating.vue";
+import PDFView from '../components/Documents/PDFView.vue'
+
 
 export default {
   components: {
+    PDFView,
+    OtherDocsPreivew,
     CommentsSection,
-    PDFJSViewer,
+    // PDFJSViewer,
+    Rating,
   },
 
   data() {
     return {
+      type: this.$route.params.docType,
+      name: this.$route.params.name,
       id: this.$route.params.id,
-      issues: [],
-      VIEWS_FILTER: 10,
-      lastIssueNumber: 1,
-      isModalVisible: false,
-      isRateDocVisable: false,
+      rating: this.$route.params.rating,
       docInfo: "",
       date: "",
       doc: [],
       documnetComments: "",
       polling: null,
-      name: "compressed.tracemonkey-pldi-09.pdf", //change which pdf file loads
-      path: "../public/lib/pdfjs-2.9.359-dist/web/viewer.html", //path of the PDF.js viewer.html
+      rated: false,
+      fileURL: "https://localhost:8000/course/get/doc_id=14",
+      urlImg: "book.jpg",
+      issues: [],
+      VIEWS_FILTER: 10,
+      lastIssueNumber: 1,
+      isModalVisible: false,
+      isRateDocVisable: false,
     };
   },
   methods: {
-       async  getData(){
-     try {
-       console.log("fire!")
-      var urlDocumentComments =
-        "http://localhost:8000/doc_id=" +
-        this.id +
-        "/get_all_document_comments";
-       const response = await this.$http
-        .get(urlDocumentComments)
-      this.documnetComments = response.data
-      var comments = this.documnetComments.all_comments;
-     
-      this.doc=this.buildComments(comments)
-       console.log("getting the data!")
-
-     }
-     catch(error){
-       console.log(error)
-     }
-     
+    getFile() {
+   var url="http://localhost:8000/course/get/doc_id/6"
+  //    var url = 'http://localhost:8000/course/get/doc_id/'+this.id
+      console.log(url);
+      return url;
     },
+    setRating(number) {
+      this.rated = true;
+      let params = {
+        document_id: this.id,
+        user_rating: number,
+      };
+      const url = "http://localhost:8000/course/rate/";
+      axios
+        .post(url, params)
+        .then((response) => {
+          this.rating = response.data.new_rating
+            ? response.data.new_rating
+            : this.rating;
+          console.log(response.data);
+        })
+        .catch((e) => console.log(e));
+    },
+    async getData() {
+      try {
+        console.log("fire!");
+        var urlDocumentComments =
+          "http://localhost:8000/doc_id=" +
+          this.id +
+          "/get_all_document_comments";
+        const response = await this.$http.get(urlDocumentComments);
+        this.documnetComments = response.data;
+        var comments = this.documnetComments.all_comments;
 
+        this.doc = this.buildComments(comments);
+        console.log("getting the data!");
+      } catch (error) {
+        console.log(error);
+      }
+    },
 
     getComments() {
       var urlDocumentComments =
@@ -98,16 +137,16 @@ export default {
           index = replyIndex;
         }
       }
-      console.log("comments return")
+      console.log("comments return");
       return newComments;
     },
     pollData() {
       this.polling = setInterval(() => {
-        this.getData()
+        this.getData();
       }, POLLING_INTERVAL);
     },
   },
- 
+
   beforeDestroy() {
     clearInterval(this.polling);
   },
@@ -115,7 +154,6 @@ export default {
     // console.log("poll!");
     this.getData();
     //this.pollData();
-    
   },
 };
 </script>
