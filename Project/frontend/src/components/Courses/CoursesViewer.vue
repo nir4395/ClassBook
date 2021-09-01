@@ -1,7 +1,5 @@
 <template>
    <v-container class="my-5">
-
-
       <v-card v-for="(course, index) in courses" :key="course.name">
         <v-layout row wrap class="pa-8">
           <!-- <v-flex xs4 sm4 md2 d-flex>
@@ -49,8 +47,12 @@
 </template>
 // courses should be an array of { name: , lecturer: , rank: , courseStage: , school:}
 <script>
-export default {
 
+export default {
+   components: {
+  
+  
+  },
     props: ['courses'],
     methods:{
          navToCourseCategorySelection(nameOfCourse,id){
@@ -64,8 +66,8 @@ export default {
 
         ))
         this.courses[index].isReg=true
-    }
-
+    },
+   
      
     }
 
