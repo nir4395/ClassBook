@@ -99,7 +99,6 @@ def user_profile(request):
 
 @login_required
 @require_http_methods(["POST"])
-#@csrf_exempt # this is for testing (disables CSRF protection)
 def change_profile_details(request):
 
     # //////////////for testing with csrf_exempt////////////////
@@ -177,7 +176,6 @@ def find_available_file_name(original_uploaded_file_name, related_course):
 
 @login_required
 @require_http_methods(["GET"])
-@login_required('')
 def course_docs(request, course_id, doc_category):
     try:
 
@@ -214,7 +212,6 @@ def course_docs(request, course_id, doc_category):
 @login_required
 # Returns categories of documents available for course
 @require_http_methods(["GET"])
-@login_required('') # Remove decorator after testing
 def course_categories(request, course_id):
 
     try:
@@ -265,7 +262,6 @@ def courses_by_year(request, ins_id, year_code_param):
 
 @login_required
 @require_http_methods(["GET"])
-@login_required('')
 def document_by_id(request, doc_id):
     try:
 
@@ -304,7 +300,6 @@ def document_by_id(request, doc_id):
 
 @login_required
 @require_http_methods(["POST"])
-@login_required('')
 def rate_document(request):
 
     try:
@@ -364,7 +359,6 @@ def all_institutions(request):
 
 @login_required
 @require_http_methods(["POST"])
-@login_required('')
 def upload_file(request):
 
     try:
@@ -408,7 +402,6 @@ def upload_file(request):
 
 @login_required
 @require_http_methods(["POST"])
-@login_required('')
 def register_to_course(request):
     
     try:
@@ -443,7 +436,6 @@ def register_to_course(request):
 
 @login_required
 @require_http_methods(["POST"])
-@login_required('')
 def deregister_from_course(request):
 
     try:
@@ -478,7 +470,6 @@ def deregister_from_course(request):
 
 @login_required
 @require_http_methods(["GET"])
-@login_required('')
 def courses_user_registered(request):
 
     try:
@@ -544,7 +535,6 @@ def post_comment(request, doc_id):
 
 @login_required
 @require_http_methods(["GET"])
-@login_required('')
 def get_all_document_comments(request, doc_id):
 
     try:
@@ -575,7 +565,6 @@ def is_document_rated_by_user(request, doc_id):
 
 
 @require_http_methods(["GET"])
-@login_required('')
 def user_recent_documents(request):
 
     try:
