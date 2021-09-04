@@ -42,6 +42,7 @@ urlpatterns = [
     path('course/get/course_id/<course_id>/categories', views.course_categories),
     path('course/get/course_id/<course_id>/cat/<doc_category>', views.course_docs),
     path('course/get/doc_id/<doc_id>', views.document_by_id),
+    path('course/get/recent_documents', views.user_recent_documents),
 
     path('sign_up/all_ins', views.all_institutions), # Get all supported institutions for sign-up droplist
     

@@ -1,0 +1,9 @@
+The admin interface provided by Django can be used to login as either superadmin or an institution admin at localhost:8000/admin
+    • Superadmin username: admin
+    • Superadmin password: ClassBook0!
+- Superadmins have access to everything in the database - they can view, add, edit or delete any record.
+- Institution admins are users that belong to the user group 'Institution Admins'. This group has the following permission:
+    • Can view, delete or add courses to their OWN instituion.
+    • Can modify course records except for the following fields: institution, degree, student_count, creation & update dates.
+    • Can View, add or delete existing documents for courses in their own institution, but can't any field of those records.
+- Elevating a user to an institution admin is done by adding him to the 'Institution Admins' group and marking the 'Is Staff' flag.
