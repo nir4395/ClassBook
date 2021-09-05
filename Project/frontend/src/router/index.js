@@ -13,6 +13,8 @@ import CourseCategorySelection from '../views/CourseCategorySelection.vue'
 // import MyCourses from '../views/MyCourses.vue'
 import SearchResults from '../views/SearchResults.vue'
 // import SchoolSelection from '../views/SchoolSelection.vue'
+import Error404 from '../views/Error404.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -22,7 +24,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/search',
+    path: '/search/:query',
     name: 'SearchResults',
     component: SearchResults
   },
@@ -67,7 +69,7 @@ const routes = [
     component: Catergories
   },
   {
-    path: '/courses',
+    path: '/courses/:catName/:ins/:yearCode',
     name: 'CoursesSelection',
     component: CoursesSelection
   },
@@ -89,12 +91,22 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/SchoolSelection.vue')
+  },
+  {
+    path: '/404',
+    name: '404',
+    component: Error404
+  },
+  { 
+    path: '/:catchAll(.*)', 
+    redirect: '/404',
+    name: 'NotFound'
   }
 ]
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  // base: process.env.BASE_URL,
   routes
 })
 

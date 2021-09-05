@@ -37,6 +37,11 @@ export default {
                     this.res.push(this.results[index])
                 }
             }
+    },
+    watch: {
+        '$route' () {
+            this.q=this.$route.params.query
+        }
     }
     
 }
