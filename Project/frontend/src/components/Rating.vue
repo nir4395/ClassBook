@@ -11,7 +11,7 @@
           <h3 style="font-size:12px"> {{rating}} / 5</h3>
         </div></v-col
       >
-      <v-col  > <div style="float:left">
+      <v-col v-if="canRate===false" > <div style="float:left">
       <fieldset class="rating">
         <input
           @click="getRank($event)"
@@ -105,7 +105,7 @@
     </div></v-col>
     <v-col  cols="1"
         sm="1"
-        md="1"><v-btn color="blue" @click="RankDocuemnt()">Rank </v-btn></v-col>
+        md="1"><v-btn v-if="canRate===false" color="blue" @click="RankDocuemnt()">Rank </v-btn></v-col>
     </v-row>
 
    
@@ -118,7 +118,7 @@ export default {
       currentRating: 0,
     };
   },
-  props: ["name", "rating", "id"],
+  props: ["name", "rating", "id","canRate"],
   methods: {
     getRank(e) {
       this.currentRating = document.getElementById(e.target.id).value;
@@ -128,6 +128,7 @@ export default {
         var url = "http://localhost:8000/course/rate/";
         var data = { document_id: this.id, user_rating: this.currentRating };
         const response = await this.$http.post(url, data);
+        this.$emit("updateRating",response.data['new rating'])
         console.log(response);
       } catch (error) {
         console.log(error);

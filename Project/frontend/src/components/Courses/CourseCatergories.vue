@@ -13,7 +13,8 @@
 </v-card>
 </v-container> -->
 <div>
-   <CourseCard v-for="category in courseCategories.categories" :key="category" :name="category" @nav="gotoDocuments(category)"></CourseCard>
+  <Grid :name="name" :id="id" :data="courseCategories.categories"></Grid>
+   <!-- <CourseCard v-for="category in courseCategories.categories" :key="category" :name="category" @nav="gotoDocuments(category)"></CourseCard> -->
     <!-- <v-container>
      <v-row>
        <v-card  style="margin-left:50px;margin-top:50px" width="500px" v-for="category in courseCategories.categories" :key="category"
@@ -35,10 +36,11 @@
 </template>
 
 <script>
-import CourseCard from '../Courses/CourseCard.vue'
+// import CourseCard from '../Courses/CourseCard.vue'
+import Grid from '../../components/Grid.vue'
 export default {
   components: {
-    CourseCard
+    Grid
   
   },
     props:['courseCategories','name','id'],

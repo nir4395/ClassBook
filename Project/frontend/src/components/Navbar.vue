@@ -44,11 +44,11 @@
         <v-list-item>
           <v-list-item-action>
             <div style="width:100%">
-              <img
+              <!-- <img
                 :src="require(`@/assets/${img}`)"
                 id="output"
                 style="width:70%;float:left;border-radius:100%;height:50px;width:50px"
-              />
+              /> -->
               <h3
                 style="float: left;
     width: 30%;
