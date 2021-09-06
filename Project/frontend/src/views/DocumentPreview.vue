@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto mainDocumentDiv">
     
-    <Rating :name="name" :rating="rating" :id="id"
+    <Rating @updateRating="UpdateRating($event)" :canRate="isDocRated" :name="name" :rating="rating" :id="id"
      
     ></Rating >
     <OtherDocsPreivew v-if="type !== 'pdf'"></OtherDocsPreivew>
@@ -57,9 +57,26 @@ export default {
       lastIssueNumber: 1,
       isModalVisible: false,
       isRateDocVisable: false,
+      isDocRated:''
     };
   },
   methods: {
+    async isDocumentRatedByUser(){
+      let url='http://localhost:8000/doc_id/'+this.id+'/is_document_rated_by_user'
+      try{
+      let response =  await this.$http.get(url)
+      this.isDocRated=response.data.is_document_rated
+      }
+      catch(error){
+        console.log(error)
+      }
+
+    },
+    UpdateRating(newRating){
+      console.log("xxxx")
+      this.isDocRated=true
+      this.rating=newRating
+    },
     getFile() {
    var url="http://localhost:8000/course/get/doc_id/6"
   //    var url = 'http://localhost:8000/course/get/doc_id/'+this.id
@@ -152,6 +169,7 @@ export default {
   },
   created() {
     // console.log("poll!");
+    this.isDocumentRatedByUser()
     this.getData();
     //this.pollData();
   },

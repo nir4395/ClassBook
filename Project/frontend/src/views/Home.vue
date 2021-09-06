@@ -11,26 +11,25 @@
 
     <div style="height:500px;width:100%;margin-top:120px" v-if="!newUser">
       <!-- <v-btn @click="NOTFOUNDNAV()">not found</v-btn> -->
-      <CardDisplay :docs="recentDocs"></CardDisplay>
+      <CardDisplay :docs="recentDoc.recently_accessed_documents"></CardDisplay>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
 import Intro from "../components/Intro.vue";
 // import MyRecentDocuments from '../components/Documents/MyRecentDocuments.vue'
 import CardDisplay from "../components/CardDisplay.vue";
 import MyCourses from "../components/MyCourses.vue";
 
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-axios.defaults.xsrfCookieName = "csrftoken";
+
 
 export default {
   name: "Home",
   data() {
     return {
       uerData: "",
+     recentDoc :'',
       resp: "",
       newUser: false,
       registeredCourses: "",
@@ -82,14 +81,27 @@ export default {
   created() {
     this.getUsersInfo();
     this.getUsersCoursesInfo();
+    this.getRecentDocs();
   },
   methods: {
     async getUsersInfo() {
+     
       try {
         var url = "http://localhost:8000/users/user_profile/";
         const response = await this.$http.get(url);
         console.log(response)
         this.uerData = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+     async getRecentDocs() {
+      //course/get/recent_documents
+      try {
+        var url = "http://localhost:8000/course/get/recent_documents";
+        const response = await this.$http.get(url);
+        console.log(response)
+        this.recentDoc = response.data;
       } catch (error) {
         console.log(error);
       }
@@ -104,24 +116,25 @@ export default {
         console.log(error);
       }
     },
+    
     NOTFOUNDNAV() {
       return this.$router.push("notfound");
     },
-    SendLogin() {
-      var url = "http://localhost:8000/users/sign_in/";
-      let headers = {
-        Cookie:
-          " csrftoken=FDGChyFNudqJBm8Rdg5KkNaHdDpZVlUZN8LngUuN3HOUzCsQlZFmrTDJjZfkxlpy; sessionid=cwpu1ygr0wb8fniktiowhn60oo7pepuw",
-      };
+    // SendLogin() {
+    //   var url = "http://localhost:8000/users/sign_in/";
+    //   let headers = {
+    //     Cookie:
+    //       " csrftoken=FDGChyFNudqJBm8Rdg5KkNaHdDpZVlUZN8LngUuN3HOUzCsQlZFmrTDJjZfkxlpy; sessionid=cwpu1ygr0wb8fniktiowhn60oo7pepuw",
+    //   };
 
-      var bodyFormData = new FormData();
-      bodyFormData.append("username", "guyno1");
-      bodyFormData.append("password", "password123");
+    //   var bodyFormData = new FormData();
+    //   bodyFormData.append("username", "guyno1");
+    //   bodyFormData.append("password", "password123");
 
-      this.$http
-        .post(url, bodyFormData, headers)
-        .then((response) => console.log(response.data));
-    },
+    //   this.$http
+    //     .post(url, bodyFormData, headers)
+    //     .then((response) => console.log(response.data));
+    // },
   },
 };
 </script>

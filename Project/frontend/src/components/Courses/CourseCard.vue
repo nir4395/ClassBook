@@ -1,7 +1,7 @@
 <template>
-    <div  class="mx-auto" style="width:650px">
+    <div  style="height:200px;width:550px">
         
-	<div  style="width:100%" class="course">
+	<div  style="height:100%;width:100%" class="course">
 		<div style="width:50%" class="course-preview">
 			<h6>category</h6>
 			<h2>{{name}}</h2>
@@ -11,7 +11,7 @@
 			
 			
 			
-			<button @click="navToDocuemnt()" style="margin-bottom:5%" class="btn">View Documents</button>
+			<button style="background-color: #007bff;color:white" @click="navToDocuemnt()"  class="btn navButton">View Documents</button>
 		</div>
 	</div>
 
@@ -121,7 +121,14 @@ export default {
 	opacity: 0.6;
 	letter-spacing: 1px;
 }
-
+.navButton{
+	background-color: #007bff;
+    /* height: 20px; */
+    margin-bottom: 20%;
+    /* width: 100px; */
+    color: white;
+    font-weight: bold;
+}
 .btn {
 	background-color: #2A265F;
 	border: 0;
