@@ -1,5 +1,6 @@
 from django.db import migrations, transaction
 from django.contrib.auth.models import User
+from classbook_core.models import Profile, Institution
 
 
 class Migration(migrations.Migration):
@@ -23,6 +24,12 @@ class Migration(migrations.Migration):
         with transaction.atomic():
             for fname, lname, user_name, user_email, user_password in users_test_data:
                 User.objects.create_user(user_name, user_email, user_password, first_name=fname, last_name=lname)
+
+            mta = Institution.objects.get(pk=1)
+            for profile in Profile.objects.filter():
+                profile.institution = mta
+                profile.save()
+                
 
     operations = [
         migrations.RunPython(generate_user_test_data),

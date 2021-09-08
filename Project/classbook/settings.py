@@ -20,6 +20,7 @@ FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STORAGE_DIR = os.path.join(BASE_DIR, 'storage')
 COURSES_STORAGE_DIR = os.path.join(STORAGE_DIR, 'courses')
+PROFILE_PICS_STORAGE_DIR = os.path.join(STORAGE_DIR, 'profile_pictures')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -31,7 +32,6 @@ SECRET_KEY = 'django-insecure-%xnx8o^sjq(cr1#hjftmmgp@gln5vqqcotpy#^fx9i=c^e(7^%
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -88,7 +88,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'classbook.wsgi.application'
 
-
+# Cross-Origin Resource Sharing
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://localhost:8080",
@@ -142,12 +142,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/frontend/'
+STATIC_URL = '/static/'
 MEDIA_URL = ''
 
 MEDIA_ROOT = MEDIA_URL
 
-STATICFILES_DIRS = [MEDIA_ROOT, STATIC_DIR]
+STATICFILES_DIRS = [
+    MEDIA_ROOT,
+    STATIC_DIR,
+    ("profile_pic", PROFILE_PICS_STORAGE_DIR)]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

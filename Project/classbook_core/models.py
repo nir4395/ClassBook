@@ -1,7 +1,8 @@
+from django.core import validators
 from classbook_core.file_handling import construct_file_save_directory
 from django.db import models
 from django.conf import settings
-from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator, validate_image_file_extension
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 from django.db.models.signals import post_save
@@ -34,7 +35,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     institution = models.ForeignKey(Institution,null=True, on_delete=models.SET_NULL)
     birth_date = models.DateField(null=True, blank=True)
-    picture = models.ImageField(upload_to='frontend/src/assets/userProfiles', null=True, blank=True, default=None)
+    picture = models.ImageField(upload_to='Project/storage/profile_pictures/', null=True, blank=True,validators=[validate_image_file_extension])
 
     # both methods will be triggered automatically after user.save is called
     # meaning - each time a user is created and saved - his profile object will also be created
@@ -139,7 +140,7 @@ class DocumentAccess(models.Model):
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
     date_accessed = models.DateTimeField(default=timezone.now, editable=True) # DO NOT USE auto_now\add = True. it causes issues with djangos's model_to_dict method
 
-    max_records_per_user = 10 # Save at most 10 recent accesses to documents per user
+    max_records_per_user = 9 # Save at most 9 recent accesses to documents per user
 
 class Comment(models.Model):
     associated_document = models.ForeignKey(Document, on_delete=CASCADE)
