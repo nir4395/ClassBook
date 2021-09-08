@@ -1,3 +1,4 @@
+from json.decoder import JSONDecodeError
 from sys import exc_info
 from django.contrib.auth.forms import AuthenticationForm
 from django.db.models.expressions import Exists
@@ -18,7 +19,7 @@ from json import loads, dumps
 from django.core.files.storage import FileSystemStorage
 from classbook_core.file_handling import construct_file_path, construct_file_save_directory
 from classbook_core.forms import SignUpForm, SignInForm
-from django.conf import settings
+from django.conf import Settings, settings
 from datetime import datetime
 
 import os
@@ -85,7 +86,11 @@ def user_profile(request):
     user_profile_as_dict = model_to_dict(request.user.profile, exclude='picture') 
 
     if request.user.profile.picture:
-        user_profile_as_dict['picture_URL'] = request.user.profile.picture.url
+        # Trim image name from path (ImageField name includes full file path)
+        profile_pic_name_without_path = request.user.profile.picture.name.rsplit('/', maxsplit=1)
+
+        # Join actual URL with image name
+        user_profile_as_dict['picture_URL'] = '/static/profile_pic/' + profile_pic_name_without_path[1]
     else:
         user_profile_as_dict['picture_URL'] = None 
 
@@ -128,32 +133,33 @@ def change_profile_details(request):
 @require_http_methods(["POST"])
 def upload_profile_picture(request):
 
-    # //////////////for testing with csrf_exempt////////////////
-    # from django.contrib.auth.models import User
-    # user = User.objects.get(pk=2)
-    # user_profile = Profile.objects.get(user=user)
-    # ///////////////////////////////////////////////////////////
-
-    user_profile = request.user.profile
     user = request.user
+    user_profile = user.profile
 
     # get the picture from the client and upload it to our folder in the server
     try:
         uploaded_profile_picture = request.FILES['profile_picture']
-        unique_picture_name = "user_"+ str(user.id) +"_pic.jpg"
-
-        with open('frontend/src/assets/userProfiles/'+ unique_picture_name, 'wb+') as destination:
-            for chunk in uploaded_profile_picture.chunks():
-                destination.write(chunk)
+        unique_picture_name = "profile_{0}.{1}".format(str(user.id), "jpg")
         
-        # save picture for the user_profile 
-        user_profile.picture = 'frontend/src/assets/userProfiles/'+ unique_picture_name
+        # Delete old profile picture
+        user_profile.picture.delete()
+
+        # Verify image format
+        user_profile.picture = uploaded_profile_picture
+        user_profile.full_clean()
+
+        # Save new profile picture with appropriate name
+        user_profile.picture.name = unique_picture_name
         user_profile.save()
 
-        return HttpResponse("Picture uploaded successfully")
+        return HttpResponse("Picture uploaded successfully.")
+    
+    except ValidationError:
+        user_profile.picture.name = ''
+        return HttpResponse("File uploaded is not a valid image.")
 
     except:
-        return HttpResponse("Picture upload failed")
+        return HttpResponse("Picture upload failed.")
 
 
 @login_required
@@ -274,7 +280,7 @@ def document_by_id(request, doc_id):
 
         # If already accessed current document recently, replace its record 
         if (DocumentAccess.objects.filter(profile=profile, document=document).exists()):
-            previous_access_to_same_doc = DocumentAccess.objects.get(document=document)
+            previous_access_to_same_doc = DocumentAccess.objects.get(profile=profile, document=document)
             previous_access_to_same_doc.delete()
 
 
@@ -320,10 +326,14 @@ def rate_document(request):
         if not(document_ratings.filter(user_id=user_profile.user_id).exists()):
             print('Rating does not exist yet')
 
-            # Calculate weighted mean and update document rating
-            rating_count = document_ratings.filter(user_id=user_profile.user_id).count() + 1
-            new_rating = (current_document.rating / rating_count) + (int(user_rating) / rating_count)
-            current_document.rating = new_rating
+            # Calculate weighted mean
+            rating_count = document_ratings.count() + 1
+
+            previous_weighted = current_document.rating * ((rating_count - 1) / (rating_count))
+            new_rating = previous_weighted + float(user_rating) / rating_count
+            
+            # Update document rating
+            current_document.rating = round(new_rating, 2)
             current_document.full_clean() # Verify data
             current_document.save() 
 
