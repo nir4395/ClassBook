@@ -1,7 +1,5 @@
-from json.decoder import JSONDecodeError
 from sys import exc_info
 from django.contrib.auth.forms import AuthenticationForm
-from django.db.models.expressions import Exists
 from django.forms.models import model_to_dict
 from django.http.request import split_domain_port
 from django.shortcuts import render, redirect
@@ -10,10 +8,10 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
-from django.http.response import FileResponse, JsonResponse, HttpResponse
+from django.http.response import FileResponse, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseServerError, JsonResponse, HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from classbook_core.models import Course, Document, Institution, Profile, Comment, DocumentAccess
+from classbook_core.models import Course, Document, Institution, Profile, Comment, DocumentAccess, AcademicDegree
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from json import loads, dumps
 from django.core.files.storage import FileSystemStorage
@@ -28,6 +26,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def sign_up(request):
+
     if request.method == "POST":
         form = SignUpForm(request.POST)
 
@@ -83,6 +82,7 @@ def sign_out(request):
 @require_http_methods(["GET"])
 def user_profile(request):
 
+    print('in profile')
     user_profile_as_dict = model_to_dict(request.user.profile, exclude='picture') 
 
     if request.user.profile.picture:
@@ -156,13 +156,12 @@ def upload_profile_picture(request):
     
     except ValidationError:
         user_profile.picture.name = ''
-        return HttpResponse("File uploaded is not a valid image.")
+        return HttpResponseBadRequest("Uploaded image format is invalid or failed to set new profile image.")
 
     except:
         return HttpResponse("Picture upload failed.")
 
 
-@login_required
 # Find available file name for document-file on server
 def find_available_file_name(original_uploaded_file_name, related_course):
 
@@ -212,7 +211,7 @@ def course_docs(request, course_id, doc_category):
         })
 
     except ObjectDoesNotExist:
-        return HttpResponseRedirect('courses')
+        return HttpResponseNotFound('Could not find course documents')
 
 
 @login_required
@@ -236,7 +235,7 @@ def course_categories(request, course_id):
         })
 
     except ObjectDoesNotExist:
-        return HttpResponseRedirect('courses')
+        return HttpResponseNotFound('Could not find course\'s categories')
 
 
 @login_required
@@ -263,7 +262,7 @@ def courses_by_year(request, ins_id, year_code_param):
         })
         
     except ObjectDoesNotExist:
-        return HttpResponseRedirect('courses')
+        return HttpResponseNotFound('Courses for year were not found')
 
 
 @login_required
@@ -298,10 +297,10 @@ def document_by_id(request, doc_id):
 
     # TODO - add exception for file opening failure
     except ObjectDoesNotExist:
-        return HttpResponseRedirect('courses')
+        return HttpResponseNotFound('File or course is missing.')
 
     except OSError:
-        return HttpResponse('File error, either file is not found or directory is invalid.')
+        return HttpResponseServerError('Server error in saving file, either file is not found or directory is invalid.')
 
 
 @login_required
@@ -309,9 +308,7 @@ def document_by_id(request, doc_id):
 def rate_document(request):
 
     try:
-
         # Retrieve doc and try to update rating
-        # user_id = 1
         user_id = request.user.id
 
         data_as_dictionary = loads(request.body)
@@ -350,10 +347,10 @@ def rate_document(request):
             
             
     except ValidationError:
-        return HttpResponse('Rating is invalid or DB record is missing.')
+        return HttpResponseBadRequest('Rating is invalid or DB record is missing.')
 
     except ObjectDoesNotExist:
-        return HttpResponseRedirect('courses')
+        return HttpResponseNotFound('Course or rating is missing.')
 
 
 @login_required
@@ -404,10 +401,10 @@ def upload_file(request):
 
     except ValidationError:
         print(exc_info())
-        return HttpResponse('One of the document metadata parameters is invalid')
+        return HttpResponseBadRequest('One of the document metadata parameters is invalid')
 
     except ObjectDoesNotExist:
-        return HttpResponseRedirect('courses')
+        return HttpResponseNotFound('Either course or file is missing.')
 
 
 @login_required
@@ -415,7 +412,6 @@ def upload_file(request):
 def register_to_course(request):
     
     try:
-        #user_id = 2
         user_id = request.user.id
         response = HttpResponse()
 
@@ -441,7 +437,7 @@ def register_to_course(request):
         return response
             
     except ObjectDoesNotExist:
-        return HttpResponseRedirect('courses')    
+        return HttpResponseNotFound('Course was not found.')   
 
 
 @login_required
@@ -449,7 +445,6 @@ def register_to_course(request):
 def deregister_from_course(request):
 
     try:
-        #user_id = 2
         user_id = request.user.id
         response = HttpResponse()
 
@@ -475,7 +470,7 @@ def deregister_from_course(request):
         return response
             
     except ObjectDoesNotExist:
-        return HttpResponseRedirect('courses')   
+        return HttpResponseNotFound('Course was not found.')   
 
 
 @login_required
@@ -483,14 +478,10 @@ def deregister_from_course(request):
 def courses_user_registered(request):
 
     try:
-        #user_id = 2
         user_id = request.user.id
 
         current_profile = Profile.objects.get(pk=user_id)
         courses = Course.objects.filter(student_enrolled=current_profile).values('id', 'name', 'year_code', 'student_count', 'degree', 'date_updated')
-
-        for record in courses:
-            print(record)
 
         # Convert ValuesQuerySet to list of dictionaries
         # Note that ValuesQuerySet has distinct elements while list does not
@@ -504,7 +495,7 @@ def courses_user_registered(request):
         return HttpResponseRedirect('courses')   
 
     except ValidationError:
-        return HttpResponse("Error when trying to validate new DB record.")
+        return HttpResponseBadRequest("Error when trying to validate new DB record.")
 
 
 @login_required
@@ -550,7 +541,7 @@ def get_all_document_comments(request, doc_id):
     try:
         document = Document.objects.get(pk=doc_id)
     except Document.DoesNotExist:
-        return JsonResponse('Document.DoesNotExist') # TODO: check if this is the correct way to return a django exception in Json format
+        return HttpResponseNotFound('Document doesn\'t exist.')
 
     # TODO: check that the format of the json comments works as needed with the frontend
     return JsonResponse({
@@ -574,6 +565,7 @@ def is_document_rated_by_user(request, doc_id):
     return JsonResponse({'is_document_rated' : is_document_rated})
 
 
+@login_required
 @require_http_methods(["GET"])
 def user_recent_documents(request):
 
@@ -607,7 +599,77 @@ def user_recent_documents(request):
         })
             
     except ObjectDoesNotExist:
-        return HttpResponseRedirect('courses')   
+        return HttpResponseNotFound('Missing document or document accesses.')
 
     except ValidationError:
-        return HttpResponse("Error when trying to validate new DB record.")
+        return HttpResponseServerError("Error when trying to validate new DB record.")
+
+
+@login_required
+@require_http_methods(["GET"])
+def degree_year_count(request, deg_id):
+
+    try:
+        ##institution = request.user.profile.institution
+        degree = AcademicDegree.objects.get(pk=deg_id)
+        
+        return JsonResponse({
+            'name': degree.name,
+            'year_count': degree.year_count + 1,
+            'message': 'year count includes optional courses as an extra year.'
+        })
+
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound('Academic degree or institution was not found.')
+
+
+@login_required
+@require_http_methods(["GET"])
+def academic_degrees(request):
+
+    try:
+        institution = request.user.profile.institution
+        degree = AcademicDegree.objects.filter(institution=institution).values()
+        
+        return JsonResponse({
+            'degrees': list(degree)
+        })
+
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound('Institution was not found.')
+
+
+@login_required
+@require_http_methods(["GET"])
+def basic_search(request):
+    
+    search_string = request.GET.get('q')
+
+    # Separate search keywords by spaces
+    search_keywords = search_string.split()
+    print(search_keywords)
+
+    courses_result = []
+    documents_result = []
+    
+    for keyword in search_keywords:
+        filtered_courses = Course.objects.filter(name__contains = keyword).values()
+        filtered_courses_as_list = list(filtered_courses)
+
+        if(filtered_courses_as_list != []):
+            courses_result.append(filtered_courses_as_list)
+
+    print(courses_result)
+
+    for course in courses_result:
+        for keyword in search_keywords:
+            filtered_documents = Document.objects.filter(name__contains = keyword).values()
+            filtered_documents_as_list = list(filtered_documents)
+
+            if(filtered_documents_as_list != []):
+                documents_result.append(filtered_documents_as_list)
+
+    print(documents_result)
+
+    return JsonResponse({ "documents": documents_result[0], "courses": courses_result[0] })
+    return HttpResponse("Success")
