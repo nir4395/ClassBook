@@ -179,38 +179,37 @@ export default {
         }
       }
     },
-   async addNewIssue() {
-     try{
-          var issueData = this.$refs["issueBox"];
-      // var lastID = this.comments[this.comments.length - 1].id;
+    async addNewIssue() {
+      try {
+        var issueData = this.$refs["issueBox"];
+        // var lastID = this.comments[this.comments.length - 1].id;
 
-      issueData = issueData.submitnewIssue();
-      var data = {
-        comment_associated_document: this.id,
-        comment_content: issueData.content,
-        replied_to_comment_id: null,
-      };
+        issueData = issueData.submitnewIssue();
+        var data = {
+          comment_associated_document: this.id,
+          comment_content: issueData.content,
+          replied_to_comment_id: null,
+        };
 
-         var url = "http://localhost:8000/doc_id=" + this.id + "/post_comment";
+        var url = "doc_id/" + this.id + "/post_comment";
 
-      //  send the request to the server
-     await this.$http.post(url, data).then((response) => console.log(response.data));
-      //  this.comments.push(id:)
-      // var comment = {
-      //   content: issueData.content,
-      //   author: "test1",
-      //   rate: 0,
-      //   id: lastID,
-      //   replies: [],
-      // };
-   
-    this.$emit('updateData');
-     }
-     catch(error){
-       console.log(error)
-     }
-    
-     
+        //  send the request to the server
+        await this.$http
+          .post(url, data)
+          .then((response) => console.log(response.data));
+        //  this.comments.push(id:)
+        // var comment = {
+        //   content: issueData.content,
+        //   author: "test1",
+        //   rate: 0,
+        //   id: lastID,
+        //   replies: [],
+        // };
+
+        this.$emit("updateData");
+      } catch (error) {
+        console.log(error);
+      }
 
       // this.comments.push(comment);
       //var newIssue=createIssue(data,[])

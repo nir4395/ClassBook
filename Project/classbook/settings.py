@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 from pathlib import Path
+from corsheaders.defaults import default_headers
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,7 +32,7 @@ SECRET_KEY = 'django-insecure-%xnx8o^sjq(cr1#hjftmmgp@gln5vqqcotpy#^fx9i=c^e(7^%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ 'enter_localhust.run_key_here.localhost.run', '127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -93,8 +94,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://localhost:8080",
     "http://127.0.0.1:8080",
+    "https://ebdc5e355b4f5d.localhost.run",
 ]
 
+CORS_ALLOW_HEADERS = default_headers + ('Access-Control-Allow-Origin', )
+print (CORS_ALLOW_HEADERS)
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 

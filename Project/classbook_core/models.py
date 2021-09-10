@@ -1,4 +1,3 @@
-from django.core import validators
 from classbook_core.file_handling import construct_file_save_directory
 from django.db import models
 from django.conf import settings
@@ -9,7 +8,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.forms.models import model_to_dict
 from django.utils import timezone
-from classbook_core.file_handling import construct_file_path
 from django.core.files.storage import FileSystemStorage
 
 class Institution(models.Model):
@@ -27,6 +25,7 @@ class Institution(models.Model):
 class AcademicDegree(models.Model):
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     name = models.CharField(max_length=300)
+    year_count = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], default=5) # Stand year count
 
     def __str__(self):
         return self.name

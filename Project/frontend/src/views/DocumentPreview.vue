@@ -1,9 +1,12 @@
 <template>
   <div class="mx-auto mainDocumentDiv">
-    
-    <Rating @updateRating="UpdateRating($event)" :canRate="isDocRated" :name="name" :rating="rating" :id="id"
-     
-    ></Rating >
+    <Rating
+      @updateRating="UpdateRating($event)"
+      :canRate="isDocRated"
+      :name="name"
+      :rating="rating"
+      :id="id"
+    ></Rating>
     <OtherDocsPreivew v-if="type !== 'pdf'"></OtherDocsPreivew>
     <PDFView :id="id"></PDFView>
     <!-- <PDFJSViewer v-else :fileURL="getFile()" :fileName="name" :id="id" /> -->
@@ -14,7 +17,6 @@
       :comments="doc"
       :id="id"
     ></CommentsSection>
-  
   </div>
 </template>
 <script>
@@ -26,8 +28,7 @@ import OtherDocsPreivew from "../components/OtherDocsPreivew.vue";
 import CommentsSection from "../components/Comments/CommentsSection.vue";
 // import PDFJSViewer from "../components/PDFJSViewer.vue";
 import Rating from "../components/Rating.vue";
-import PDFView from '../components/Documents/PDFView.vue'
-
+import PDFView from "../components/Documents/PDFView.vue";
 
 export default {
   components: {
@@ -50,36 +51,34 @@ export default {
       documnetComments: "",
       polling: null,
       rated: false,
-      fileURL: "https://localhost:8000/course/get/doc_id=14",
+      fileURL: "course/get/doc_id=14",
       urlImg: "book.jpg",
       issues: [],
       VIEWS_FILTER: 10,
       lastIssueNumber: 1,
       isModalVisible: false,
       isRateDocVisable: false,
-      isDocRated:''
+      isDocRated: "",
     };
   },
   methods: {
-    async isDocumentRatedByUser(){
-      let url='http://localhost:8000/doc_id/'+this.id+'/is_document_rated_by_user'
-      try{
-      let response =  await this.$http.get(url)
-      this.isDocRated=response.data.is_document_rated
+    async isDocumentRatedByUser() {
+      let url = "doc_id/" + this.id + "/is_document_rated_by_user";
+      try {
+        let response = await this.$http.get(url);
+        this.isDocRated = response.data.is_document_rated;
+      } catch (error) {
+        console.log(error);
       }
-      catch(error){
-        console.log(error)
-      }
-
     },
-    UpdateRating(newRating){
-      console.log("xxxx")
-      this.isDocRated=true
-      this.rating=newRating
+    UpdateRating(newRating) {
+      console.log("xxxx");
+      this.isDocRated = true;
+      this.rating = newRating;
     },
     getFile() {
-   var url="http://localhost:8000/course/get/doc_id/6"
-  //    var url = 'http://localhost:8000/course/get/doc_id/'+this.id
+      var url = "http://localhost:8000/course/get/doc_id/6";
+      //    var url = 'http://localhost:8000/course/get/doc_id/'+this.id
       console.log(url);
       return url;
     },
@@ -89,7 +88,7 @@ export default {
         document_id: this.id,
         user_rating: number,
       };
-      const url = "http://localhost:8000/course/rate/";
+      const url = "course/rate/";
       axios
         .post(url, params)
         .then((response) => {
@@ -104,9 +103,7 @@ export default {
       try {
         console.log("fire!");
         var urlDocumentComments =
-          "http://localhost:8000/doc_id=" +
-          this.id +
-          "/get_all_document_comments";
+          "doc_id/" + this.id + "/get_all_document_comments";
         const response = await this.$http.get(urlDocumentComments);
         this.documnetComments = response.data;
         var comments = this.documnetComments.all_comments;
@@ -120,9 +117,7 @@ export default {
 
     getComments() {
       var urlDocumentComments =
-        "http://localhost:8000/doc_id=" +
-        this.id +
-        "/get_all_document_comments";
+        "doc_id/" + this.id + "/get_all_document_comments";
       var allComments = "";
       this.$http
         .get(urlDocumentComments)
@@ -169,7 +164,7 @@ export default {
   },
   created() {
     // console.log("poll!");
-    this.isDocumentRatedByUser()
+    this.isDocumentRatedByUser();
     this.getData();
     //this.pollData();
   },

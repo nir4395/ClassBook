@@ -57,10 +57,8 @@ export default {
   methods: {
     async getData() {
       try {
-  
-        var url =
-          'http://localhost:8000/course/get/course_id/'+this.id+'/cat/'+this.cat
-      
+        var url = "course/get/course_id/" + this.id + "/cat/" + this.cat;
+
         const response = await this.$http.get(url);
         // JSON responses are automatically parsed.
         this.original = response.data.documents;
@@ -69,9 +67,9 @@ export default {
         console.log(error);
       }
     },
-    ResetData(){
-      console.log("Reset")
-      this.docsInfo=this.original
+    ResetData() {
+      console.log("Reset");
+      this.docsInfo = this.original;
     },
     sortByRankings(arg) {
       console.log(arg);

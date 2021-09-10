@@ -1,16 +1,30 @@
 <template>
   <div style="height:1000px" id="maindiv">
-     <v-row class="mx-auto" style="margin-top:5%;width:100%">
-         <div style="margin-left:41%" class="btn-group" role="group" aria-label="Basic example">
-  <v-btn color="blue" @click="showPrevPage()" type="button" class="btn btn-secondary">Previous Page</v-btn>
-  <v-btn     color="blue"  @click="showNextPage()" type="button" class="btn btn-secondary">Next Page</v-btn>
-</div>
-       
-           
-     </v-row>
-   
+    <v-row class="mx-auto" style="margin-top:5%;width:100%">
+      <div
+        style="margin-left:41%"
+        class="btn-group"
+        role="group"
+        aria-label="Basic example"
+      >
+        <v-btn
+          color="blue"
+          @click="showPrevPage()"
+          type="button"
+          class="btn btn-secondary"
+          >Previous Page</v-btn
+        >
+        <v-btn
+          color="blue"
+          @click="showNextPage()"
+          type="button"
+          class="btn btn-secondary"
+          >Next Page</v-btn
+        >
+      </div>
+    </v-row>
+
     <div class="top-bar">
-     
       <span class="page-info">
         Page <span id="page-num"></span> of <span id="page-count"></span>
       </span>
@@ -28,41 +42,38 @@ let pdfDoc = null,
   pageNumIsPending = null;
 const scale = 1.5,
   canvas = document.querySelector("#pdf-render"),
- ctx=0;
+  ctx = 0;
 export default {
-    props:['id'],
-      created(){
-          console.log(ctx)
-            this.getDoc()
-      },
+  props: ["id"],
+  created() {
+    console.log(ctx);
+    this.getDoc();
+  },
   methods: {
-    
- async   getDoc(){
-    //    let url='http://localhost:8000/course/get/doc_id/6'
-        let url='http://localhost:8000/course/get/doc_id/'+this.id
-        console.log(url)
-         const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.entry');
-         pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-        pdfjsLib
-        
+    async getDoc() {
+      let url = "course/get/doc_id/" + this.id;
+      console.log(url);
+      const pdfjsWorker = await import("pdfjs-dist/build/pdf.worker.entry");
+      pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+      pdfjsLib
 
-  .getDocument(url)
-  .promise.then(pdfDoc_ => {
-    pdfDoc = pdfDoc_;
+        .getDocument(url)
+        .promise.then((pdfDoc_) => {
+          pdfDoc = pdfDoc_;
 
-    document.querySelector('#page-count').textContent = pdfDoc.numPages;
-     
-    this.renderPage(pageNum);
-  })
-  .catch(err => {
-    // Display error
-    const div = document.createElement('div');
-    div.className = 'error';
-    div.appendChild(document.createTextNode(err.message));
-  document.querySelector('#maindiv').insertBefore(div, canvas);
-    // Remove top bar
-    document.querySelector('.top-bar').style.display = 'none';
-  });
+          document.querySelector("#page-count").textContent = pdfDoc.numPages;
+
+          this.renderPage(pageNum);
+        })
+        .catch((err) => {
+          // Display error
+          const div = document.createElement("div");
+          div.className = "error";
+          div.appendChild(document.createTextNode(err.message));
+          document.querySelector("#maindiv").insertBefore(div, canvas);
+          // Remove top bar
+          document.querySelector(".top-bar").style.display = "none";
+        });
     },
     renderPage(num) {
       pageIsRendering = true;
@@ -71,12 +82,12 @@ export default {
       pdfDoc.getPage(num).then((page) => {
         // Set scale
         const viewport = page.getViewport({ scale });
-      //  document.querySelector("#pdf-render"),
+        //  document.querySelector("#pdf-render"),
         document.querySelector("#pdf-render").height = viewport.height;
         document.querySelector("#pdf-render").width = viewport.width;
 
         const renderCtx = {
-          canvasContext: document.querySelector("#pdf-render").getContext('2d'),
+          canvasContext: document.querySelector("#pdf-render").getContext("2d"),
           viewport,
         };
 
@@ -120,16 +131,15 @@ export default {
 };
 </script>
 <style scoped>
-.pdfbox{
-    z-index: 5;
-    height: 900px;
-    width: 950px;
-    overflow-y:scroll;
-    border: solid black 2px;
-    box-shadow: 1%;
-    box-sizing: content-box;
-    background-color: gray;
-    padding:2%
+.pdfbox {
+  z-index: 5;
+  height: 900px;
+  width: 950px;
+  overflow-y: scroll;
+  border: solid black 2px;
+  box-shadow: 1%;
+  box-sizing: content-box;
+  background-color: gray;
+  padding: 2%;
 }
-
 </style>

@@ -1,114 +1,128 @@
 <template>
   <div>
-    
     <v-row>
-   
-      
       <v-col>
         <div>
-          <h2 style="float:left"> {{name}}</h2>
+          <h2 style="float:left">{{ name }}</h2>
           <v-icon style="float:left;margin-right" color="yellow">star</v-icon>
-          <h3 style="font-size:12px"> {{rating}} / 5</h3>
+          <h3 style="font-size:12px">{{ rating }} / 5</h3>
         </div></v-col
       >
-      <v-col v-if="canRate===false" > <div style="float:left">
-      <fieldset class="rating">
-        <input
-          @click="getRank($event)"
-          type="radio"
-          id="star5"
-          name="rating"
-          value="5"
-        /><label class="full" for="star5" title="Awesome - 5 stars"></label>
-        <input
-          @click="getRank($event)"
-          type="radio"
-          id="star4half"
-          name="rating"
-          value="4.5"
-        /><label
-          class="half"
-          for="star4half"
-          title="Pretty good - 4.5 stars"
-        ></label>
-        <input
-          @click="getRank($event)"
-          type="radio"
-          id="star4"
-          name="rating"
-          value="4"
-        /><label class="full" for="star4" title="Pretty good - 4 stars"></label>
-        <input
-          @click="getRank($event)"
-          type="radio"
-          id="star3half"
-          name="rating"
-          value="3.5"
-        /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
-        <input
-          @click="getRank($event)"
-          type="radio"
-          id="star3"
-          name="rating"
-          value="3"
-        /><label class="full" for="star3" title="Meh - 3 stars"></label>
-        <input
-          @click="getRank($event)"
-          type="radio"
-          id="star2half"
-          name="rating"
-          value="2.5"
-        /><label
-          class="half"
-          for="star2half"
-          title="Kinda bad - 2.5 stars"
-        ></label>
-        <input
-          @click="getRank($event)"
-          type="radio"
-          id="star2"
-          name="rating"
-          value="2"
-        /><label class="full" for="star2" title="Kinda bad - 2 stars"></label>
-        <input
-          @click="getRank($event)"
-          type="radio"
-          id="star1half"
-          name="rating"
-          value="1.5"
-        /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
-        <input
-          @click="getRank($event)"
-          type="radio"
-          id="star1"
-          name="rating"
-          value="1"
-        /><label
-          class="full"
-          for="star1"
-          title="Sucks big time - 1 star"
-        ></label>
-        <input
-          @click="getRank($event)"
-          type="radio"
-          id="starhalf"
-          name="rating"
-          value="0.5"
-        /><label
-          class="half"
-          for="starhalf"
-          title="Sucks big time - 0.5 stars"
-        ></label>
-      </fieldset>
-      {{ currentRating }} Stars
-  
-    </div></v-col>
-    <v-col  cols="1"
-        sm="1"
-        md="1"><v-btn v-if="canRate===false" color="blue" @click="RankDocuemnt()">Rank </v-btn></v-col>
+      <v-col v-if="canRate === false">
+        <div style="float:left">
+          <fieldset class="rating">
+            <input
+              @click="getRank($event)"
+              type="radio"
+              id="star5"
+              name="rating"
+              value="5"
+            /><label class="full" for="star5" title="Awesome - 5 stars"></label>
+            <input
+              @click="getRank($event)"
+              type="radio"
+              id="star4half"
+              name="rating"
+              value="4.5"
+            /><label
+              class="half"
+              for="star4half"
+              title="Pretty good - 4.5 stars"
+            ></label>
+            <input
+              @click="getRank($event)"
+              type="radio"
+              id="star4"
+              name="rating"
+              value="4"
+            /><label
+              class="full"
+              for="star4"
+              title="Pretty good - 4 stars"
+            ></label>
+            <input
+              @click="getRank($event)"
+              type="radio"
+              id="star3half"
+              name="rating"
+              value="3.5"
+            /><label
+              class="half"
+              for="star3half"
+              title="Meh - 3.5 stars"
+            ></label>
+            <input
+              @click="getRank($event)"
+              type="radio"
+              id="star3"
+              name="rating"
+              value="3"
+            /><label class="full" for="star3" title="Meh - 3 stars"></label>
+            <input
+              @click="getRank($event)"
+              type="radio"
+              id="star2half"
+              name="rating"
+              value="2.5"
+            /><label
+              class="half"
+              for="star2half"
+              title="Kinda bad - 2.5 stars"
+            ></label>
+            <input
+              @click="getRank($event)"
+              type="radio"
+              id="star2"
+              name="rating"
+              value="2"
+            /><label
+              class="full"
+              for="star2"
+              title="Kinda bad - 2 stars"
+            ></label>
+            <input
+              @click="getRank($event)"
+              type="radio"
+              id="star1half"
+              name="rating"
+              value="1.5"
+            /><label
+              class="half"
+              for="star1half"
+              title="Meh - 1.5 stars"
+            ></label>
+            <input
+              @click="getRank($event)"
+              type="radio"
+              id="star1"
+              name="rating"
+              value="1"
+            /><label
+              class="full"
+              for="star1"
+              title="Sucks big time - 1 star"
+            ></label>
+            <input
+              @click="getRank($event)"
+              type="radio"
+              id="starhalf"
+              name="rating"
+              value="0.5"
+            /><label
+              class="half"
+              for="starhalf"
+              title="Sucks big time - 0.5 stars"
+            ></label>
+          </fieldset>
+          {{ currentRating }} Stars
+        </div></v-col
+      >
+      <v-col cols="1" sm="1" md="1"
+        ><v-btn v-if="canRate === false" color="blue" @click="RankDocuemnt()"
+          >Rank
+        </v-btn></v-col
+      >
     </v-row>
-
-   
   </div>
 </template>
 <script>
@@ -118,17 +132,17 @@ export default {
       currentRating: 0,
     };
   },
-  props: ["name", "rating", "id","canRate"],
+  props: ["name", "rating", "id", "canRate"],
   methods: {
     getRank(e) {
       this.currentRating = document.getElementById(e.target.id).value;
     },
     async RankDocuemnt() {
       try {
-        var url = "http://localhost:8000/course/rate/";
+        var url = "course/rate/";
         var data = { document_id: this.id, user_rating: this.currentRating };
         const response = await this.$http.post(url, data);
-        this.$emit("updateRating",response.data['new rating'])
+        this.$emit("updateRating", response.data["new rating"]);
         console.log(response);
       } catch (error) {
         console.log(error);
