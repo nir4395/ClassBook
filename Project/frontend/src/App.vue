@@ -1,7 +1,7 @@
 <template>
   <v-app class="gray fontfam">
     <span class="bg"></span>
-    {{uerData}}
+    {{ uerData }}
     <Navbar :name="uerData.profile_details.user.username"></Navbar>
     <v-content>
       <router-view></router-view>
@@ -14,16 +14,16 @@ import Navbar from "@/components/Navbar";
 export default {
   name: "App",
   components: { Navbar },
-  created(){
-    this.getUsersInfo()
+  created() {
+    this.getUsersInfo();
   },
-  methods:{
+  methods: {
     async getUsersInfo() {
       try {
-        console.log("ask for the data in App.vue")
-        var url = "http://localhost:8000/users/user_profile/";
+        console.log("ask for the data in App.vue");
+        var url = "users/user_profile/";
         const response = await this.$http.get(url);
-        console.log(response)
+        console.log(response);
         this.uerData = response.data;
       } catch (error) {
         console.log(error);
@@ -31,18 +31,18 @@ export default {
     },
     async getUsersCoursesInfo() {
       try {
-        var url = "http://localhost:8000/course/user_registered/";
+        var url = "course/user_registered/";
 
         const response = await this.$http.get(url);
-      this.registeredCourses = response.data["registered_courses"];
+        this.registeredCourses = response.data["registered_courses"];
       } catch (error) {
         console.log(error);
       }
     },
   },
   data: () => ({
-    uerData:'',
-    registeredCourses:'',
+    uerData: "",
+    registeredCourses: "",
     image2: "Covers/back2.jpg",
     //
   }),

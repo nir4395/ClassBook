@@ -1,6 +1,7 @@
 <template style="background-color:red">
   <div>
-  Welcome Back  {{uerData.profile_details.user.first_name}} {{uerData.profile_details.user.last_name}} 
+    Welcome Back {{ uerData.profile_details.user.first_name }}
+    {{ uerData.profile_details.user.last_name }}
     <div v-if="newUser" class="divStyle">
       <Intro></Intro>
     </div>
@@ -22,14 +23,12 @@ import Intro from "../components/Intro.vue";
 import CardDisplay from "../components/CardDisplay.vue";
 import MyCourses from "../components/MyCourses.vue";
 
-
-
 export default {
   name: "Home",
   data() {
     return {
       uerData: "",
-     recentDoc :'',
+      recentDoc: "",
       resp: "",
       newUser: false,
       registeredCourses: "",
@@ -85,22 +84,21 @@ export default {
   },
   methods: {
     async getUsersInfo() {
-     
       try {
-        var url = "http://localhost:8000/users/user_profile/";
+        var url = "users/user_profile/";
         const response = await this.$http.get(url);
-        console.log(response)
+        console.log(response);
         this.uerData = response.data;
       } catch (error) {
         console.log(error);
       }
     },
-     async getRecentDocs() {
+    async getRecentDocs() {
       //course/get/recent_documents
       try {
-        var url = "http://localhost:8000/course/get/recent_documents";
+        var url = "course/get/recent_documents";
         const response = await this.$http.get(url);
-        console.log(response)
+        console.log(response);
         this.recentDoc = response.data;
       } catch (error) {
         console.log(error);
@@ -108,15 +106,15 @@ export default {
     },
     async getUsersCoursesInfo() {
       try {
-        var url = "http://localhost:8000/course/user_registered/";
+        var url = "course/user_registered/";
 
         const response = await this.$http.get(url);
-      this.registeredCourses = response.data["registered_courses"];
+        this.registeredCourses = response.data["registered_courses"];
       } catch (error) {
         console.log(error);
       }
     },
-    
+
     NOTFOUNDNAV() {
       return this.$router.push("notfound");
     },

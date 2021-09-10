@@ -18,7 +18,7 @@
             @keypress="DoSearch($event)"
             type="text"
             class="form-control inputSearch"
-            placeholder="Search"
+            placeholder="Search for courses and documents..."
           />
 
           <!-- <input placeholder="Search" style="background-color:white;length:100px"> -->
@@ -55,7 +55,7 @@
     padding: 11%;
     margin-left: 5%;"
               >
-                {{name}}
+                {{ name }}
               </h3>
             </div>
           </v-list-item-action>
@@ -110,7 +110,7 @@
 <script>
 const ENTER = 13;
 export default {
-  props:['name'],
+  props: ["name"],
   data() {
     return {
       img: "userProfiles/pic2.jpg",

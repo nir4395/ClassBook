@@ -4,7 +4,10 @@
     <div class="mx-auto">
       <div class="row mx-auto">
         <div @click="NavToPage(1)" class="col-md-3 col-sm-6">
-          <SchoolBox name="Computing" img="Instutitons/coding.jpg"></SchoolBox>
+          <SchoolBox
+            name="Computer Science"
+            img="Instutitons/coding.jpg"
+          ></SchoolBox>
         </div>
         <div class="col-md-3 col-sm-6">
           <SchoolBox name="Nursing" img="Instutitons/nursing.jpg"></SchoolBox>

@@ -1,11 +1,10 @@
 <template>
   <div>
-    
     <div
       class="mx-auto"
       style="font-weight:bold;font-size:24px;text-align:center;width:1000px"
     >
-      {{ name }} - Docuemnts Catergories
+      {{ name }} - Document Categories
     </div>
     <CourseCatergories
       :name="name"
@@ -25,16 +24,13 @@ export default {
     };
   },
   created() {
-   
-    var url =
-       'http://localhost:8000/course/get/course_id/'+ this.id+'/categories'
+    var url = "course/get/course_id/" + this.id + "/categories";
     this.$http
       .get(url)
       .then((response) => (this.courseCategoriesInfo = response.data));
   },
   components: {
-    CourseCatergories
-  
+    CourseCatergories,
   },
 };
 </script>

@@ -132,7 +132,7 @@ export default {
           comment_content: contentInput,
           replied_to_comment_id: this.id,
         };
-        var url = "http://localhost:8000/doc_id=" + this.id + "/post_comment";
+        var url = "doc_id/" + this.id + "/post_comment";
         //send the request to the server
         this.$http
           .post(url, data)
