@@ -1,15 +1,24 @@
 <template>
   <div class="about">
-    <h1> {{STAM}}</h1>
+   
 
 
     <div class="container">
       <div style="margin-top:50px;" class="row">
       
-        <div v-for="(year) in years" :key="year" @click="GoToCourses(year)" class="col-md-3 col-sm-6">
+        <div v-for="(year) in years-1" :key="year" @click="GoToCourses(year)" class="col-md-3 col-sm-6">
+          
           <SchoolBox
             :name="text[year]"
             :img="getImage(year)"
+          ></SchoolBox>
+          <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
+        </div>
+           <div  @click="GoToCourses(10)" class="col-md-3 col-sm-6">
+          
+          <SchoolBox
+            :name="text[10]"
+            :img="getImage(4)"
           ></SchoolBox>
           <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div>
@@ -30,7 +39,7 @@ export default {
       text:{1:'First Year Courses'
       ,2:'Second Year Courses',
       3:'Third Year Courses',
-      4:'Selection Courses'},
+      10:'Opt Courses'},
         name:'',
           years:'',
       ins: this.$route.params.ins,
@@ -48,7 +57,7 @@ export default {
       return 'numbers/'+value+'.jpg'
     },
      async getData(year){
-       console.log("sssssssssss")
+     
      var url = "course/ins/1/year/"+year;
      console.log(url)
       const response =    
