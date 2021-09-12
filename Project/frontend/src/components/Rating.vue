@@ -2,10 +2,24 @@
   <div>
     <v-row>
       <v-col>
-        <div>
-          <h2 style="float:left">{{ name }}</h2>
-          <v-icon style="float:left;margin-right" color="yellow">star</v-icon>
-          <h3 style="font-size:12px">{{ rating }} / 5</h3>
+        <div style="width:100%">
+          <v-row>
+            <v-col> <h3 style="float:left">{{ name }}</h3></v-col>
+            
+              <v-col>   
+                 <v-icon style="margin-left:5%;float:left;margin-right" color="yellow">star</v-icon>
+        
+              
+              </v-col>
+               <v-col>   <h1 style="margin-top:5%;width:55px;padding:2%;font-size:16px;font-weight:bold">{{ rating }} / 5
+
+                
+              </h1>
+              
+              </v-col>
+          </v-row>
+        
+        
         </div></v-col
       >
       <v-col v-if="canRate === false">

@@ -3,7 +3,7 @@
     style="border:1px solid black"
     :mdStyle="mdStyle"
     type="code"
-    url="http://localhost:8000/course/get/doc_id/1"
+    :url="getURL()"
   />
   <!-- <VueDocPrevi ew value="newteach.pbworks.com%2Ff%2Fele%2Bnewsletter.docx" type="office" /> -->
 </template>
@@ -11,6 +11,7 @@
 <script>
 import VueDocPreview from "vue-doc-preview";
 export default {
+  props:['id'],
   data: function() {
     return {
       mdStyle: {
@@ -29,6 +30,11 @@ export default {
         },
       },
     };
+  },
+  methods:{
+    getURL(){
+      return 'documents/'+this.id
+    }
   },
   components: {
     VueDocPreview,

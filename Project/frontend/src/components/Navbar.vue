@@ -8,7 +8,7 @@
         ><v-icon>menu</v-icon></v-app-bar-nav-icon
       >
       <v-toolbar-title style="height:64px" class="text-uppercase grey--text">
-        <span><img class="logo" src="../assets/Covers/logo.png"/></span>
+        <span><img @click="Home()" class="logo" src="../assets/Covers/logo.png"/></span>
       </v-toolbar-title>
 
       <v-btn text color="grey">
@@ -18,7 +18,7 @@
             @keypress="DoSearch($event)"
             type="text"
             class="form-control inputSearch"
-            placeholder="Search for courses and documents..."
+            placeholder="Search"
           />
 
           <!-- <input placeholder="Search" style="background-color:white;length:100px"> -->
@@ -43,21 +43,24 @@
       <v-list>
         <v-list-item>
           <v-list-item-action>
-            <div style="width:100%">
-              <!-- <img
-                :src="require(`@/assets/${img}`)"
-                id="output"
-                style="width:70%;float:left;border-radius:100%;height:50px;width:50px"
-              /> -->
+            <div  class="mx-auto" style="width:100%">
+           <img style="margin-left:50%;border-radius:200%;height:100px;width:100px" v-if="def!==null" :src="img" id="output" width="200" />
+          <img style="border: 2px solid black"  v-else src="static/profile_pic/default.png" >
+            </div>
+             <div style="width:100%">
+           <!-- <img style="border-radius:200%;height:100px;width:100px" v-if="def!==null" :src="img" id="output" width="200" />
+          <img style="border: 2px solid black"  v-else src="http://localhost:8000/static/profile_pic/default.png" > -->
+
               <h3
                 style="float: left;
     width: 30%;
     padding: 11%;
-    margin-left: 5%;"
+    margin-left: 36%;"
               >
-                {{ name }}
+                {{name}}
               </h3>
             </div>
+            
           </v-list-item-action>
         </v-list-item>
 
@@ -76,8 +79,9 @@
             }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        
 
-        <v-list-item
+        <!-- <v-list-item
           style="color:black;font-size:20px;"
           href="http://localhost:8000/users/sign_up"
           target="_blank"
@@ -88,18 +92,17 @@
           <v-list-item-content>
             <v-list-item-title class="black--text">Sign Up</v-list-item-title>
           </v-list-item-content>
-        </v-list-item>
+        </v-list-item> -->
 
         <v-list-item
-          style="color:black;font-size:20px;"
-          href="http://localhost:8000/users/sign_in"
-          target="_blank"
+          style="cursor:pointer;color:black;font-size:20px;"
+         
         >
           <v-list-item-action>
-            <v-icon class="black--text">login</v-icon>
+            <v-icon class="black--text">search</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title class="black--text">Login</v-list-item-title>
+            <v-list-item-title class="black--text"> Advnaced Search</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -110,10 +113,11 @@
 <script>
 const ENTER = 13;
 export default {
-  props: ["name"],
+  props:['name','def','img'],
   data() {
     return {
-      img: "userProfiles/pic2.jpg",
+      // img: "userProfiles/pic2.jpg",
+      results:'',
       drawer: false,
       links: [
         { icon: "home", text: "Home", route: "/" },
@@ -129,6 +133,21 @@ export default {
     };
   },
   methods: {
+     async getData(query){
+             const repsonse = await this.$http.get('documents/basic_search?q='+query)
+             console.log(repsonse.data)
+             this.results= repsonse.data
+    },
+    Home(){
+        if (this.$route.path !== "/") {
+        return this.$router.push({
+          name: "Home",
+          
+        });
+      } else {
+        this.$router.go(this.$router.currentRoute);
+      }
+    },
     DoSearch(e) {
       if (e.keyCode == ENTER) {
         this.Search();
@@ -145,18 +164,32 @@ export default {
         console.log(error);
       }
     },
-    Search() {
-      var query = this.$refs["searchInput"].value;
-      this.$refs["searchInput"].value = "";
-      if (this.$route.path !== "/search") {
-        return this.$router.push({
+      
+  async  Search() {
+    var q = this.$refs["searchInput"].value;
+    var query='' 
+      var text=q.split(" ")
+            for (var i=0;i<text.length;i++){
+                query=query+text[i]+"+"
+            }
+           query= query.substring(0, query.length - 1);
+      await this.getData(query)
+      console.log("xxxxxxxxxxxxx")
+      console.log(this.results)
+       if (this.$route.path !== "/search") {
+          return  this.$router.push({
           name: "SearchResults",
-          params: { query: query },
-        });
-      } else {
-        this.$route.params.query = query;
-        this.$router.go(this.$router.currentRoute);
-      }
+          params: { results: this.results },
+       })
+       }
+       else{
+         this.$route.params.query = this.results;
+           this.$router.go(this.$router.currentRoute);
+       }
+     
+        
+     
+       
     },
   },
 };
@@ -183,11 +216,11 @@ export default {
   margin-left: 50px;
 }
 .logo {
-  height: 92px;
-  margin-top: -9px;
-  padding: 4px;
-  width: 307px;
-
-  width: 264px;
+   cursor: pointer;
+    margin-left: 27px;
+    height: 92px;
+    margin-top: -9px;
+    padding: 5px;
+    width: 168px;
 }
 </style>

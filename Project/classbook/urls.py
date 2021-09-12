@@ -58,11 +58,12 @@ urlpatterns = [
     path('institutions/', views.all_institutions), # Get all supported institutions for sign-up droplist
     
     # Document related URLs
-    path('documents/doc_id/<doc_id>', views.document_by_id),
+    path('documents/basic_search', views.basic_search),
+    path('documents/<doc_id>', views.document_by_id),
     path('documents/<doc_id>/post_comment', views.post_comment),
     path('documents/<doc_id>/get_all_document_comments', views.get_all_document_comments),
     path('documents/<doc_id>/is_document_rated_by_user', views.is_document_rated_by_user),
-    path('documents/basic_search', views.basic_search),
+    
 
     #url(r'^.*$', TemplateView.as_view(template_name="index.html")),
     

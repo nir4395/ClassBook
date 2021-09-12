@@ -16,16 +16,11 @@
 
             <div class="ratingDivIssue">
               <div class="ratings">
-                <div class="ratingValue">{{ rate }}</div>
-                <span class="gapSpan"></span>
-                <button class="btn starUnMarked">
-                  <!-- <img
-                    height="20px"
-                    width="20px"
-                    src="https://img.icons8.com/fluency/48/000000/star.png"
-                  /> -->
+                <div class="ratingValue">{{ rate }}
                   <v-icon color="blue">thumb_up</v-icon>
-                </button>
+                </div>
+                <span class="gapSpan"></span>
+              
               </div>
 
               <div class="ratings">
@@ -132,7 +127,7 @@ export default {
           comment_content: contentInput,
           replied_to_comment_id: this.id,
         };
-        var url = "doc_id/" + this.id + "/post_comment";
+        var url = "documents/" + this.id + "/post_comment";
         //send the request to the server
         this.$http
           .post(url, data)

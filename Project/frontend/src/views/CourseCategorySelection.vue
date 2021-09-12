@@ -24,7 +24,7 @@ export default {
     };
   },
   created() {
-    var url = "course/get/course_id/" + this.id + "/categories";
+    var url = "course/course_id/" + this.id + "/categories";
     this.$http
       .get(url)
       .then((response) => (this.courseCategoriesInfo = response.data));

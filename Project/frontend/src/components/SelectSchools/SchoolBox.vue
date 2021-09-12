@@ -8,7 +8,7 @@
       width="100%"
     ></v-img>
 
-    <v-card-title>
+    <v-card-title style="border-top:1px solid gray">
       {{ name }}
     </v-card-title>
 

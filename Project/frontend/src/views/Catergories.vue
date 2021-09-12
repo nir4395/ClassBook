@@ -1,46 +1,21 @@
 <template>
   <div class="about">
-    <h1></h1>
+    <h1> {{STAM}}</h1>
+
 
     <div class="container">
       <div style="margin-top:50px;" class="row">
-        <div @click="GoToCourses(1, '')" class="col-md-3 col-sm-6">
+      
+        <div v-for="(year) in years" :key="year" @click="GoToCourses(year)" class="col-md-3 col-sm-6">
           <SchoolBox
-            name="First Year Courses"
-            img="Instutitons/maths.jpg"
+            :name="text[year]"
+            :img="getImage(year)"
           ></SchoolBox>
           <!-- <SchoolBox  name="Bar Ilan University" img="ba.png"></SchoolBox> -->
         </div>
-        <div
-          @click="GoToCourses(2, 'Second Year Courses')"
-          class="col-md-3 col-sm-6"
-        >
-          <SchoolBox
-            name="Second Year Courses"
-            img="Instutitons/hardwere.jpg"
-          ></SchoolBox>
-        </div>
+        
       </div>
-      <div style="margin-top:50px;" class="row">
-        <div
-          @click="GoToCourses(3, 'Third Year Courses')"
-          class="col-md-3 col-sm-6"
-        >
-          <SchoolBox
-            name="Third Year Courses"
-            img="Instutitons/computers2.jpg"
-          ></SchoolBox>
-        </div>
-        <div
-          @click="GoToCourses(10, 'Selection Courses')"
-          class="col-md-3 col-sm-6"
-        >
-          <SchoolBox
-            name="Selection Courses"
-            img="Instutitons/mobile.jpg"
-          ></SchoolBox>
-        </div>
-      </div>
+      
     </div>
   </div>
 </template>
@@ -52,7 +27,14 @@ axios.defaults.xsrfCookieName = "csrftoken";
 export default {
   data() {
     return {
+      text:{1:'First Year Courses'
+      ,2:'Second Year Courses',
+      3:'Third Year Courses',
+      4:'Selection Courses'},
+        name:'',
+          years:'',
       ins: this.$route.params.ins,
+      STAM:'',
 
       data: null,
     };
@@ -62,26 +44,58 @@ export default {
   },
 
   methods: {
-    GoToCourses(year_code_param, categoryName) {
-      return this.$router.push({
-        name: "CoursesSelection",
-        params: {
-          catName: categoryName,
-          ins: this.ins,
-          yearCode: year_code_param,
-        },
-      });
+    getImage(value){
+      return 'numbers/'+value+'.jpg'
     },
-    getCatergories() {
-      let headers = {
-        "X-CSRFToken": axios.defaults.xsrfCookieName,
-        "Content-Type": "application/x-www-form-urlencoded",
-      };
-      axios
+     async getData(year){
+       console.log("sssssssssss")
+     var url = "course/ins/1/year/"+year;
+     console.log(url)
+      const response =    
 
-        .get("http://localhost:8000/course/get/course_id=3/categories", headers)
-        .then((response) => (this.data = response.data));
-      console.log(this.info);
+  await  this.$http
+      .get(url)
+      console.log(response)
+      this.STAM=response.data
+    },
+  
+  async  GoToCourses(value) {
+     await this.getData(value)
+     
+      console.log(this.text[value])
+        //  var url = "course/ins/" + this.ins + "/year/" + this.year_code;
+ return this.$router.push({name: "CoursesSelection",
+  params:{
+    courses:this.STAM,
+    ins:this.ins,
+    catName: this.text[value],
+  }})
+
+
+      // return this.$router.push({
+      //   name: "CoursesSelection",
+      //   params: {
+      //     catName: this.text[year_code_param],
+
+      //     ins: this.ins,
+      //     yearCode: year_code_param,
+        
+      //   },
+      // });
+    },
+    async getCatergories() {
+     const response = await this.$http.get('academic_degrees/deg/2')
+     this.name=response.data.name
+     this.years=response.data.year_count
+      // let headers = {
+      //   "X-CSRFToken": axios.defaults.xsrfCookieName,
+      //   "Content-Type": "application/x-www-form-urlencoded",
+      // };
+      // axios
+
+      //   .get("http://localhost:8000/course/get/course_id=3/categories", headers)
+      //   .then((response) => (this.data = response.data));
+      // console.log(this.info);
     },
   },
   //onload events
