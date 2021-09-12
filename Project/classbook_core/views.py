@@ -655,9 +655,8 @@ def basic_search(request):
     for keyword in search_keywords:
         filtered_courses = Course.objects.filter(name__contains = keyword).values()
         filtered_courses_as_list = list(filtered_courses)
-
-        if(filtered_courses_as_list != []):
-            courses_result.append(filtered_courses_as_list)
+        
+        courses_result.extend(filtered_courses_as_list)
 
     print(courses_result)
 
@@ -665,11 +664,9 @@ def basic_search(request):
         for keyword in search_keywords:
             filtered_documents = Document.objects.filter(name__contains = keyword).values()
             filtered_documents_as_list = list(filtered_documents)
-
-            if(filtered_documents_as_list != []):
-                documents_result.append(filtered_documents_as_list)
+            
+            documents_result.extend(filtered_documents_as_list)
 
     print(documents_result)
 
-    return JsonResponse({ "documents": documents_result[0], "courses": courses_result[0] })
-    return HttpResponse("Success")
+    return JsonResponse({ "documents": documents_result, "courses": courses_result })
