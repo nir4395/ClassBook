@@ -57,7 +57,8 @@ export default {
   methods: {
     async getData() {
       try {
-        var url = "course/get/course_id/" + this.id + "/cat/" + this.cat;
+        //course/course_id/<course_id>/categories/<doc_category>
+        var url = "course/course_id/" + this.id + "/categories/" + this.cat;
 
         const response = await this.$http.get(url);
         // JSON responses are automatically parsed.

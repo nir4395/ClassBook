@@ -191,7 +191,7 @@ export default {
           replied_to_comment_id: null,
         };
 
-        var url = "doc_id/" + this.id + "/post_comment";
+        var url = "documents/" + this.id + "/post_comment";
 
         //  send the request to the server
         await this.$http
@@ -206,7 +206,7 @@ export default {
         //   replies: [],
         // };
 
-        this.$emit("updateData");
+     await   this.$emit("updateData");
       } catch (error) {
         console.log(error);
       }

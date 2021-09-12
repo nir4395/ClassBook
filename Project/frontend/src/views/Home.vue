@@ -1,7 +1,7 @@
 <template style="background-color:red">
   <div>
-    Welcome Back {{ uerData.profile_details.user.first_name }}
-    {{ uerData.profile_details.user.last_name }}
+ <div v-if="name!==''">  Welcome Back  {{name}}  </div>
+ <div v-else> Welcome Back  {{username}}</div>
     <div v-if="newUser" class="divStyle">
       <Intro></Intro>
     </div>
@@ -12,7 +12,8 @@
 
     <div style="height:500px;width:100%;margin-top:120px" v-if="!newUser">
       <!-- <v-btn @click="NOTFOUNDNAV()">not found</v-btn> -->
-      <CardDisplay :docs="recentDoc.recently_accessed_documents"></CardDisplay>
+      
+      <CardDisplay v-if="recentDoc.recently_accessed_documents.length!==0" :docs="recentDoc.recently_accessed_documents"></CardDisplay>
     </div>
   </div>
 </template>
@@ -27,8 +28,11 @@ export default {
   name: "Home",
   data() {
     return {
+      cap:'bill',
+      username:'',
+      name:'',
       uerData: "",
-      recentDoc: "",
+     recentDoc :'',
       resp: "",
       newUser: false,
       registeredCourses: "",
@@ -89,6 +93,10 @@ export default {
         const response = await this.$http.get(url);
         console.log(response);
         this.uerData = response.data;
+        this.username=this.uerData.profile_details.user.username
+         this.name=this.uerData.profile_details.user.first_name+' '+this.uerData.profile_details.user.last_name
+
+
       } catch (error) {
         console.log(error);
       }
@@ -96,7 +104,7 @@ export default {
     async getRecentDocs() {
       //course/get/recent_documents
       try {
-        var url = "course/get/recent_documents";
+        var url = "course/recent_documents";
         const response = await this.$http.get(url);
         console.log(response);
         this.recentDoc = response.data;

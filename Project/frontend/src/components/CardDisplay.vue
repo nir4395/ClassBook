@@ -38,7 +38,7 @@
               "
               >{{ getDocType(item.doc_type) }}</v-icon
             >
-            {{ item.name }}
+            {{ toCapital(item.name) }}
           </p>
 
           <div style="font-size:16px;font-weight:bold" class="row">
@@ -52,7 +52,7 @@
               style="margin-top:10px;font-size:16px"
               class="  col-md-6 mx-auto"
             >
-              {{ item.category }}
+              {{ toCapital(item.category) }}
             </div>
           </div>
         </div>
@@ -64,6 +64,10 @@
 export default {
   props: ["docs"],
   methods: {
+    toCapital(value){
+      return value.charAt(0).toUpperCase()+value.slice(1)
+     
+    },
     getDocType(value) {
       if (value === "cpp" || value == "cs") {
         return "code";

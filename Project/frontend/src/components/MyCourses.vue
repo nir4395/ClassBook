@@ -48,7 +48,7 @@ export default {
    },
    methods:{
       goToCourses(){
-         return this.$router.push({ name: "Catergories", params: { ins: 1 } });
+         return this.$router.push({ name: "SchoolSelection", params: { ins: 1 } });
       }
    },
 

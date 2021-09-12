@@ -7,8 +7,9 @@
       :rating="rating"
       :id="id"
     ></Rating>
-    <OtherDocsPreivew v-if="type !== 'pdf'"></OtherDocsPreivew>
-    <PDFView :id="id"></PDFView>
+       <OtherDocsPreivew :id="id" v-if="type !== 'pdf'"></OtherDocsPreivew>
+    <PDFView v-else :id="id"></PDFView>
+
     <!-- <PDFJSViewer v-else :fileURL="getFile()" :fileName="name" :id="id" /> -->
 
     <CommentsSection
@@ -63,7 +64,7 @@ export default {
   },
   methods: {
     async isDocumentRatedByUser() {
-      let url = "doc_id/" + this.id + "/is_document_rated_by_user";
+      let url = "documents/" + this.id + "/is_document_rated_by_user";
       try {
         let response = await this.$http.get(url);
         this.isDocRated = response.data.is_document_rated;
@@ -77,8 +78,8 @@ export default {
       this.rating = newRating;
     },
     getFile() {
-      var url = "http://localhost:8000/course/get/doc_id/6";
-      //    var url = 'http://localhost:8000/course/get/doc_id/'+this.id
+      // var url = "http://localhost:8000/course/doc_id/6";
+         var url = 'http://localhost:8000/course/doc_id/'+this.id
       console.log(url);
       return url;
     },
@@ -103,7 +104,7 @@ export default {
       try {
         console.log("fire!");
         var urlDocumentComments =
-          "doc_id/" + this.id + "/get_all_document_comments";
+          "documents/" + this.id + "/get_all_document_comments";
         const response = await this.$http.get(urlDocumentComments);
         this.documnetComments = response.data;
         var comments = this.documnetComments.all_comments;
@@ -163,9 +164,10 @@ export default {
     clearInterval(this.polling);
   },
   created() {
+      this.getData();
     // console.log("poll!");
     this.isDocumentRatedByUser();
-    this.getData();
+  
     //this.pollData();
   },
 };

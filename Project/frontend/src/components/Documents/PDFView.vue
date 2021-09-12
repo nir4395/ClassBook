@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     async getDoc() {
-      let url = "course/get/doc_id/" + this.id;
+      let url = "documents/" + this.id;
       console.log(url);
       const pdfjsWorker = await import("pdfjs-dist/build/pdf.worker.entry");
       pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;

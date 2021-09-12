@@ -29,8 +29,8 @@
         </v-card>
       </v-col>
        <v-col style="height:100%"  cols="12" sm="6" md="8">
-     
-          <ProfileDetails  @profile="getUsersInfo()" @updateImage="changeImage($event)" :img="img" :birth="birth" :userInfo="userData" v-if="details===true"></ProfileDetails>
+         {{img}}
+          <ProfileDetails :isDeafultPic="isDeafultPic"  @profile="getUsersInfo()" @updateImage="changeImage($event)" :img="img" :birth="birth" :userInfo="userData" v-if="details===true"></ProfileDetails>
           <MyCourses  v-if="courses===true" :courses="coursesData"></MyCourses>
        </v-col>
      
@@ -53,6 +53,7 @@ export default {
     return{
       birth:'',
       uerData:'',
+      isDeafultPic:null,
       img:'',
       details:true,
       coursesData:'',
@@ -70,7 +71,8 @@ export default {
         console.log(response)
         this.birth=response.data.profile_details.birth_date
         this.userData = response.data.profile_details.user;
-        this.img=response.data.profile_details.picture_URL.split('/frontend/src/assets/')[1]
+        this.img=response.data.profile_details.picture_URL
+        this.isDeafultPic=response.data.profile_details.picture_URL
       } catch (error) {
         console.log(error);
       }
@@ -82,7 +84,9 @@ export default {
         var data=new FormData();
         data.append("profile_picture",file)
         const response = await this.$http.post(url,data);
+
         console.log(response)
+        this.getUsersInfo()
       } catch (error) {
         console.log(error);
       }
