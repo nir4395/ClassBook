@@ -18,7 +18,7 @@
             @keypress="DoSearch($event)"
             type="text"
             class="form-control inputSearch"
-            placeholder="Search"
+            placeholder="Search for Documents and Courses..."
           />
 
           <!-- <input placeholder="Search" style="background-color:white;length:100px"> -->
