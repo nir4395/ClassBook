@@ -78,8 +78,8 @@ export default {
       this.rating = newRating;
     },
     getFile() {
-      // var url = "http://localhost:8000/course/doc_id/6";
-         var url = 'http://localhost:8000/course/doc_id/'+this.id
+   
+         var url = 'course/doc_id/'+this.id
       console.log(url);
       return url;
     },

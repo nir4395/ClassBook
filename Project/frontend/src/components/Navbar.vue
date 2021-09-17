@@ -43,13 +43,12 @@
       <v-list>
         <v-list-item>
           <v-list-item-action>
+         
             <div  class="mx-auto" style="width:100%">
            <img style="margin-left:50%;border-radius:200%;height:100px;width:100px" v-if="def!==null" :src="img" id="output" width="200" />
-          <img style="border: 2px solid black"  v-else src="static/profile_pic/default.png" >
+          <img style="margin-left:50%;border-radius:200%;height:100px;width:100px"  v-else src="static/profile_pic/default.png" >
             </div>
              <div style="width:100%">
-           <!-- <img style="border-radius:200%;height:100px;width:100px" v-if="def!==null" :src="img" id="output" width="200" />
-          <img style="border: 2px solid black"  v-else src="http://localhost:8000/static/profile_pic/default.png" > -->
 
               <h3
                 style="float: left;
@@ -81,18 +80,7 @@
         </v-list-item>
         
 
-        <!-- <v-list-item
-          style="color:black;font-size:20px;"
-          href="http://localhost:8000/users/sign_up"
-          target="_blank"
-        >
-          <v-list-item-action>
-            <v-icon class="black--text">login</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title class="black--text">Sign Up</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item> -->
+       
 
         <v-list-item
           style="cursor:pointer;color:black;font-size:20px;"
@@ -156,10 +144,10 @@ export default {
 
     async logout() {
       try {
-        var url = "http://localhost:8000/users/sign_out/";
+        var url = "users/sign_out/";
 
         await this.$http.get(url);
-        window.location.href = "http://localhost:8000/users/sign_in";
+        window.location.href = "users/sign_in";
       } catch (error) {
         console.log(error);
       }

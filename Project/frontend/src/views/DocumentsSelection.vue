@@ -26,7 +26,7 @@
     <!-- <v-divider></v-divider> -->
     <!-- <DocumentListing></DocumentListing> -->
     <!-- <v-divider></v-divider> -->
-    <UploadModal :id="id"></UploadModal>
+    <UploadModal :id="id" :cat="cat"></UploadModal>
   </div>
 </template>
 <script>

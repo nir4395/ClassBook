@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     SendLogin() {
-      var url = "http://localhost:8000/users/sign_in/";
+      var url = "users/sign_in/";
       let headers = {
         Cookie:
           " csrftoken=FDGChyFNudqJBm8Rdg5KkNaHdDpZVlUZN8LngUuN3HOUzCsQlZFmrTDJjZfkxlpy; sessionid=cwpu1ygr0wb8fniktiowhn60oo7pepuw",
@@ -72,7 +72,7 @@ export default {
       };
       axios
         .post(
-          "http://localhost:8000/course/get/course_id=3/cat=Exams",
+          "course/get/course_id=3/cat=Exams",
           {
             email: "test@gmail.com",
             username: "test",

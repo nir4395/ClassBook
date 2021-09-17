@@ -47,12 +47,12 @@
       <div class="issueDiv">
         <div>
           <div style="float:left">
-            <img
+            <!-- <img
               class="issueIcon"
               height="36"
               width="36"
               :src="require(`@/assets/${imgReply}`)"
-            />
+            /> -->
           </div>
           <div style="margin-left:50px;float:left">
             <input

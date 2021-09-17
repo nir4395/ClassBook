@@ -56,7 +56,7 @@ export default {
     RemoveCourse(courseID, index) {
       var data = { course_id: courseID };
 
-      var url = "http://localhost:8000/course/deregister/";
+      var url = "course/deregister/";
 
       this.$http.post(url, data).then((response) => console.log(response.data));
       //remove from list

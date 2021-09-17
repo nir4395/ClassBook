@@ -2,7 +2,7 @@
   <v-app class="gray fontfam">
     <span class="bg"></span>
    
-    <Navbar :img="img"  :defpic="def" :name="name"></Navbar>
+    <Navbar :img="img"  :def="def" :name="name"></Navbar>
     <v-content>
       <router-view></router-view>
     </v-content>
@@ -23,12 +23,12 @@ export default {
     async getUsersInfo() {
       try {
      //   console.log("ask for the data in App.vue")
-        var url = "http://localhost:8000/users/user_profile/";
+        var url = "users/user_profile/";
         const response = await this.$http.get(url);
         //console.log(response)
         //this.uerData = response.data;
        this.name= response.data.profile_details.user.username
-          this.img='http://localhost:8000'+response.data.profile_details.picture_URL
+          this.img=response.data.profile_details.picture_URL
         this.def=response.data.profile_details.picture_URL
       } catch (error) {
         console.log(error);
@@ -36,7 +36,7 @@ export default {
     },
     async getUsersCoursesInfo() {
       try {
-        var url = "http://localhost:8000/course/user_registered/";
+        var url = "course/user_registered/";
 
         const response = await this.$http.get(url);
       this.registeredCourses = response.data["registered_courses"];
