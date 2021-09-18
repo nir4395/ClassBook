@@ -377,6 +377,7 @@ def upload_file(request):
 
         # Get related course record from DB
         related_course_id = json_accessory_data['course_id']
+        related_course_category = json_accessory_data['category'].lower()
         related_course = Course.objects.get(pk=related_course_id)
         related_user = Profile.objects.get(pk=user_id)
 
@@ -386,7 +387,7 @@ def upload_file(request):
         document_format = split_document_name_format[1]
 
         # Create new record for document in DB
-        new_document = Document(name=document_name, course=related_course, author=related_user, doc_type=document_format, category='Exam')
+        new_document = Document(name=document_name, course=related_course, author=related_user, doc_type=document_format, category=related_course_category)
         new_document.full_clean()
         new_document.save()
 

@@ -32,8 +32,8 @@ SECRET_KEY = 'django-insecure-%xnx8o^sjq(cr1#hjftmmgp@gln5vqqcotpy#^fx9i=c^e(7^%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ 'enter_localhust.run_key_here.localhost.run', '127.0.0.1', 'localhost']
-
+# ALLOWED_HOSTS = [ '127.0.0.1', 'localhost','https://dangrous-gecko-58.loca.it']
+ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
