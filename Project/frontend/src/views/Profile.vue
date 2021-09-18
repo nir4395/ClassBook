@@ -29,8 +29,8 @@
         </v-card>
       </v-col>
        <v-col style="height:100%"  cols="12" sm="6" md="8">
-         {{img}}
-          <ProfileDetails :isDeafultPic="isDeafultPic"  @profile="getUsersInfo()" @updateImage="changeImage($event)" :img="img" :birth="birth" :userInfo="userData" v-if="details===true"></ProfileDetails>
+       
+          <ProfileDetails :def="def"  @profile="getUsersInfo()" @updateImage="changeImage($event)" :img="img" :birth="birth" :userInfo="userData" v-if="details===true"></ProfileDetails>
           <MyCourses  v-if="courses===true" :courses="coursesData"></MyCourses>
        </v-col>
      
@@ -53,7 +53,7 @@ export default {
     return{
       birth:'',
       uerData:'',
-      isDeafultPic:null,
+      def:null,
       img:'',
       details:true,
       coursesData:'',
@@ -66,13 +66,13 @@ export default {
   methods:{
       async getUsersInfo() {
       try {
-        var url = "http://localhost:8000/users/user_profile/";
+        var url = "users/user_profile/";
         const response = await this.$http.get(url);
         console.log(response)
         this.birth=response.data.profile_details.birth_date
         this.userData = response.data.profile_details.user;
         this.img=response.data.profile_details.picture_URL
-        this.isDeafultPic=response.data.profile_details.picture_URL
+        this.def=response.data.profile_details.picture_URL
       } catch (error) {
         console.log(error);
       }
@@ -80,7 +80,7 @@ export default {
     async updateProfileImage(file){
         try {
 
-        var url = "http://localhost:8000/users/user_profile/upload_profile_picture";
+        var url = "users/user_profile/upload_profile_picture";
         var data=new FormData();
         data.append("profile_picture",file)
         const response = await this.$http.post(url,data);
@@ -104,17 +104,17 @@ export default {
     showCourses(){
       this.details=false
       this.courses=true
-        var url='http://localhost:8000/course/user_registered/'
+        var url='course/user_registered/'
         this.$http.get(url).then(response => (this.coursesData = response.data['registered_courses']))
       
     },
     
   async  logout(){
      try {
-          var url = "http://localhost:8000/users/sign_out/"
+          var url = "users/sign_out/"
 
        await this.$http.get(url);
-       window.location.href='http://localhost:8000/users/sign_in'
+       window.location.href='users/sign_in'
        
      }
      catch(error){
