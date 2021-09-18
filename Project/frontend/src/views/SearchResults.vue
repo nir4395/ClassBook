@@ -8,13 +8,13 @@
                <ul v-if="results.courses.length!=0" style="float:left" class="list-group">
      <li class="list-group-item active">Courses</li>     
   <li class="list-group-item">
-      <v-row style="border-bottom:1px solid black" v-for="item in results.courses" :key="item">
+      <v-row   @click="goToCourse(item.name,item.id)" style="border-bottom:1px solid black;cursor:pointer" v-for="item in results.courses" :key="item">
             <v-col style=";border-right:1px solid black">{{item.name}}</v-col>
          
            <v-col style="border-right:1px solid black"> Members: {{item.student_count}}</v-col>
             <v-col style="border-right:1px solid black"> Date  Updated: {{showDate(item.date_created)}}</v-col>
               <v-col>Go to course page</v-col>
-            <v-col><v-icon style="cursor:pointer" @click="goToCourse(item.name,item.id)">link</v-icon></v-col>
+            <v-col><v-icon style="cursor:pointer" @click="goToCourse(item.name,item.id)">find_in_page</v-icon></v-col>
       
       </v-row>
      
@@ -24,8 +24,8 @@
    <ul  v-if="results.documents.length!=0" style="margin-top:10%;float:left" class="list-group">
             <li class="list-group-item active">Docuemnts</li> 
   <li class="list-group-item">
-      {{results.documents}}
-       <v-row style="border-bottom:1px solid black" v-for="item in results.documents" :key="item">
+      
+       <v-row  @click="goToDocument(item.id, item.name,item.rating,item.doc_type)" style="cursor:pointer;border-bottom:1px solid black" v-for="item in results.documents" :key="item">
             <v-col  style="border-right:1px solid black" >
                 <v-icon style="cursor:pointer"  @click="goToDocument(item.id, item.name,item.rating,item.doc_type)" color="red">{{getDocType(item.doc_type)}}</v-icon>{{item.name}}</v-col>
              <v-col  style="border-right:1px solid black"> Category {{item.category}}</v-col>
@@ -73,13 +73,12 @@ export default {
              },
             goToDocument(id, name,rating,type){
                   if(type==='docx' || type==='ppt'){
-         window.location.href='http://localhost:8000/course/get/doc_id='+id
+         window.location.href='course/get/doc_id='+id
       }
       else{
 
            console.log("this is the id " + id);
-      // axios.get('http://localhost:8000/course/get/course_id=3/doc_id=3')
-      // .then(response => (this.info = response.data))
+      
       return this.$router.push({
         name: "DocumentPreview",
         params: {  id: id, name: name ,rating:rating,docType:type},

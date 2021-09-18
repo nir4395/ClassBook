@@ -96,15 +96,7 @@ export default {
      const response = await this.$http.get('academic_degrees/deg/2')
      this.name=response.data.name
      this.years=response.data.year_count
-      // let headers = {
-      //   "X-CSRFToken": axios.defaults.xsrfCookieName,
-      //   "Content-Type": "application/x-www-form-urlencoded",
-      // };
-      // axios
 
-      //   .get("http://localhost:8000/course/get/course_id=3/categories", headers)
-      //   .then((response) => (this.data = response.data));
-      // console.log(this.info);
     },
   },
   //onload events

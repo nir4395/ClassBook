@@ -23,7 +23,7 @@
           </label>
           <input id="file" type="file" @change="loadFile($event)" />
     
-          <img v-if="isDeafultPic!==null" :src="img" id="output" width="200" />
+        <img v-if="def!==null" :src="img" id="output" width="200" />
           <img style="border: 2px solid black"  v-else src="static/profile_pic/default.png" >
         </div>
       </v-col>
@@ -83,7 +83,7 @@
 // import BirthDatePicker from '../components/Users/BirthDatePicker.vue'
 // import ProfileImageUpdate from '../components/Users/ProfileImageUpdate.vue'
 export default {
-  props: ["userInfo", "birth", "img","isDeafultPic"],
+  props: ["userInfo", "birth", "img","def"],
   components: {
     //  ProfileImageUpdate
     //  BirthDatePicker
@@ -136,7 +136,7 @@ export default {
         dateValues = dateValues.toDateString().split(" ");
         dateValues = dateValues[1] + " " + dateValues[2] + " " + dateValues[3];
         var url =
-          "http://localhost:8000/users/user_profile/change_profile_details";
+          "users/user_profile/change_profile_details";
         var data = {
           first_name: firstName,
           last_name: lastName,
@@ -295,7 +295,7 @@ export default {
         dateValues = dateValues.toDateString().split(" ");
         dateValues = dateValues[1] + " " + dateValues[2] + " " + dateValues[3];
         var url =
-          "http://localhost:8000/users/user_profile/change_profile_details";
+          "users/user_profile/change_profile_details";
         var data = {
           first_name: firstName,
           last_name: lastName,

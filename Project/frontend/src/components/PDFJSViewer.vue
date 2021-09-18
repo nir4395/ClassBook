@@ -5,8 +5,6 @@
   <!-- <iframe  ref="pdfFrame" class="myIframe"  :src="pdfsrc" height="100%" width=80%></iframe> -->
   <canvas  id="pdfiframe"></canvas>
 
-  <!-- <iframe  id="pdfiframe" ref="pdfFrame" class="myIframe" height="100%" width=80% :src="`${getFilePath}`"></iframe> -->
-  <!-- <iframe height="100%" width=100% src="http://localhost:8080/lib/pdfjs-2.9.359-dist/web/viewer.html?file=http://localhost:8000/course/get/doc_id/6" ></iframe> -->
 
 </div>
 </template>
@@ -61,7 +59,7 @@ export default {
   const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.entry');
 
   pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-       let url='http://localhost:8000/course/get/doc_id/6'
+       let url='course/get/doc_id/6'
            pdfjsLib
       let pdf=null
   pdfjsLib.getDocument(url)
@@ -82,7 +80,7 @@ export default {
          "Content-Type": "application/x-www-form-urlencoded"
        }
 
-    axios.get('http://localhost:8000/course/get/doc_id=2',
+    axios.get('course/get/doc_id=2',
      headers)
     .then(response => (console.log(response.data)))
     console.log(this.info)

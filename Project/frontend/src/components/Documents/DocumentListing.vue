@@ -88,13 +88,12 @@ export default {
     },
     goToDocument(id, docName,rating,type) {
       if(type===DOC || type==PPT){
-         window.location.href='http://localhost:8000/course/get/doc_id='+id
+         window.location.href='course/get/doc_id='+id
       }
       else{
 
            console.log("this is the id " + id);
-      // axios.get('http://localhost:8000/course/get/course_id=3/doc_id=3')
-      // .then(response => (this.info = response.data))
+    
       return this.$router.push({
         name: "DocumentPreview",
         params: {  id: id, name: docName ,rating:rating,docType:type},
@@ -113,7 +112,7 @@ export default {
       };
       axios
         .post(
-          "http://localhost:8000/course/get/course_id=2/cat=homework",
+          "course/get/course_id=2/cat=homework",
           {
             email: "test@gmail.com",
             username: "test",

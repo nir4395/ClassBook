@@ -29,7 +29,7 @@
                     <div  id="dropPDF" class="dropzone" @dragenter;.prevent @dragover.prevent @drop="HandleUpload($event)" dropzone style="height:200px;width:100%;border:3px dashed  black;border-radius:5px">
                         <v-icon  color="red" class="iconPDF">picture_as_pdf</v-icon>
                          </div> -->
-                         <Dropzone :id="id"></Dropzone>
+                         <Dropzone :id="id" :cat="cat"></Dropzone>
 
             
               
@@ -65,7 +65,7 @@
 <script>
 import Dropzone from '../Documents/Dropzone.vue'
   export default {
-    props:['id'],
+    props:['id','cat'],
       components:{
           Dropzone
       },

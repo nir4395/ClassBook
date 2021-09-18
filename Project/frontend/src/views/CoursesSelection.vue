@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{coursesInfo}}
+  
     <h1>Courses Selection - {{ catName }}</h1>
     <CourseViewer :courses="coursesInfo.courses_by_year"></CourseViewer>
   </div>

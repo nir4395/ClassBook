@@ -21,7 +21,9 @@
         :key="item.id"
         class="col-md-4"
       >
-        <div class="card card-1">
+        <div   @click="
+                goToDocument(item.id, item.name, item.rating, item.doc_type)
+              " class="card card-1">
           <!-- style="display:flex" v-for="star in 5" :key="star" -->
           <span>
             <v-icon v-for="star in item.rating" :key="star" color="yellow"
@@ -83,9 +85,7 @@ export default {
       if (type === "docx" || type == "ppt") {
         window.location.href = "course/get/doc_id=" + id;
       } else {
-        //   console.log("this is the id " + id);
-        // axios.get('http://localhost:8000/course/get/course_id=3/doc_id=3')
-        // .then(response => (this.info = response.data))
+       
         return this.$router.push({
           name: "DocumentPreview",
           params: { id: id, name: docName, rating: rating, docType: type },

@@ -126,21 +126,7 @@ export default {
     NOTFOUNDNAV() {
       return this.$router.push("notfound");
     },
-    // SendLogin() {
-    //   var url = "http://localhost:8000/users/sign_in/";
-    //   let headers = {
-    //     Cookie:
-    //       " csrftoken=FDGChyFNudqJBm8Rdg5KkNaHdDpZVlUZN8LngUuN3HOUzCsQlZFmrTDJjZfkxlpy; sessionid=cwpu1ygr0wb8fniktiowhn60oo7pepuw",
-    //   };
-
-    //   var bodyFormData = new FormData();
-    //   bodyFormData.append("username", "guyno1");
-    //   bodyFormData.append("password", "password123");
-
-    //   this.$http
-    //     .post(url, bodyFormData, headers)
-    //     .then((response) => console.log(response.data));
-    // },
+   
   },
 };
 </script>
